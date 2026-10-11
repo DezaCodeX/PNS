@@ -1,16 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import heroHotel from "@/assets/hero-hotel.jpg";
-import roomSuite from "@/assets/room-suite.jpg";
-import diningCloud9 from "@/assets/dining-cloud9.jpg";
 import { HeroBackdrop } from "@/components/HeroBackdrop";
+import { heroImageSlides } from "@/lib/heroImageSlides";
 
-/** 3 hotel scenes that cycle inside the hero card like the reference video. */
-const cardSlides = [
-  { src: heroHotel, alt: "Illuminated facade of Hotel PNS Nakshatra at night" },
-  { src: roomSuite, alt: "Nakshatra Suite living lounge" },
-  { src: diningCloud9, alt: "Cloud 9 rooftop dining above Vellore" },
-];
+const cardSlides = heroImageSlides(
+  import.meta.glob<string>("/src/assets/hero-container-img/*.{avif,gif,jpeg,jpg,png,svg,webp}", {
+    eager: true,
+    import: "default",
+  }),
+  {
+    "hero-hotel1": "Hotel PNS Nakshatra guest room",
+    image: "Hotel PNS Nakshatra exterior",
+    "pns logo": "Hotel PNS Nakshatra logo",
+  },
+);
 
 export function Hero({ ready, onBook }: { ready: boolean; onBook: () => void }) {
   const root = useRef<HTMLElement>(null);
@@ -18,12 +21,17 @@ export function Hero({ ready, onBook }: { ready: boolean; onBook: () => void }) 
   const [cardIndex, setCardIndex] = useState(0);
 
   useEffect(() => {
-    const id = window.setInterval(() => setCardIndex((i) => (i + 1) % cardSlides.length), 4200);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || cardSlides.length < 2) {
+      return;
+    }
+    const id = window.setInterval(() => {
+      setCardIndex((index) => (index + 1) % cardSlides.length);
+    }, 4200);
     return () => window.clearInterval(id);
   }, []);
 
   useEffect(() => {
-    if (!ready) return;
+    if (!ready || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
       tl.from("[data-hero-line]", { yPercent: 120, opacity: 0, duration: 1.2, stagger: 0.12 })
@@ -36,7 +44,7 @@ export function Hero({ ready, onBook }: { ready: boolean; onBook: () => void }) 
 
   useEffect(() => {
     const el = image.current;
-    if (!el) return;
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const onMove = (e: PointerEvent) => {
       const rx = (e.clientY / window.innerHeight - 0.5) * -8;
       const ry = (e.clientX / window.innerWidth - 0.5) * 10;
@@ -66,6 +74,7 @@ export function Hero({ ready, onBook }: { ready: boolean; onBook: () => void }) 
                 onClick={() => setCardIndex(i)}
                 data-hero-preview
                 aria-label={`Show ${slide.alt}`}
+                aria-pressed={i === cardIndex}
                 className={`h-16 w-20 overflow-hidden rounded-sm border transition-all duration-500 sm:h-20 sm:w-28 ${
                   i === cardIndex
                     ? "border-gold opacity-100"
@@ -133,7 +142,7 @@ export function Hero({ ready, onBook }: { ready: boolean; onBook: () => void }) 
                   alt={slide.alt}
                   width={912}
                   height={1408}
-                  loading={i === 0 ? "eager" : "lazy"}
+                  loading="eager"
                   className={`absolute inset-0 size-full object-cover transition-all duration-[1500ms] ease-out ${
                     i === cardIndex
                       ? "opacity-100 scale-100 [clip-path:inset(0_0_0_0)]"

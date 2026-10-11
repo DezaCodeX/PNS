@@ -1,4 +1,4 @@
-import heroHotel from "@/assets/hero-hotel.jpg";
+import heroHotel from "@/assets/hero-bg/hero-hotel.jpg";
 import roomDeluxe from "@/assets/room-deluxe.jpg";
 import roomPremier from "@/assets/room-premier.jpg";
 import roomSuite from "@/assets/room-suite.jpg";

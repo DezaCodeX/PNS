@@ -5,7 +5,6 @@ import { Navbar } from "@/components/Navbar";
 import { BookingPanel } from "@/components/BookingPanel";
 import { ContactPanel } from "@/components/ContactPanel";
 import { Footer } from "@/sections/Footer";
-import { useReveal } from "@/hooks/useReveal";
 import { setupHomeAnimations } from "@/home/animations/homeAnimations";
 import { Hero } from "@/home/components/Hero/Hero";
 import type { BookingDetails } from "@/home/components/Booking/BookingWidget";
@@ -28,13 +27,13 @@ export function Home({ contactOpen = false }: { contactOpen?: boolean }) {
     rooms: "1",
     guests: "1",
   });
-  const root = useRef<main>(null);
+  const root = useRef<HTMLElement>(null);
   const openBooking = useCallback((details?: BookingDetails) => {
     if (details) setBookingDetails(details);
     setBooking(true);
   }, []);
-  useReveal(true);
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const cleanup = root.current ? setupHomeAnimations(root.current) : undefined;
     const lenis = new Lenis({ duration: 1.2, smoothWheel: true });
     let raf = 0;

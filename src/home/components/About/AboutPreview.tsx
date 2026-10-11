@@ -1,4 +1,4 @@
-import heroHotel from "@/assets/hero-hotel.jpg";
+import heroHotel from "@/assets/hero-bg/hero-hotel.jpg";
 import { hotel } from "@/home/data/homeData";
 export function AboutPreview() {
   return (

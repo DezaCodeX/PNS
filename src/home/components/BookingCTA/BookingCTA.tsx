@@ -1,4 +1,4 @@
-import heroHotel from "@/assets/hero-hotel.jpg";
+import heroHotel from "@/assets/hero-bg/hero-hotel.jpg";
 
 export function BookingCTA({ onBook }: { onBook: () => void }) {
   return (

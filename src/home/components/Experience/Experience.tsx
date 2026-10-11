@@ -8,6 +8,9 @@ export function Experience() {
         src={roomSuite}
         alt=""
         aria-hidden="true"
+        width={1200}
+        height={800}
+        loading="lazy"
         className="pointer-events-none absolute right-0 top-16 hidden h-[70%] w-[24%] object-cover opacity-15 lg:block"
       />
       <div className="mx-auto max-w-[1400px] px-6 lg:px-12">
