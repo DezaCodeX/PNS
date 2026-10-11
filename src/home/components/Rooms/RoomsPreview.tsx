@@ -46,6 +46,7 @@ function RoomPanel({
         onClick={onSelect}
         onFocus={onSelect}
         aria-label={`Show ${room.name}, ${room.category}`}
+        aria-pressed={active}
         className="absolute inset-0 z-10 cursor-pointer"
       />
       <img
@@ -71,7 +72,9 @@ function RoomPanel({
             active ? "mt-4 max-h-52 translate-y-0 opacity-100" : "max-h-0 translate-y-3 opacity-0"
           }`}
         >
-          <p className="editorial-panel-copy max-w-xl text-sm leading-relaxed">{room.description}</p>
+          <p className="editorial-panel-copy max-w-xl text-sm leading-relaxed">
+            {room.description}
+          </p>
           <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-cream/80">
             {room.amenities.map((amenity) => (
               <span key={amenity} className="editorial-panel-copy eyebrow text-[0.62rem]">
@@ -91,7 +94,7 @@ function RoomPanel({
             {onBook ? (
               <button
                 type="button"
-                onClick={onBook}
+                onClick={() => onBook()}
                 className="luxury-button luxury-button-hover px-4 py-2"
               >
                 Book this room
@@ -108,12 +111,17 @@ export function RoomsPreview({ onBook }: RoomsPreviewProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const swipeStart = useRef<number | null>(null);
   const orderedRooms = useMemo(
-    () => [roomCategories[activeIndex]!, ...roomCategories.filter((_, index) => index !== activeIndex)],
+    () => [
+      roomCategories[activeIndex]!,
+      ...roomCategories.filter((_, index) => index !== activeIndex),
+    ],
     [activeIndex],
   );
 
   const changeBy = (direction: number) => {
-    setActiveIndex((current) => (current + direction + roomCategories.length) % roomCategories.length);
+    setActiveIndex(
+      (current) => (current + direction + roomCategories.length) % roomCategories.length,
+    );
   };
 
   return (
@@ -132,6 +140,8 @@ export function RoomsPreview({ onBook }: RoomsPreviewProps) {
           Five considered spaces, each with its own rhythm, proportion and point of view.
         </p>
         <div
+          role="region"
+          aria-roledescription="carousel"
           className="editorial-carousel editorial-carousel-rooms mt-12 grid gap-3 md:auto-rows-[minmax(12rem,1fr)] md:grid-cols-12 md:gap-4"
           onPointerDown={(event) => {
             if (event.pointerType === "touch") swipeStart.current = event.clientX;
@@ -154,8 +164,10 @@ export function RoomsPreview({ onBook }: RoomsPreviewProps) {
               key={room.id}
               room={room}
               active={room.id === roomCategories[activeIndex]?.id}
-              onSelect={() => setActiveIndex(roomCategories.findIndex((item) => item.id === room.id))}
-              onBook={onBook}
+              onSelect={() =>
+                setActiveIndex(roomCategories.findIndex((item) => item.id === room.id))
+              }
+              {...(onBook ? { onBook } : {})}
             />
           ))}
         </div>
@@ -163,7 +175,7 @@ export function RoomsPreview({ onBook }: RoomsPreviewProps) {
           <p className="eyebrow">
             0{activeIndex + 1} / 05 · {roomCategories[activeIndex]?.category}
           </p>
-          <div className="flex gap-2" aria-label="Room selection">
+          <div role="group" className="flex gap-1" aria-label="Room selection">
             {roomCategories.map((room, index) => (
               <button
                 key={room.id}
@@ -171,11 +183,16 @@ export function RoomsPreview({ onBook }: RoomsPreviewProps) {
                 onClick={() => setActiveIndex(index)}
                 onFocus={() => setActiveIndex(index)}
                 aria-label={`Select ${room.name}`}
-                aria-current={activeIndex === index}
-                className={`size-2 rounded-full border border-gold transition-colors ${
-                  activeIndex === index ? "bg-gold" : "bg-transparent"
-                }`}
-              />
+                aria-pressed={activeIndex === index}
+                className="flex size-6 items-center justify-center rounded-full"
+              >
+                <span
+                  aria-hidden="true"
+                  className={`size-2 rounded-full border border-gold transition-colors ${
+                    activeIndex === index ? "bg-gold" : "bg-transparent"
+                  }`}
+                />
+              </button>
             ))}
           </div>
         </div>

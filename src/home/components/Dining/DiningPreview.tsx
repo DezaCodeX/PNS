@@ -35,6 +35,8 @@ export function DiningPreview() {
           Good evenings begin <span className="italic text-gold">here.</span>
         </h2>
         <div
+          role="region"
+          aria-roledescription="carousel"
           className="editorial-carousel editorial-carousel-dining mt-12 grid gap-4 md:grid-cols-12 md:grid-rows-[minmax(15rem,1fr)_minmax(15rem,1fr)]"
           onPointerDown={(event) => {
             if (event.pointerType === "touch") swipeStart.current = event.clientX;
@@ -78,6 +80,7 @@ export function DiningPreview() {
                   onFocus={() => setActiveIndex(originalIndex)}
                   className="absolute inset-0 z-10 cursor-pointer"
                   aria-label={`Show ${item.name}`}
+                  aria-pressed={active}
                 />
                 <img
                   src={item.image}
@@ -116,7 +119,7 @@ export function DiningPreview() {
         </div>
         <div className="mt-8 flex items-center justify-between border-t border-gold/40 pt-4">
           <p className="eyebrow">Explore dining · {dining[activeIndex]?.tag}</p>
-          <div className="flex gap-2" aria-label="Dining selection">
+          <div role="group" className="flex gap-1" aria-label="Dining selection">
             {dining.map((item, index) => (
               <button
                 key={item.id}
@@ -124,11 +127,16 @@ export function DiningPreview() {
                 onClick={() => setActiveIndex(index)}
                 onFocus={() => setActiveIndex(index)}
                 aria-label={`Select ${item.name}`}
-                aria-current={activeIndex === index}
-                className={`size-2 rounded-full border border-gold transition-colors ${
-                  activeIndex === index ? "bg-gold" : "bg-transparent"
-                }`}
-              />
+                aria-pressed={activeIndex === index}
+                className="flex size-6 items-center justify-center rounded-full"
+              >
+                <span
+                  aria-hidden="true"
+                  className={`size-2 rounded-full border border-gold transition-colors ${
+                    activeIndex === index ? "bg-gold" : "bg-transparent"
+                  }`}
+                />
+              </button>
             ))}
           </div>
         </div>

@@ -1,14 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import { heroImageSlides } from "@/lib/heroImageSlides";
 
-const slides = Object.entries(
+const slides = heroImageSlides(
   import.meta.glob<string>("/src/assets/hero-bg/*.{avif,gif,jpeg,jpg,png,svg,webp}", {
     eager: true,
     import: "default",
   }),
-)
-  .sort(([pathA], [pathB]) => pathA.localeCompare(pathB))
-  .map(([, src]) => src);
+  {
+    "hero-hotel": "Hotel PNS Nakshatra illuminated at night",
+    image: "Hotel PNS Nakshatra exterior",
+    "room-deluxe1": "Deluxe room at Hotel PNS Nakshatra",
+  },
+);
 
 /**
  * Cinematic hotel backdrop: slow ken-burns crossfade between hotel scenes,
@@ -20,6 +24,9 @@ export function HeroBackdrop() {
   const [active, setActive] = useState(0);
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || slides.length < 2) {
+      return;
+    }
     const id = window.setInterval(() => {
       setActive((index) => (index + 1) % slides.length);
     }, 6000);
@@ -28,7 +35,7 @@ export function HeroBackdrop() {
 
   useEffect(() => {
     const el = layer.current;
-    if (!el) return;
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const onMove = (e: PointerEvent) => {
       gsap.to(el, {
         x: (e.clientX / window.innerWidth - 0.5) * -34,
@@ -44,10 +51,10 @@ export function HeroBackdrop() {
   return (
     <div ref={root} className="absolute inset-0 overflow-hidden">
       <div ref={layer} className="absolute -inset-[6%]">
-        {slides.map((src, i) => (
+        {slides.map((slide, i) => (
           <img
-            key={src}
-            src={src}
+            key={slide.src}
+            src={slide.src}
             alt=""
             loading="eager"
             className={`absolute inset-0 size-full object-cover transition-opacity duration-[2200ms] ease-out ${

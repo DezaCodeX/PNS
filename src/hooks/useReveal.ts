@@ -5,7 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 /** Animates every [data-reveal] element inside the page as it scrolls into view. */
 export function useReveal(ready: boolean) {
   useEffect(() => {
-    if (!ready) return;
+    if (!ready || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {

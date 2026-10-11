@@ -1,0 +1,12 @@
+# Hotel PNS Nakshatra
+
+Hotel PNS Nakshatra is a hotel in Vellore, Tamil Nadu. Its website provides information about the hotel, rooms, dining, gallery, and contact options.
+
+## Website
+
+- [Home](https://dx-pns.vercel.app/)
+- [About Us](https://dx-pns.vercel.app/about-us)
+- [Rooms](https://dx-pns.vercel.app/rooms)
+- [Dining](https://dx-pns.vercel.app/dining)
+- [Gallery](https://dx-pns.vercel.app/gallery)
+- [Contact](https://dx-pns.vercel.app/contact)

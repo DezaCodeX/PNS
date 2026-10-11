@@ -1,22 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { HeroBackdrop } from "@/components/HeroBackdrop";
+import { heroImageSlides } from "@/lib/heroImageSlides";
 
-const cardSlides = Object.entries(
+const cardSlides = heroImageSlides(
   import.meta.glob<string>("/src/assets/hero-container-img/*.{avif,gif,jpeg,jpg,png,svg,webp}", {
     eager: true,
     import: "default",
   }),
-)
-  .sort(([pathA], [pathB]) => pathA.localeCompare(pathB))
-  .map(([path, src]) => ({
-    src,
-    alt: path
-      .split("/")
-      .pop()
-      ?.replace(/\.[^.]+$/, "")
-      .replace(/[-_]+/g, " "),
-  }));
+  {
+    "hero-hotel1": "Hotel PNS Nakshatra guest room",
+    image: "Hotel PNS Nakshatra exterior",
+    "pns logo": "Hotel PNS Nakshatra logo",
+  },
+);
 
 export function Hero({ ready, onBook }: { ready: boolean; onBook: () => void }) {
   const root = useRef<HTMLElement>(null);
@@ -24,6 +21,9 @@ export function Hero({ ready, onBook }: { ready: boolean; onBook: () => void }) 
   const [cardIndex, setCardIndex] = useState(0);
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || cardSlides.length < 2) {
+      return;
+    }
     const id = window.setInterval(() => {
       setCardIndex((index) => (index + 1) % cardSlides.length);
     }, 4200);
@@ -31,7 +31,7 @@ export function Hero({ ready, onBook }: { ready: boolean; onBook: () => void }) 
   }, []);
 
   useEffect(() => {
-    if (!ready) return;
+    if (!ready || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
       tl.from("[data-hero-line]", { yPercent: 120, opacity: 0, duration: 1.2, stagger: 0.12 })
@@ -44,7 +44,7 @@ export function Hero({ ready, onBook }: { ready: boolean; onBook: () => void }) 
 
   useEffect(() => {
     const el = image.current;
-    if (!el) return;
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const onMove = (e: PointerEvent) => {
       const rx = (e.clientY / window.innerHeight - 0.5) * -8;
       const ry = (e.clientX / window.innerWidth - 0.5) * 10;
@@ -74,6 +74,7 @@ export function Hero({ ready, onBook }: { ready: boolean; onBook: () => void }) 
                 onClick={() => setCardIndex(i)}
                 data-hero-preview
                 aria-label={`Show ${slide.alt}`}
+                aria-pressed={i === cardIndex}
                 className={`h-16 w-20 overflow-hidden rounded-sm border transition-all duration-500 sm:h-20 sm:w-28 ${
                   i === cardIndex
                     ? "border-gold opacity-100"
@@ -82,7 +83,7 @@ export function Hero({ ready, onBook }: { ready: boolean; onBook: () => void }) 
               >
                 <img
                   src={slide.src}
-                  alt={slide.alt ?? ""}
+                  alt={slide.alt}
                   loading="lazy"
                   width={1200}
                   height={800}

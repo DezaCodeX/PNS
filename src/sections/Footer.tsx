@@ -1,5 +1,6 @@
 import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
 import logo from "@/assets/pns logo.png";
+import logoWebp from "@/assets/pns-logo.webp";
 
 const navigation = [
   ["Home", "/"],
@@ -16,11 +17,17 @@ export function Footer({ onBook }: { onBook: () => void }) {
       <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-y-4 px-4 py-3 sm:px-6 md:grid-cols-[0.9fr_1.1fr] md:gap-x-8 lg:grid-cols-[0.9fr_1.35fr_1.45fr] lg:items-start lg:gap-x-8 lg:px-10 lg:py-4">
         <div className="flex min-w-0 flex-col items-start">
           <a href="/" className="inline-block" aria-label="Hotel PNS Nakshatra home">
-            <img
-              src={logo}
-              alt="Hotel PNS Nakshatra"
-              className="h-[2.1rem] w-auto object-contain"
-            />
+            <picture>
+              <source srcSet={logoWebp} type="image/webp" />
+              <img
+                src={logo}
+                alt="Hotel PNS Nakshatra"
+                width={288}
+                height={144}
+                decoding="async"
+                className="h-[2.1rem] w-auto object-contain"
+              />
+            </picture>
           </a>
           <button
             onClick={onBook}
@@ -32,7 +39,10 @@ export function Footer({ onBook }: { onBook: () => void }) {
 
         <div className="min-w-0">
           <p className="eyebrow text-gold">Explore</p>
-          <nav className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm leading-5 text-[var(--color-ivory)]/85">
+          <nav
+            aria-label="Footer primary"
+            className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm leading-5 text-[var(--color-ivory)]/85"
+          >
             {navigation.map(([label, href]) => (
               <a key={href} href={href} className="transition-colors hover:text-gold">
                 {label}

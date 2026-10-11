@@ -1,25 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import { heroImageSlides } from "@/lib/heroImageSlides";
 import heroTitleGraphic from "../../../../Untitled-1.webp";
 import { HeroBackdrop } from "@/components/HeroBackdrop";
 import type { BookingDetails } from "@/home/components/Booking/BookingWidget";
 import { BookingWidget } from "@/home/components/Booking/BookingWidget";
 
-const cardSlides = Object.entries(
+const cardSlides = heroImageSlides(
   import.meta.glob<string>("/src/assets/hero-container-img/*.{avif,gif,jpeg,jpg,png,svg,webp}", {
     eager: true,
     import: "default",
   }),
-)
-  .sort(([pathA], [pathB]) => pathA.localeCompare(pathB))
-  .map(([path, src]) => ({
-    src,
-    alt: path
-      .split("/")
-      .pop()
-      ?.replace(/\.[^.]+$/, "")
-      .replace(/[-_]+/g, " "),
-  }));
+  {
+    "hero-hotel1": "Hotel PNS Nakshatra guest room",
+    image: "Hotel PNS Nakshatra exterior",
+    "pns logo": "Hotel PNS Nakshatra logo",
+  },
+);
 
 export function Hero({
   ready = true,
@@ -33,6 +30,9 @@ export function Hero({
   const [cardIndex, setCardIndex] = useState(0);
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || cardSlides.length < 2) {
+      return;
+    }
     const id = window.setInterval(() => {
       setCardIndex((index) => (index + 1) % cardSlides.length);
     }, 4200);
@@ -40,19 +40,28 @@ export function Hero({
   }, []);
 
   useEffect(() => {
-    if (!ready) return;
+    if (!ready || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-      tl.from("[data-hero-line]", { yPercent: 120, opacity: 0, duration: 1.2, stagger: 0.12 })
-        .from("[data-hero-fade]", { y: 24, opacity: 0, duration: 0.9, stagger: 0.12 }, 0.7)
-        .from("[data-hero-image]", { scale: 1.15, opacity: 0, duration: 1.6 }, 0.1);
+      const lines = root.current?.querySelectorAll("[data-hero-line]");
+      const fades = root.current?.querySelectorAll("[data-hero-fade]");
+      const heroImage = root.current?.querySelector("[data-hero-image]");
+      if (lines?.length) {
+        tl.from(lines, { yPercent: 120, opacity: 0, duration: 1.2, stagger: 0.12 });
+      }
+      if (fades?.length) {
+        tl.from(fades, { y: 24, opacity: 0, duration: 0.9, stagger: 0.12 }, 0.7);
+      }
+      if (heroImage) {
+        tl.from(heroImage, { scale: 1.15, opacity: 0, duration: 1.6 }, 0.1);
+      }
     }, root);
     return () => ctx.revert();
   }, [ready]);
 
   useEffect(() => {
     const el = image.current;
-    if (!el) return;
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const onMove = (e: PointerEvent) => {
       const rx = (e.clientY / window.innerHeight - 0.5) * -8;
       const ry = (e.clientX / window.innerWidth - 0.5) * 10;
@@ -77,9 +86,14 @@ export function Hero({
           <div className="relative z-10 pb-4 text-left lg:pb-16">
             <img
               src={heroTitleGraphic}
-              alt="Where Grandeur meets Grace"
+              alt=""
+              width={500}
+              height={450}
+              fetchPriority="high"
+              decoding="async"
               className="w-full max-w-[760px] object-contain drop-shadow-[0_14px_30px_rgba(5,14,35,0.24)]"
             />
+            <h1 className="sr-only">Where Grandeur meets Grace</h1>
           </div>
 
           <div className="relative [perspective:1200px]">
@@ -93,10 +107,11 @@ export function Hero({
                   <img
                     key={slide.src}
                     src={slide.src}
-                    alt={slide.alt ?? ""}
+                    alt={slide.alt}
                     width={912}
                     height={1408}
                     loading="eager"
+                    decoding="async"
                     className={`absolute inset-0 size-full object-cover transition-all duration-[1500ms] ease-out ${i === cardIndex ? "opacity-100 scale-100 [clip-path:inset(0_0_0_0)]" : "opacity-0 scale-110 [clip-path:inset(0_0_0_100%)]"}`}
                   />
                 ))}
