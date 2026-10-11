@@ -1,12 +1,8 @@
-import diningCloud9 from "@/assets/dining-cloud9.jpg";
-import diningVrindavan from "@/assets/dining-vrindavan.jpg";
-import clinqLounge from "@/assets/clinq-lounge.jpg";
-import heroHotel from "@/assets/hero-bg/hero-hotel.jpg";
-import eventsBanquet from "@/assets/events-banquet.jpg";
-import roomSuite from "@/assets/room-suite.jpg";
+import type { DiningType } from "@/types/roomImages";
 
 export type DiningExperience = {
   id: "vrindavan" | "cloud-9" | "clinq";
+  diningType: DiningType;
   name: string;
   category: string;
   heading: string;
@@ -15,13 +11,13 @@ export type DiningExperience = {
   phone: string;
   phoneHref: string;
   menuLinks: { label: string; href: string }[];
-  images: { src: string; alt: string }[];
   tone: "warm" | "rooftop" | "lounge";
 };
 
 export const diningExperiences: DiningExperience[] = [
   {
     id: "vrindavan",
+    diningType: "vrindavan",
     name: "Vrindavan",
     category: "Pure Vegetarian Fine Dining",
     heading: "Vrindavan — Vegetarian Fine Dining in Vellore",
@@ -37,15 +33,11 @@ export const diningExperiences: DiningExperience[] = [
     phone: "+91 75984 98603",
     phoneHref: "tel:+917598498603",
     menuLinks: [{ label: "Checkout our menu", href: "#vrindavan-menu" }],
-    images: [
-      { src: diningVrindavan, alt: "Vrindavan vegetarian dining at Hotel PNS Nakshatra" },
-      { src: roomSuite, alt: "Refined interior detail at Hotel PNS Nakshatra" },
-      { src: heroHotel, alt: "Hotel PNS Nakshatra illuminated at evening" },
-    ],
     tone: "warm",
   },
   {
     id: "cloud-9",
+    diningType: "cloud9",
     name: "Cloud 9",
     category: "Rooftop Multi-Cuisine Restaurant",
     heading: "Cloud 9 — Rooftop Dining Above Vellore",
@@ -61,15 +53,11 @@ export const diningExperiences: DiningExperience[] = [
     phone: "+91 75984 98604",
     phoneHref: "tel:+917598498604",
     menuLinks: [{ label: "Checkout our menu", href: "#cloud-9-menu" }],
-    images: [
-      { src: diningCloud9, alt: "Cloud 9 rooftop dining above Vellore" },
-      { src: heroHotel, alt: "Evening lights at Hotel PNS Nakshatra" },
-      { src: eventsBanquet, alt: "Celebration setting at Hotel PNS Nakshatra" },
-    ],
     tone: "rooftop",
   },
   {
     id: "clinq",
+    diningType: "clinq",
     name: "Clinq",
     category: "Lounge & Bar",
     heading: "Clinq — Unwind Into the Evening",
@@ -87,11 +75,6 @@ export const diningExperiences: DiningExperience[] = [
     menuLinks: [
       { label: "Checkout our beverage menu", href: "#clinq-beverage-menu" },
       { label: "Checkout our bar menu", href: "#clinq-bar-menu" },
-    ],
-    images: [
-      { src: clinqLounge, alt: "Clinq lounge and bar at Hotel PNS Nakshatra" },
-      { src: diningCloud9, alt: "Evening dining atmosphere at Hotel PNS Nakshatra" },
-      { src: roomSuite, alt: "Warm interior detail at Hotel PNS Nakshatra" },
     ],
     tone: "lounge",
   },

@@ -1,6 +1,15 @@
 import { useMemo, useRef, useState } from "react";
 import type { PointerEvent } from "react";
 import { dining } from "@/data/hotel";
+import { useDiningImageLibrary } from "@/hooks/useDiningImages";
+import { diningImageRepository, getSelectedDiningImages } from "@/services/roomImageRepository";
+import type { DiningType } from "@/types/roomImages";
+
+const diningTypeByCard: Record<string, DiningType> = {
+  cloud9: "cloud9",
+  vrindavan: "vrindavan",
+  clinq: "clinq",
+};
 
 function setPanelTilt(element: HTMLElement, event: PointerEvent<HTMLElement>) {
   if (event.pointerType !== "mouse") return;
@@ -12,6 +21,7 @@ function setPanelTilt(element: HTMLElement, event: PointerEvent<HTMLElement>) {
 }
 
 export function DiningPreview() {
+  const { images: diningImages } = useDiningImageLibrary();
   const [activeIndex, setActiveIndex] = useState(0);
   const swipeStart = useRef<number | null>(null);
   const orderedDining = useMemo(
@@ -57,6 +67,11 @@ export function DiningPreview() {
           {orderedDining.map((item, index) => {
             const originalIndex = dining.findIndex((diningItem) => diningItem.id === item.id);
             const active = index === 0;
+            const image = getSelectedDiningImages(
+              diningImages,
+              "homepage",
+              diningTypeByCard[item.id],
+            )[0];
             return (
               <article
                 key={item.id}
@@ -82,14 +97,22 @@ export function DiningPreview() {
                   aria-label={`Show ${item.name}`}
                   aria-pressed={active}
                 />
-                <img
-                  src={item.image}
-                  alt={`${item.name} at PNS Nakshatra`}
-                  loading="lazy"
-                  width="1400"
-                  height="900"
-                  className="size-full min-h-[22rem] object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04] md:min-h-0"
-                />
+                {image ? (
+                  <img
+                    src={image.url}
+                    alt={image.altText}
+                    loading="lazy"
+                    width="1400"
+                    height="900"
+                    onError={() => {
+                      if (import.meta.env.DEV) {
+                        console.error(`Dining image ${image.id} failed to load: ${image.url}`);
+                      }
+                      diningImageRepository.reportUnavailable(image.id);
+                    }}
+                    className="size-full min-h-[22rem] object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04] md:min-h-0"
+                  />
+                ) : null}
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/15 to-transparent" />
                 <div className="pointer-events-none absolute inset-x-6 bottom-6 z-20 md:inset-x-8 md:bottom-8">
                   <p className="eyebrow text-gold">{item.tag}</p>

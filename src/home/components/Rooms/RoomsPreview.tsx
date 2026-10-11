@@ -1,7 +1,9 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { PointerEvent } from "react";
 import { roomCategories, type Room } from "@/data/rooms";
 import type { BookingDetails } from "@/home/components/Booking/BookingWidget";
+import { useRoomImages } from "@/hooks/useRoomImages";
+import type { RoomImage } from "@/types/roomImages";
 
 type RoomsPreviewProps = {
   onBook?: (details?: BookingDetails) => void;
@@ -18,15 +20,30 @@ function setPanelTilt(element: HTMLElement, event: PointerEvent<HTMLElement>) {
 
 function RoomPanel({
   room,
+  images,
   active,
   onSelect,
   onBook,
 }: {
   room: Room;
+  images: RoomImage[];
   active: boolean;
   onSelect: () => void;
   onBook?: (details?: BookingDetails) => void;
 }) {
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const imageIds = images.map((image) => image.id).join("|");
+
+  useEffect(() => {
+    setActiveImageIndex(0);
+    if (images.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = window.setInterval(
+      () => setActiveImageIndex((current) => (current + 1) % images.length),
+      6000,
+    );
+    return () => window.clearInterval(timer);
+  }, [imageIds, images.length]);
+
   return (
     <article
       className={`editorial-carousel-item group relative min-h-[15rem] overflow-hidden border border-gold/40 ${
@@ -49,14 +66,21 @@ function RoomPanel({
         aria-pressed={active}
         className="absolute inset-0 z-10 cursor-pointer"
       />
-      <img
-        src={room.image}
-        alt={`${room.name} at Hotel PNS Nakshatra`}
-        loading="lazy"
-        width="1200"
-        height="800"
-        className="size-full min-h-[15rem] object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04] md:min-h-[25rem]"
-      />
+      {images.map((image, index) => (
+        <img
+          key={image.id}
+          src={image.url}
+          alt={image.altText}
+          loading={active && index === activeImageIndex ? "eager" : "lazy"}
+          fetchPriority={active && index === activeImageIndex ? "high" : "auto"}
+          width="1200"
+          height="800"
+          aria-hidden={index !== activeImageIndex}
+          className={`absolute inset-0 size-full min-h-[15rem] object-cover transition-[opacity,transform] duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04] md:min-h-[25rem] ${
+            index === activeImageIndex ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      ))}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/15 to-transparent" />
       <div className="pointer-events-none absolute inset-x-6 bottom-6 z-20 md:inset-x-8 md:bottom-8">
         <p className="eyebrow text-gold">{room.category}</p>
@@ -110,6 +134,7 @@ function RoomPanel({
 export function RoomsPreview({ onBook }: RoomsPreviewProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const swipeStart = useRef<number | null>(null);
+  const { images } = useRoomImages("homepage");
   const orderedRooms = useMemo(
     () => [
       roomCategories[activeIndex]!,
@@ -163,6 +188,7 @@ export function RoomsPreview({ onBook }: RoomsPreviewProps) {
             <RoomPanel
               key={room.id}
               room={room}
+              images={images.filter((image) => image.roomType === room.id)}
               active={room.id === roomCategories[activeIndex]?.id}
               onSelect={() =>
                 setActiveIndex(roomCategories.findIndex((item) => item.id === room.id))
