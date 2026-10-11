@@ -6,7 +6,8 @@ import clinqLounge from "@/assets/clinq-lounge.jpg";
 export const hotel = {
   name: "PNS Nakshatra",
   place: "Vellore, Tamil Nadu",
-  description: "A contemporary stay in the heart of Vellore, with rooms, dining, lounge and celebration spaces under one roof.",
+  description:
+    "A contemporary stay in the heart of Vellore, with rooms, dining, lounge and celebration spaces under one roof.",
   address: "Katpadi Road, Vellore 632004",
   heroImage: heroHotel,
 };
@@ -25,8 +26,7 @@ export const facilities = [
 
 export const gallery = [
   { src: heroHotel, label: "The hotel" },
-  { src: rooms[1].image, label: rooms[1].name },
-  { src: dining[0].image, label: dining[0].name },
+  { src: dining[0]!.image, label: dining[0]!.name },
   { src: clinqLounge, label: "The lounge" },
   { src: eventsBanquet, label: "Celebrations" },
 ];

@@ -1,8 +1,5 @@
-import { Canvas, useFrame } from "@react-three/fiber";
 import { ArrowUpRight, Check, MapPin, Phone } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { useTexture } from "@react-three/drei";
-import * as THREE from "three";
 
 import { BookingPanel } from "@/components/BookingPanel";
 import { BookingWidget } from "@/home/components/Booking/BookingWidget";
@@ -11,63 +8,69 @@ import { Cursor } from "@/components/Cursor";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/sections/Footer";
 import { comparisonAmenities, hasAmenity, roomCategories, type Room } from "@/data/rooms";
+import { useRoomImages } from "@/hooks/useRoomImages";
+import type { RoomImage } from "@/types/roomImages";
 
-function RoomLayers({ rooms, activeIndex }: { rooms: Room[]; activeIndex: number }) {
-  const group = useRef<THREE.Group>(null);
-  const textures = useTexture(rooms.map((room) => room.image));
+type DisplayRoom = Room & { image: string };
 
-  useFrame((state, delta) => {
-    if (!group.current) return;
-    const targetX = state.pointer.x * 0.28;
-    const targetY = state.pointer.y * 0.18;
-    group.current.rotation.y += (targetX - group.current.rotation.y) * Math.min(delta * 3, 1);
-    group.current.rotation.x += (targetY - group.current.rotation.x) * Math.min(delta * 3, 1);
-    group.current.position.z +=
-      (-activeIndex * 0.04 - group.current.position.z) * Math.min(delta * 2, 1);
-  });
+function RoomStage({
+  rooms,
+  activeIndex,
+  images,
+}: {
+  rooms: DisplayRoom[];
+  activeIndex: number;
+  images: RoomImage[];
+}) {
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [failedImageId, setFailedImageId] = useState<string | null>(null);
+  const activeImages = images.filter((image) => image.roomType === rooms[activeIndex]?.id);
+  const activeImage = activeImages[activeImageIndex % Math.max(activeImages.length, 1)];
+
+  useEffect(() => {
+    setActiveImageIndex(0);
+    setFailedImageId(null);
+    if (activeImages.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+      return;
+    const timer = window.setInterval(
+      () => setActiveImageIndex((current) => (current + 1) % activeImages.length),
+      6000,
+    );
+    return () => window.clearInterval(timer);
+  }, [activeIndex, activeImages.length]);
 
   return (
-    <group ref={group} position={[0, 0, 0]}>
-      {textures.map((texture, index) => (
-        <mesh
-          key={rooms[index].id}
-          position={[
-            (index - activeIndex) * 0.18,
-            (index - activeIndex) * -0.08,
-            -Math.abs(index - activeIndex) * 0.35,
-          ]}
-          scale={index === activeIndex ? [1, 1, 1] : [0.92, 0.92, 0.92]}
-        >
-          <planeGeometry args={[5.8, 4.5]} />
-          <meshBasicMaterial
-            map={texture}
-            transparent
-            opacity={index === activeIndex ? 1 : 0.18}
-            toneMapped={false}
-          />
-        </mesh>
-      ))}
-      <mesh position={[0, 0, -0.7]} rotation={[0, 0, Math.PI / 2]}>
-        <torusGeometry args={[3.35, 0.012, 8, 80]} />
-        <meshBasicMaterial color="#cf8c55" transparent opacity={0.72} />
-      </mesh>
-    </group>
-  );
-}
-
-function RoomStage({ rooms, activeIndex }: { rooms: Room[]; activeIndex: number }) {
-  return (
-    <div className="h-[min(75vw,42rem)] min-h-[22rem] w-full [perspective:1200px] lg:sticky lg:top-28">
-      <Canvas
-        dpr={[1, 1.5]}
-        camera={{ position: [0, 0, 8], fov: 42 }}
-        gl={{ antialias: true, alpha: true }}
-      >
-        <ambientLight intensity={1.2} />
-        <RoomLayers rooms={rooms} activeIndex={activeIndex} />
-      </Canvas>
+    <div className="relative h-[min(75vw,42rem)] min-h-[22rem] w-full overflow-hidden [perspective:1200px] lg:sticky lg:top-28">
+      {activeImage && failedImageId !== activeImage.id ? (
+        <img
+          key={activeImage.id}
+          src={activeImage.url}
+          alt={activeImage.altText}
+          width="1200"
+          height="900"
+          loading="eager"
+          fetchPriority="high"
+          onError={() => {
+            setFailedImageId(activeImage.id);
+            if (import.meta.env.DEV) {
+              console.error(
+                `Room image failed to load (${activeImage.roomType}/${activeImage.filename}): ${activeImage.url}`,
+              );
+            }
+          }}
+          className="absolute inset-0 size-full object-cover transition-[opacity,transform] duration-1000 ease-out"
+        />
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_75%_35%,rgba(207,140,85,0.18),transparent_34%),linear-gradient(120deg,#051838_0%,#051838_100%)] text-center text-sm text-cream/75">
+          {import.meta.env.DEV
+            ? `No valid Rooms page image is selected for ${rooms[activeIndex]?.name ?? "this room"}.`
+            : null}
+        </div>
+      )}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent" />
+      <div className="pointer-events-none absolute inset-[8%] rounded-full border border-gold/50 opacity-75" />
       <div className="pointer-events-none absolute inset-x-10 bottom-8 flex justify-between border-t border-gold/50 pt-3 text-[0.65rem] uppercase tracking-[0.2em] text-cream/80">
-        <span>Spatial room study</span>
+        <span>{rooms[activeIndex]?.name} room study</span>
         <span>0{activeIndex + 1} / 05</span>
       </div>
     </div>
@@ -130,6 +133,11 @@ export function Rooms() {
     guests: "1",
   });
   const showcase = useRef<HTMLDivElement>(null);
+  const { images } = useRoomImages("roomsPage");
+  const displayRooms: DisplayRoom[] = roomCategories.map((room) => ({
+    ...room,
+    image: images.find((image) => image.roomType === room.id)?.url ?? "",
+  }));
   const openBooking = (details?: BookingDetails) => {
     if (details) setBookingDetails(details);
     setBooking(true);
@@ -140,15 +148,17 @@ export function Rooms() {
     if (!element) return;
     const updateActive = () => {
       const cards = [...element.querySelectorAll<HTMLElement>("[data-room-index]")];
+      if (cards.length === 0) return;
       const midpoint = window.innerHeight * 0.48;
-      const nearest = cards.reduce(
-        (best, card, index) =>
-          Math.abs(card.getBoundingClientRect().top - midpoint) <
-          Math.abs(cards[best].getBoundingClientRect().top - midpoint)
-            ? index
-            : best,
-        0,
-      );
+      let nearest = 0;
+      let nearestDistance = Number.POSITIVE_INFINITY;
+      cards.forEach((card, index) => {
+        const distance = Math.abs(card.getBoundingClientRect().top - midpoint);
+        if (distance < nearestDistance) {
+          nearest = index;
+          nearestDistance = distance;
+        }
+      });
       setActiveIndex(nearest);
     };
     updateActive();
@@ -182,7 +192,7 @@ export function Rooms() {
               </a>
             </div>
             <div className="relative min-h-[22rem]">
-              <RoomStage rooms={roomCategories} activeIndex={activeIndex} />
+              <RoomStage rooms={displayRooms} activeIndex={activeIndex} images={images} />
             </div>
           </div>
           <div className="relative z-10 mx-auto mt-8 max-w-[1240px] px-4 lg:px-10">
@@ -214,7 +224,7 @@ export function Rooms() {
               </h2>
             </div>
             <div ref={showcase} className="grid gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:gap-16">
-              <RoomStage rooms={roomCategories} activeIndex={activeIndex} />
+              <RoomStage rooms={displayRooms} activeIndex={activeIndex} images={images} />
               <div>
                 {roomCategories.map((room, index) => (
                   <RoomCard key={room.id} room={room} index={index} onBook={() => openBooking()} />

@@ -1,9 +1,7 @@
-import roomDeluxe from "@/assets/room-deluxe.jpg";
-import roomPremier from "@/assets/room-premier.jpg";
-import roomSuite from "@/assets/room-suite.jpg";
+import type { RoomType } from "@/types/roomImages";
 
 export type Room = {
-  id: string;
+  id: RoomType;
   name: string;
   category: string;
   description: string;
@@ -11,7 +9,6 @@ export type Room = {
   price: string;
   tax: string;
   detailsUrl: string;
-  image: string;
 };
 
 export const roomCategories: Room[] = [
@@ -30,7 +27,6 @@ export const roomCategories: Room[] = [
     price: "₹4,500",
     tax: "5% GST",
     detailsUrl: "https://hotelpnsnakshatra.com/premium-room/",
-    image: roomDeluxe,
   },
   {
     id: "garuda",
@@ -48,7 +44,6 @@ export const roomCategories: Room[] = [
     price: "₹4,800",
     tax: "5% GST",
     detailsUrl: "https://hotelpnsnakshatra.com/luxury-rooms",
-    image: roomPremier,
   },
   {
     id: "arohana",
@@ -65,7 +60,6 @@ export const roomCategories: Room[] = [
     price: "₹5,100",
     tax: "5% GST",
     detailsUrl: "https://hotelpnsnakshatra.com/balcony-rooms-in-vellore/",
-    image: roomDeluxe,
   },
   {
     id: "madhurya",
@@ -82,7 +76,6 @@ export const roomCategories: Room[] = [
     price: "₹5,400",
     tax: "5% GST",
     detailsUrl: "https://hotelpnsnakshatra.com/junior-suite-in-vellore/",
-    image: roomSuite,
   },
   {
     id: "maayukha",
@@ -99,7 +92,6 @@ export const roomCategories: Room[] = [
     price: "₹6,700",
     tax: "5% GST",
     detailsUrl: "https://hotelpnsnakshatra.com/suite-rooms-in-vellore/",
-    image: roomSuite,
   },
 ];
 
