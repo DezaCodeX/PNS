@@ -1,19 +1,25 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import heroHotel from "@/assets/hero-hotel.jpg";
-import roomSuite from "@/assets/room-suite.jpg";
-import diningCloud9 from "@/assets/dining-cloud9.jpg";
 import heroTitleGraphic from "../../../../Untitled-1.webp";
 import { HeroBackdrop } from "@/components/HeroBackdrop";
 import type { BookingDetails } from "@/home/components/Booking/BookingWidget";
 import { BookingWidget } from "@/home/components/Booking/BookingWidget";
 
-/** 3 hotel scenes that cycle inside the hero card like the reference video. */
-const cardSlides = [
-  { src: heroHotel, alt: "Illuminated facade of Hotel PNS Nakshatra at night" },
-  { src: roomSuite, alt: "Nakshatra Suite living lounge" },
-  { src: diningCloud9, alt: "Cloud 9 rooftop dining above Vellore" },
-];
+const cardSlides = Object.entries(
+  import.meta.glob<string>("/src/assets/hero-container-img/*.{avif,gif,jpeg,jpg,png,svg,webp}", {
+    eager: true,
+    import: "default",
+  }),
+)
+  .sort(([pathA], [pathB]) => pathA.localeCompare(pathB))
+  .map(([path, src]) => ({
+    src,
+    alt: path
+      .split("/")
+      .pop()
+      ?.replace(/\.[^.]+$/, "")
+      .replace(/[-_]+/g, " "),
+  }));
 
 export function Hero({
   ready = true,
@@ -25,8 +31,11 @@ export function Hero({
   const root = useRef<HTMLElement>(null);
   const image = useRef<HTMLDivElement>(null);
   const [cardIndex, setCardIndex] = useState(0);
+
   useEffect(() => {
-    const id = window.setInterval(() => setCardIndex((i) => (i + 1) % cardSlides.length), 4200);
+    const id = window.setInterval(() => {
+      setCardIndex((index) => (index + 1) % cardSlides.length);
+    }, 4200);
     return () => window.clearInterval(id);
   }, []);
 
@@ -74,22 +83,39 @@ export function Hero({
           </div>
 
           <div className="relative [perspective:1200px]">
-            <div ref={image} data-hero-image className="relative overflow-hidden rounded-[1.5rem] border border-cream/20 shadow-[var(--shadow-cinema)] [transform-style:preserve-3d]">
+            <div
+              ref={image}
+              data-hero-image
+              className="relative overflow-hidden rounded-[1.5rem] border border-cream/20 shadow-[var(--shadow-cinema)] [transform-style:preserve-3d]"
+            >
               <div className="relative h-[clamp(24rem,64vh,48rem)] w-full">
                 {cardSlides.map((slide, i) => (
-                  <img key={slide.src} src={slide.src} alt={slide.alt} width={912} height={1408} loading={i === 0 ? "eager" : "lazy"} className={`absolute inset-0 size-full object-cover transition-all duration-[1500ms] ease-out ${i === cardIndex ? "opacity-100 scale-100 [clip-path:inset(0_0_0_0)]" : "opacity-0 scale-110 [clip-path:inset(0_0_0_100%)]"}`} />
+                  <img
+                    key={slide.src}
+                    src={slide.src}
+                    alt={slide.alt ?? ""}
+                    width={912}
+                    height={1408}
+                    loading="eager"
+                    className={`absolute inset-0 size-full object-cover transition-all duration-[1500ms] ease-out ${i === cardIndex ? "opacity-100 scale-100 [clip-path:inset(0_0_0_0)]" : "opacity-0 scale-110 [clip-path:inset(0_0_0_100%)]"}`}
+                  />
                 ))}
               </div>
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[var(--hero-overlay)] via-transparent to-transparent" />
               <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
                 <p className="font-display text-2xl text-white">Rooms with a point of view</p>
-                <p className="eyebrow text-cream">0{cardIndex + 1} / 03</p>
+                <p className="eyebrow text-cream">
+                  {String(cardIndex + 1).padStart(2, "0")} /{" "}
+                  {String(cardSlides.length).padStart(2, "0")}
+                </p>
               </div>
             </div>
           </div>
         </div>
 
-        <div data-hero-fade className="mt-8"><BookingWidget onBook={onBook} /></div>
+        <div data-hero-fade className="mt-8">
+          <BookingWidget onBook={onBook} />
+        </div>
       </div>
     </section>
   );

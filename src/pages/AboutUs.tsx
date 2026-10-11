@@ -22,7 +22,7 @@ import { BookingPanel } from "@/components/BookingPanel";
 import { Cursor } from "@/components/Cursor";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/sections/Footer";
-import heroHotel from "@/assets/hero-hotel.jpg";
+import heroHotel from "@/assets/hero-bg/hero-hotel.jpg";
 import roomPremier from "@/assets/room-premier.jpg";
 import roomSuite from "@/assets/room-suite.jpg";
 import diningCloud9 from "@/assets/dining-cloud9.jpg";

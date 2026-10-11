@@ -1,7 +1,7 @@
 import diningCloud9 from "@/assets/dining-cloud9.jpg";
 import diningVrindavan from "@/assets/dining-vrindavan.jpg";
 import clinqLounge from "@/assets/clinq-lounge.jpg";
-import heroHotel from "@/assets/hero-hotel.jpg";
+import heroHotel from "@/assets/hero-bg/hero-hotel.jpg";
 import eventsBanquet from "@/assets/events-banquet.jpg";
 import roomSuite from "@/assets/room-suite.jpg";
 

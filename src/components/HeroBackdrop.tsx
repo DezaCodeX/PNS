@@ -1,19 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
-import heroHotel from "@/assets/hero-hotel.jpg";
-import roomSuite from "@/assets/room-suite.jpg";
-import diningCloud9 from "@/assets/dining-cloud9.jpg";
-import clinqLounge from "@/assets/clinq-lounge.jpg";
-import eventsBanquet from "@/assets/events-banquet.jpg";
-
-const slides = [
-  { src: heroHotel, alt: "Illuminated facade of Hotel PNS Nakshatra at night" },
-  { src: roomSuite, alt: "Nakshatra Suite living lounge" },
-  { src: diningCloud9, alt: "Cloud 9 rooftop dining above Vellore" },
-  { src: clinqLounge, alt: "Clinq lounge and bar interiors" },
-  { src: eventsBanquet, alt: "Banquet hall set for a celebration" },
-];
+const slides = Object.entries(
+  import.meta.glob<string>("/src/assets/hero-bg/*.{avif,gif,jpeg,jpg,png,svg,webp}", {
+    eager: true,
+    import: "default",
+  }),
+)
+  .sort(([pathA], [pathB]) => pathA.localeCompare(pathB))
+  .map(([, src]) => src);
 
 /**
  * Cinematic hotel backdrop: slow ken-burns crossfade between hotel scenes,
@@ -26,7 +21,7 @@ export function HeroBackdrop() {
 
   useEffect(() => {
     const id = window.setInterval(() => {
-      setActive((i) => (i + 1) % slides.length);
+      setActive((index) => (index + 1) % slides.length);
     }, 6000);
     return () => window.clearInterval(id);
   }, []);
@@ -49,12 +44,12 @@ export function HeroBackdrop() {
   return (
     <div ref={root} className="absolute inset-0 overflow-hidden">
       <div ref={layer} className="absolute -inset-[6%]">
-        {slides.map((slide, i) => (
+        {slides.map((src, i) => (
           <img
-            key={slide.src}
-            src={slide.src}
-            alt={slide.alt}
-            loading={i === 0 ? "eager" : "lazy"}
+            key={src}
+            src={src}
+            alt=""
+            loading="eager"
             className={`absolute inset-0 size-full object-cover transition-opacity duration-[2200ms] ease-out ${
               i === active ? "opacity-100 animate-ken-burns" : "opacity-0"
             }`}

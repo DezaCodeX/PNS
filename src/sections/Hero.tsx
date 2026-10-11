@@ -1,16 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import heroHotel from "@/assets/hero-hotel.jpg";
-import roomSuite from "@/assets/room-suite.jpg";
-import diningCloud9 from "@/assets/dining-cloud9.jpg";
 import { HeroBackdrop } from "@/components/HeroBackdrop";
 
-/** 3 hotel scenes that cycle inside the hero card like the reference video. */
-const cardSlides = [
-  { src: heroHotel, alt: "Illuminated facade of Hotel PNS Nakshatra at night" },
-  { src: roomSuite, alt: "Nakshatra Suite living lounge" },
-  { src: diningCloud9, alt: "Cloud 9 rooftop dining above Vellore" },
-];
+const cardSlides = Object.entries(
+  import.meta.glob<string>("/src/assets/hero-container-img/*.{avif,gif,jpeg,jpg,png,svg,webp}", {
+    eager: true,
+    import: "default",
+  }),
+)
+  .sort(([pathA], [pathB]) => pathA.localeCompare(pathB))
+  .map(([path, src]) => ({
+    src,
+    alt: path
+      .split("/")
+      .pop()
+      ?.replace(/\.[^.]+$/, "")
+      .replace(/[-_]+/g, " "),
+  }));
 
 export function Hero({ ready, onBook }: { ready: boolean; onBook: () => void }) {
   const root = useRef<HTMLElement>(null);
@@ -18,7 +24,9 @@ export function Hero({ ready, onBook }: { ready: boolean; onBook: () => void }) 
   const [cardIndex, setCardIndex] = useState(0);
 
   useEffect(() => {
-    const id = window.setInterval(() => setCardIndex((i) => (i + 1) % cardSlides.length), 4200);
+    const id = window.setInterval(() => {
+      setCardIndex((index) => (index + 1) % cardSlides.length);
+    }, 4200);
     return () => window.clearInterval(id);
   }, []);
 
@@ -74,7 +82,7 @@ export function Hero({ ready, onBook }: { ready: boolean; onBook: () => void }) 
               >
                 <img
                   src={slide.src}
-                  alt={slide.alt}
+                  alt={slide.alt ?? ""}
                   loading="lazy"
                   width={1200}
                   height={800}
@@ -133,7 +141,7 @@ export function Hero({ ready, onBook }: { ready: boolean; onBook: () => void }) 
                   alt={slide.alt}
                   width={912}
                   height={1408}
-                  loading={i === 0 ? "eager" : "lazy"}
+                  loading="eager"
                   className={`absolute inset-0 size-full object-cover transition-all duration-[1500ms] ease-out ${
                     i === cardIndex
                       ? "opacity-100 scale-100 [clip-path:inset(0_0_0_0)]"
