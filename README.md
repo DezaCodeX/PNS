@@ -35,10 +35,24 @@ The homepage room cards, Rooms page, and room gallery read the same typed reposi
 enabled for each discovered image. The local adapter stores only versioned selection/order metadata
 in this browser's localStorage; it does not synchronize settings between browsers or visitors.
 
+## Dining image library
+
+Place dining photographs under `src/assets/dining/<category>/` using the supported image extensions
+listed above. The categories are `vrindavan`, `cloud9`, and `clinq`. Vite discovers and bundles
+these assets at build time; adding a file locally does not upload it to the deployed site.
+
+The homepage, Dining page and hero, About facility imagery, and Dining gallery groups use the
+dining records discovered by `src/services/roomImageRepository.ts`. Each image has independent
+destination selections. The Dining page and hero each have a per-category display count from one to
+three, bounded by how many active images are selected for that destination. Versioned selection,
+display-order, and count metadata is stored in this browser's localStorage; image binaries are not.
+New dining images default to enabled for each destination.
+
 The repository contract is intended to be implemented by a server-backed repository later. A
 production admin workflow must first use real server-side authentication and authorization. The
-current `/admin` dashboard and login are prototypes (the login does not authenticate users), so
-room-image editing controls are deliberately not exposed there. Future uploads need a backend to
-validate and store files locally on the server or in object storage; browser code must not contain
-AWS credentials or write arbitrary server paths.
+current `/admin` dashboard and login are prototypes (the login does not authenticate users). Dining
+image-management controls are withheld from the dashboard until real server-side authorization is
+available. The repository and management UI are ready for integration once that access control
+exists. Future uploads need a backend to validate and store files locally on the server or in object
+storage; browser code must not contain AWS credentials or write arbitrary server paths.
 hello

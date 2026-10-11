@@ -13,6 +13,7 @@ import {
   Settings,
   Sparkles,
   Star,
+  Utensils,
   Users,
 } from "lucide-react";
 import {
@@ -39,6 +40,7 @@ const navSections = [
   ["Dining", Coffee],
   ["Gallery / Media", Camera],
   ["Room Image Management", ImageIcon],
+  ["Dining Image Management", Utensils],
   ["Guest Reviews", Star],
   ["Website Content", FileTextIcon],
   ["Settings", Settings],
@@ -159,7 +161,11 @@ export function AdminPanel() {
                 key={label}
                 type="button"
                 onClick={() => {
-                  if (label === "Dashboard" || label === "Room Image Management") {
+                  if (
+                    label === "Dashboard" ||
+                    label === "Room Image Management" ||
+                    label === "Dining Image Management"
+                  ) {
                     setActiveSection(label);
                   }
                 }}
@@ -198,6 +204,21 @@ export function AdminPanel() {
           </header>
 
           {activeSection === "Room Image Management" ? <RoomImageManagement /> : null}
+          {activeSection === "Dining Image Management" ? (
+            <section
+              aria-labelledby="dining-management-unavailable"
+              className="rounded-2xl border border-amber-300 bg-amber-50 p-6 text-amber-950"
+              role="status"
+            >
+              <h2 id="dining-management-unavailable" className="text-lg font-semibold">
+                Dining image controls are unavailable
+              </h2>
+              <p className="mt-2 text-sm">
+                This admin route does not currently enforce server-side authorization. Dining
+                selection controls will be enabled after the site has a protected admin session.
+              </p>
+            </section>
+          ) : null}
           {activeSection === "Dashboard" ? (
             <div>
               <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">

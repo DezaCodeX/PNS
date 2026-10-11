@@ -7,7 +7,9 @@ import { BookingPanel } from "@/components/BookingPanel";
 import type { BookingDetails } from "@/home/components/Booking/BookingWidget";
 import { galleryImages, type GalleryCategory, type GalleryImage } from "@/data/gallery";
 import { useRoomImages } from "@/hooks/useRoomImages";
-import { ROOM_TYPES, ROOM_TYPE_LABELS } from "@/types/roomImages";
+import { useDiningImages } from "@/hooks/useDiningImages";
+import { DINING_TYPES, DINING_TYPE_LABELS, ROOM_TYPES, ROOM_TYPE_LABELS } from "@/types/roomImages";
+import { diningImageRepository } from "@/services/roomImageRepository";
 
 const categories: GalleryCategory[] = ["All", "Rooms", "Dining", "Hotel", "Events", "Exterior"];
 
@@ -17,6 +19,7 @@ export function Gallery() {
   const [booking, setBooking] = useState(false);
   const [tilt, setTilt] = useState({ x: "0deg", y: "0deg" });
   const { images: roomGalleryImages } = useRoomImages("gallery");
+  const { images: diningGalleryImages } = useDiningImages("gallery");
   const swipeStart = useRef<number | null>(null);
   const roomImages = useMemo<GalleryImage[]>(
     () =>
@@ -30,14 +33,32 @@ export function Gallery() {
       })),
     [roomGalleryImages],
   );
-  const allImages = useMemo(() => [...roomImages, ...galleryImages], [roomImages]);
+  const diningImages = useMemo<GalleryImage[]>(
+    () =>
+      diningGalleryImages.map((image) => ({
+        id: image.id,
+        src: image.url,
+        title: `${DINING_TYPE_LABELS[image.diningType]} dining`,
+        category: "Dining",
+        alt: image.altText,
+        diningType: image.diningType,
+      })),
+    [diningGalleryImages],
+  );
+  const allImages = useMemo(
+    () => [...roomImages, ...diningImages, ...galleryImages],
+    [roomImages, diningImages],
+  );
   const visibleImages = useMemo(
     () =>
       category === "All" ? allImages : allImages.filter((image) => image.category === category),
     [allImages, category],
   );
   const roomSections = category === "All" || category === "Rooms";
-  const nonRoomImages = visibleImages.filter((image) => image.roomType === undefined);
+  const nonRoomImages = visibleImages.filter(
+    (image) => image.roomType === undefined && image.diningType === undefined,
+  );
+  const diningSections = category === "All" || category === "Dining";
   const activeIndex = visibleImages.findIndex((image) => image.id === activeId);
   const activeImage = activeIndex >= 0 ? visibleImages[activeIndex] : null;
   const bookingDetails: BookingDetails = { checkIn: "", checkOut: "", rooms: "1", guests: "1" };
@@ -115,7 +136,7 @@ export function Gallery() {
               <p className="eyebrow text-ink/60">{visibleImages.length} views</p>
             </div>
 
-            {roomSections ? (
+            {roomSections || diningSections ? (
               <div className="mt-12 space-y-12">
                 {ROOM_TYPES.map((roomType) => {
                   const roomImages = visibleImages.filter((image) => image.roomType === roomType);
@@ -140,6 +161,7 @@ export function Gallery() {
                               loading="lazy"
                               width="1200"
                               height="900"
+                              onError={() => diningImageRepository.reportUnavailable(image.id)}
                             />
                             <span>
                               <small>{image.category}</small>
@@ -151,6 +173,44 @@ export function Gallery() {
                     </section>
                   );
                 })}
+                {diningSections
+                  ? DINING_TYPES.map((diningType) => {
+                      const images = visibleImages.filter(
+                        (image) => image.diningType === diningType,
+                      );
+                      if (!images.length) return null;
+                      return (
+                        <section key={diningType} aria-labelledby={`gallery-${diningType}`}>
+                          <h2 id={`gallery-${diningType}`} className="eyebrow mb-5 text-ink">
+                            {DINING_TYPE_LABELS[diningType]}
+                          </h2>
+                          <div className="gallery-spatial-stage">
+                            {images.map((image, index) => (
+                              <button
+                                key={image.id}
+                                type="button"
+                                className={`gallery-spatial-card gallery-spatial-card-${index % 5}`}
+                                onClick={() => setActiveId(image.id)}
+                                aria-label={`Open ${image.title}`}
+                              >
+                                <img
+                                  src={image.src}
+                                  alt={image.alt}
+                                  loading="lazy"
+                                  width="1200"
+                                  height="900"
+                                />
+                                <span>
+                                  <small>{image.category}</small>
+                                  {image.title}
+                                </span>
+                              </button>
+                            ))}
+                          </div>
+                        </section>
+                      );
+                    })
+                  : null}
                 {nonRoomImages.length > 0 ? (
                   <div className="gallery-spatial-stage">
                     {nonRoomImages.map((image, index) => (
@@ -263,7 +323,16 @@ export function Gallery() {
             <ChevronLeft className="size-6" />
           </button>
           <figure className="gallery-lightbox-figure" onClick={(event) => event.stopPropagation()}>
-            <img src={activeImage.src} alt={activeImage.alt} />
+            <img
+              src={activeImage.src}
+              alt={activeImage.alt}
+              onError={() => {
+                if (activeImage.diningType) {
+                  diningImageRepository.reportUnavailable(activeImage.id);
+                  closeLightbox();
+                }
+              }}
+            />
             <figcaption>
               <span className="eyebrow text-gold">{activeImage.category}</span>
               <strong>{activeImage.title}</strong>

@@ -1,14 +1,22 @@
 import { useRoomImages } from "@/hooks/useRoomImages";
-import { ROOM_TYPE_LABELS } from "@/types/roomImages";
+import { useDiningImages } from "@/hooks/useDiningImages";
+import { DINING_TYPE_LABELS, ROOM_TYPE_LABELS } from "@/types/roomImages";
+import { diningImageRepository } from "@/services/roomImageRepository";
 import { gallery } from "@/home/data/homeData";
 
 export function GalleryPreview() {
   const { images } = useRoomImages("gallery");
+  const { images: diningImages } = useDiningImages("gallery");
   const previewItems = [
     ...images.slice(0, 2).map((image) => ({
       id: image.id,
       src: image.url,
       label: `${ROOM_TYPE_LABELS[image.roomType]} room`,
+    })),
+    ...diningImages.slice(0, 2).map((image) => ({
+      id: image.id,
+      src: image.url,
+      label: `${DINING_TYPE_LABELS[image.diningType]} dining`,
     })),
     ...gallery.map((item) => ({ ...item, id: item.label })),
   ];
@@ -48,6 +56,11 @@ export function GalleryPreview() {
                 loading="lazy"
                 width="1200"
                 height="800"
+                onError={() => {
+                  if (diningImages.some((image) => image.id === item.id)) {
+                    diningImageRepository.reportUnavailable(item.id);
+                  }
+                }}
                 className={`w-full object-cover transition-transform duration-1000 group-hover:scale-[1.02] ${
                   index === 0 ? "aspect-[16/8]" : index === 1 ? "aspect-[4/5]" : "aspect-[4/3]"
                 }`}

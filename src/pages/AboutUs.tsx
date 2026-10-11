@@ -29,6 +29,8 @@ import diningCloud9 from "@/assets/dining-cloud9.jpg";
 import diningVrindavan from "@/assets/dining-vrindavan.jpg";
 import clinqLounge from "@/assets/clinq-lounge.jpg";
 import eventsBanquet from "@/assets/events-banquet.jpg";
+import { useDiningImageLibrary } from "@/hooks/useDiningImages";
+import { diningImageRepository, getSelectedDiningImages } from "@/services/roomImageRepository";
 
 const facilities = [
   ["VRINDAVAN", "Fine Vegetarian Restaurant", diningVrindavan],
@@ -207,6 +209,20 @@ function AboutScene() {
 
 export function AboutUs() {
   const [booking, setBooking] = useState(false);
+  const { images: diningImageLibrary } = useDiningImageLibrary();
+  const aboutDiningImage = (name: string) => {
+    const diningType =
+      name === "VRINDAVAN"
+        ? "vrindavan"
+        : name === "CLOUD NINE"
+          ? "cloud9"
+          : name === "CLINQ"
+            ? "clinq"
+            : null;
+    return diningType
+      ? getSelectedDiningImages(diningImageLibrary, "aboutPage", diningType)[0]?.url
+      : undefined;
+  };
   const openBooking = () => setBooking(true);
   return (
     <>
@@ -351,7 +367,31 @@ export function AboutUs() {
           <div className="facility-grid">
             {facilities.map(([name, detail, image]) => (
               <article className="facility-item" key={name}>
-                <img src={image} alt="" loading="lazy" />
+                {name === "VRINDAVAN" || name === "CLOUD NINE" || name === "CLINQ" ? (
+                  aboutDiningImage(name) ? (
+                    <img
+                      src={aboutDiningImage(name)}
+                      alt={`${name} dining at Hotel PNS Nakshatra`}
+                      loading="lazy"
+                      onError={() => {
+                        const diningType =
+                          name === "VRINDAVAN"
+                            ? "vrindavan"
+                            : name === "CLOUD NINE"
+                              ? "cloud9"
+                              : "clinq";
+                        const image = getSelectedDiningImages(
+                          diningImageLibrary,
+                          "aboutPage",
+                          diningType,
+                        )[0];
+                        if (image) diningImageRepository.reportUnavailable(image.id);
+                      }}
+                    />
+                  ) : null
+                ) : (
+                  <img src={image} alt="" loading="lazy" />
+                )}
                 <div>
                   <p className="eyebrow text-gold">{name}</p>
                   <p className="mt-2 text-sm text-[var(--color-ivory)]">{detail}</p>
@@ -423,15 +463,19 @@ export function AboutUs() {
               </p>
             </div>
             <div className="attraction-grid">
-              {attractions.map(([name, detail, image]) => (
-                <article className="attraction-item" key={name}>
-                  <img src={image} alt="" loading="lazy" />
-                  <div>
-                    <p className="eyebrow text-gold">{name}</p>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{detail}</p>
-                  </div>
-                </article>
-              ))}
+              {attractions.map(([name, detail, image]) => {
+                const isDiningImage = name === "SRI LAXMI NARAYANI GOLDEN TEMPLE";
+                const attractionImage = isDiningImage ? aboutDiningImage("VRINDAVAN") : image;
+                return (
+                  <article className="attraction-item" key={name}>
+                    {attractionImage ? <img src={attractionImage} alt="" loading="lazy" /> : null}
+                    <div>
+                      <p className="eyebrow text-gold">{name}</p>
+                      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{detail}</p>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -463,7 +507,6 @@ export function AboutUs() {
             </div>
           </div>
         </section>
-       
       </main>
       <Footer onBook={openBooking} />
       <BookingPanel
