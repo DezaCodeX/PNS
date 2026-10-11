@@ -31,6 +31,7 @@ import {
   YAxis,
 } from "recharts";
 import { useState } from "react";
+import { DiningImageManagement } from "@/admin/DiningImageManagement";
 import { RoomImageManagement } from "@/admin/RoomImageManagement";
 
 const navSections = [
@@ -204,21 +205,7 @@ export function AdminPanel() {
           </header>
 
           {activeSection === "Room Image Management" ? <RoomImageManagement /> : null}
-          {activeSection === "Dining Image Management" ? (
-            <section
-              aria-labelledby="dining-management-unavailable"
-              className="rounded-2xl border border-amber-300 bg-amber-50 p-6 text-amber-950"
-              role="status"
-            >
-              <h2 id="dining-management-unavailable" className="text-lg font-semibold">
-                Dining image controls are unavailable
-              </h2>
-              <p className="mt-2 text-sm">
-                This admin route does not currently enforce server-side authorization. Dining
-                selection controls will be enabled after the site has a protected admin session.
-              </p>
-            </section>
-          ) : null}
+          {activeSection === "Dining Image Management" ? <DiningImageManagement /> : null}
           {activeSection === "Dashboard" ? (
             <div>
               <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">

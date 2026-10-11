@@ -48,11 +48,10 @@ three, bounded by how many active images are selected for that destination. Vers
 display-order, and count metadata is stored in this browser's localStorage; image binaries are not.
 New dining images default to enabled for each destination.
 
-The repository contract is intended to be implemented by a server-backed repository later. A
-production admin workflow must first use real server-side authentication and authorization. The
-current `/admin` dashboard and login are prototypes (the login does not authenticate users). Dining
-image-management controls are withheld from the dashboard until real server-side authorization is
-available. The repository and management UI are ready for integration once that access control
-exists. Future uploads need a backend to validate and store files locally on the server or in object
-storage; browser code must not contain AWS credentials or write arbitrary server paths.
+The current `/admin` dashboard and login are prototypes (the login does not authenticate users).
+Dining image-management controls are available in the dashboard without authentication for now;
+image selections remain local to this browser and are not shared with visitors. Add real server-side
+authentication and authorization before using this as a production admin workflow. Future uploads
+need a backend to validate and store files locally on the server or in object storage; browser code
+must not contain AWS credentials or write arbitrary server paths.
 hello
