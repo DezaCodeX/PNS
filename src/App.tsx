@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Link, Route, Routes, useLocation } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react";
 
 const Chatbot = lazy(() =>
   import("@/components/chatbot").then((module) => ({ default: module.Chatbot })),
@@ -88,6 +89,7 @@ function AppShell() {
           <Chatbot />
         </Suspense>
       )}
+      <Analytics />
     </>
   );
 }
