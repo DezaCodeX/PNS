@@ -100,10 +100,6 @@ export function DiningImageManagement() {
             {categoryImages.length} {categoryImages.length === 1 ? "image" : "images"}
           </span>
         </div>
-        <p className="mt-4 rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-          Access note: the existing admin route has no server-side authorization; this feature uses
-          its current access model and does not add authentication.
-        </p>
         <div
           className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-5"
           aria-label={`${DINING_TYPE_LABELS[diningType]} selection counts`}
