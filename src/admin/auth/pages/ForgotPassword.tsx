@@ -1,6 +1,8 @@
+"use client";
+
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 import { AuthButton } from "../components/AuthButton";
 import { AuthInput } from "../components/AuthInput";
@@ -42,7 +44,7 @@ export function ForgotPassword() {
       title="Reset password"
       subtitle="Enter your registered email address to receive a secure reset link."
       footer={
-        <Link to="/admin/login" className="inline-flex items-center gap-2 font-medium text-[#051838] underline-offset-4 hover:underline">
+        <Link href="/admin/login" className="inline-flex items-center gap-2 font-medium text-[#051838] underline-offset-4 hover:underline">
           <ArrowLeft className="h-3.5 w-3.5" />
           Back to login
         </Link>

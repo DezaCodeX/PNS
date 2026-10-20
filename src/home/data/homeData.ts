@@ -8,7 +8,7 @@ export const hotel = {
   description:
     "A contemporary stay in the heart of Vellore, with rooms, dining, lounge and celebration spaces under one roof.",
   address: "Katpadi Road, Vellore 632004",
-  heroImage: heroHotel,
+  heroImage: heroHotel.src,
 };
 
 export const featuredRooms = rooms;
@@ -24,6 +24,6 @@ export const facilities = [
 ];
 
 export const gallery = [
-  { src: heroHotel, label: "The hotel" },
-  { src: eventsBanquet, label: "Celebrations" },
+  { src: heroHotel.src, label: "The hotel" },
+  { src: eventsBanquet.src, label: "Celebrations" },
 ];

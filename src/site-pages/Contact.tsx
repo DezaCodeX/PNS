@@ -1,3 +1,5 @@
+"use client";
+
 import { Instagram, MapPin, Phone } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/sections/Footer";

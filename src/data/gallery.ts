@@ -17,14 +17,14 @@ export type GalleryImage = {
 export const galleryImages: GalleryImage[] = [
   {
     id: "hotel",
-    src: heroHotel,
+    src: heroHotel.src,
     title: "The hotel at evening",
     category: "Exterior",
     alt: "Hotel PNS Nakshatra illuminated at evening",
   },
   {
     id: "events",
-    src: eventsBanquet,
+    src: eventsBanquet.src,
     title: "A place to gather",
     category: "Events",
     alt: "Banquet hall at Hotel PNS Nakshatra",

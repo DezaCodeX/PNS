@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 import { ArrowDownRight, ArrowUpRight, Phone } from "lucide-react";
 import { BookingPanel } from "@/components/BookingPanel";
@@ -47,7 +49,7 @@ function SpatialGallery({
       ) : null}
       {images.map((image, index) =>
         failedImages.has(image.id) ? (
-          import.meta.env.DEV ? (
+          process.env.NODE_ENV === "development" ? (
             <div
               key={image.id}
               className={`dining-spatial-image dining-spatial-image-${index} dining-image-error`}
@@ -64,7 +66,7 @@ function SpatialGallery({
             width="1200"
             height="900"
             onError={() => {
-              if (import.meta.env.DEV)
+              if (process.env.NODE_ENV === "development")
                 console.error(`Dining image ${image.id} failed to load: ${image.url}`);
               diningImageRepository.reportUnavailable(image.id);
               setFailedImages((current) => new Set(current).add(image.id));

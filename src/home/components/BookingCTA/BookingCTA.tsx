@@ -4,7 +4,7 @@ export function BookingCTA({ onBook }: { onBook: () => void }) {
   return (
     <section className="dark-surface relative overflow-hidden border-y border-border px-6 py-32 lg:px-12 lg:py-48">
       <img
-        src={heroHotel}
+        src={heroHotel.src}
         alt="PNS Nakshatra at night"
         className="absolute inset-0 -z-10 size-full object-cover opacity-60"
         loading="lazy"

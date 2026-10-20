@@ -7,7 +7,7 @@ export const rooms = [
   {
     id: "deluxe",
     name: "Deluxe Room",
-    image: roomDeluxe,
+    image: roomDeluxe.src,
     size: "280 sq.ft",
     detail:
       "Warm interiors, plush bedding and a quiet corner to unwind after a long day in Vellore.",
@@ -16,7 +16,7 @@ export const rooms = [
   {
     id: "premier",
     name: "Premier Room",
-    image: roomPremier,
+    image: roomPremier.src,
     size: "340 sq.ft",
     detail:
       "Floor-to-ceiling windows framing the city skyline at dusk, with a dedicated work desk.",
@@ -25,7 +25,7 @@ export const rooms = [
   {
     id: "suite",
     name: "Nakshatra Suite",
-    image: roomSuite,
+    image: roomSuite.src,
     size: "520 sq.ft",
     detail: "A separate living lounge, curated lighting and space enough for family or long stays.",
     amenities: ["Living lounge", "Butler service", "Breakfast", "Late checkout"],
@@ -73,4 +73,4 @@ export const nearby = [
   { place: "Golden Temple, Sripuram", distance: "11.2 km" },
 ];
 
-export const eventsImage = eventsBanquet;
+export const eventsImage = eventsBanquet.src;

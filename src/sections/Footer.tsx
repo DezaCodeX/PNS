@@ -18,9 +18,9 @@ export function Footer({ onBook }: { onBook: () => void }) {
         <div className="flex min-w-0 flex-col items-start">
           <a href="/" className="inline-block" aria-label="Hotel PNS Nakshatra home">
             <picture>
-              <source srcSet={logoWebp} type="image/webp" />
+              <source srcSet={logoWebp.src} type="image/webp" />
               <img
-                src={logo}
+                src={logo.src}
                 alt="Hotel PNS Nakshatra"
                 width={288}
                 height={144}

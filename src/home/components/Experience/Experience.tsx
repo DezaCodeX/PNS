@@ -5,7 +5,7 @@ export function Experience() {
   return (
     <section className="relative overflow-hidden bg-background py-24 lg:py-32">
       <img
-        src={roomSuite}
+        src={roomSuite.src}
         alt=""
         aria-hidden="true"
         width={1200}

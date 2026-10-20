@@ -105,7 +105,7 @@ export function DiningPreview() {
                     width="1400"
                     height="900"
                     onError={() => {
-                      if (import.meta.env.DEV) {
+                      if (process.env.NODE_ENV === "development") {
                         console.error(`Dining image ${image.id} failed to load: ${image.url}`);
                       }
                       diningImageRepository.reportUnavailable(image.id);

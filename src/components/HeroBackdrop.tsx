@@ -1,12 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { heroImageSlides } from "@/lib/heroImageSlides";
+import { heroBackgroundImageAssets } from "@/lib/asset-manifest";
 
 const slides = heroImageSlides(
-  import.meta.glob<string>("/src/assets/hero-bg/*.{avif,gif,jpeg,jpg,png,svg,webp}", {
-    eager: true,
-    import: "default",
-  }),
+  heroBackgroundImageAssets,
   {
     "hero-hotel": "Hotel PNS Nakshatra illuminated at night",
     image: "Hotel PNS Nakshatra exterior",

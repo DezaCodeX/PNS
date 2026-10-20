@@ -1,5 +1,7 @@
+"use client";
+
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { usePathname } from "next/navigation";
 import logo from "@/assets/pns logo.png";
 import logoWebp from "@/assets/pns-logo.webp";
 
@@ -15,7 +17,7 @@ const links = [
 export function Navbar({ onBook }: { onBook: () => void }) {
   const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
-  const location = useLocation();
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setSolid(window.scrollY > 80);
@@ -34,9 +36,9 @@ export function Navbar({ onBook }: { onBook: () => void }) {
       <nav className="flex w-full items-center justify-between px-[clamp(1rem,3vw,2rem)]">
         <a href="#top" className="leading-none" data-cursor="Home">
           <picture>
-            <source srcSet={logoWebp} type="image/webp" />
+            <source srcSet={logoWebp.src} type="image/webp" />
             <img
-              src={logo}
+              src={logo.src}
               alt="PNS Nakshatra"
               width={288}
               height={144}
@@ -52,7 +54,7 @@ export function Navbar({ onBook }: { onBook: () => void }) {
               <div className="group relative">
                 <a
                   href={l.href}
-                  className={`eyebrow text-[calc(var(--type-label)_+_2px)] transition-colors underline-offset-4 decoration-[1px] hover:text-[#000000] hover:underline lg:text-[calc(0.78rem_+_2px)] ${location.pathname === l.href ? "text-[#000000] underline" : ""}`}
+                  className={`eyebrow text-[calc(var(--type-label)_+_2px)] transition-colors underline-offset-4 decoration-[1px] hover:text-[#000000] hover:underline lg:text-[calc(0.78rem_+_2px)] ${pathname === l.href ? "text-[#000000] underline" : ""}`}
                   data-cursor="View"
                 >
                   {l.label}
@@ -120,7 +122,7 @@ export function Navbar({ onBook }: { onBook: () => void }) {
           <a
             key={l.href}
             href={l.href}
-            className={`eyebrow text-[calc(var(--type-label)_+_2px)] transition-colors underline-offset-4 decoration-[1px] hover:text-[#000000] hover:underline ${location.pathname === l.href ? "text-[#000000] underline" : ""}`}
+            className={`eyebrow text-[calc(var(--type-label)_+_2px)] transition-colors underline-offset-4 decoration-[1px] hover:text-[#000000] hover:underline ${pathname === l.href ? "text-[#000000] underline" : ""}`}
             onClick={() => setOpen(false)}
           >
             {l.label}

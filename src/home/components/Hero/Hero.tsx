@@ -5,12 +5,10 @@ import heroTitleGraphic from "../../../../Untitled-1.webp";
 import { HeroBackdrop } from "@/components/HeroBackdrop";
 import type { BookingDetails } from "@/home/components/Booking/BookingWidget";
 import { BookingWidget } from "@/home/components/Booking/BookingWidget";
+import { heroContainerImageAssets } from "@/lib/asset-manifest";
 
 const cardSlides = heroImageSlides(
-  import.meta.glob<string>("/src/assets/hero-container-img/*.{avif,gif,jpeg,jpg,png,svg,webp}", {
-    eager: true,
-    import: "default",
-  }),
+  heroContainerImageAssets,
   {
     "hero-hotel1": "Hotel PNS Nakshatra guest room",
     image: "Hotel PNS Nakshatra exterior",
@@ -85,7 +83,7 @@ export function Hero({
         <div className="grid grid-cols-1 items-end gap-[clamp(2.5rem,6vw,5rem)] lg:grid-cols-[0.9fr_1.1fr]">
           <div className="relative z-10 pb-4 text-left lg:pb-16">
             <img
-              src={heroTitleGraphic}
+              src={heroTitleGraphic.src}
               alt=""
               width={500}
               height={450}

@@ -15,7 +15,7 @@ export function AboutPreview() {
       <div data-home-reveal className="lg:pt-12">
         <div className="mb-8 overflow-hidden border border-border">
           <img
-            src={heroHotel}
+            src={heroHotel.src}
             alt="Hotel PNS Nakshatra at night"
             loading="lazy"
             className="aspect-[4/3] w-full object-cover"

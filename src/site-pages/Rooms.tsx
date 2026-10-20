@@ -1,3 +1,5 @@
+"use client";
+
 import { ArrowUpRight, Check, MapPin, Phone } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -52,7 +54,7 @@ function RoomStage({
           fetchPriority="high"
           onError={() => {
             setFailedImageId(activeImage.id);
-            if (import.meta.env.DEV) {
+            if (process.env.NODE_ENV === "development") {
               console.error(
                 `Room image failed to load (${activeImage.roomType}/${activeImage.filename}): ${activeImage.url}`,
               );
@@ -62,7 +64,7 @@ function RoomStage({
         />
       ) : (
         <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_75%_35%,rgba(207,140,85,0.18),transparent_34%),linear-gradient(120deg,#051838_0%,#051838_100%)] text-center text-sm text-cream/75">
-          {import.meta.env.DEV
+          {process.env.NODE_ENV === "development"
             ? `No valid Rooms page image is selected for ${rooms[activeIndex]?.name ?? "this room"}.`
             : null}
         </div>

@@ -1,4 +1,5 @@
 import { roomCategories } from "@/data/rooms";
+import { diningImageAssets, roomImageAssets } from "@/lib/asset-manifest";
 import {
   ROOM_IMAGE_DESTINATIONS,
   ROOM_TYPE_LABELS,
@@ -34,14 +35,7 @@ const DEFAULT_SELECTIONS: RoomImageSelections = {
   gallery: true,
 };
 
-const discoveredAssets = import.meta.glob<string>(
-  "/src/assets/rooms/**/*.{webp,avif,jpg,jpeg,png}",
-  {
-    eager: true,
-    query: "?url",
-    import: "default",
-  },
-);
+const discoveredAssets = roomImageAssets;
 
 type PersistedSettings = {
   version: number;
@@ -318,10 +312,7 @@ const DEFAULT_DINING_SELECTIONS: DiningImageSelections = {
   gallery: true,
 };
 const DEFAULT_DINING_COUNTS: DiningDisplayCounts = { diningPage: 1, diningHero: 1 };
-const discoveredDiningAssets = import.meta.glob<string>(
-  "/src/assets/dining/**/*.{webp,avif,jpg,jpeg,png}",
-  { eager: true, query: "?url", import: "default" },
-);
+const discoveredDiningAssets = diningImageAssets;
 const unavailableDiningImageIds = new Set<string>();
 
 type DiningSettingsRecord = {

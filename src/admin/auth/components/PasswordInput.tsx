@@ -5,7 +5,7 @@ import type { InputHTMLAttributes } from "react";
 
 type PasswordInputProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string;
-  error?: string;
+  error?: string | undefined;
 };
 
 export function PasswordInput({ label, id, error, className = "", ...props }: PasswordInputProps) {

@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback, useEffect, useRef, useState } from "react";
 import Lenis from "lenis";
 import { Cursor } from "@/components/Cursor";

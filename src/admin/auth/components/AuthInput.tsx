@@ -2,8 +2,8 @@ import type { InputHTMLAttributes } from "react";
 
 type AuthInputProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string;
-  error?: string;
-  helperText?: string;
+  error?: string | undefined;
+  helperText?: string | undefined;
 };
 
 export function AuthInput({ label, id, error, helperText, className = "", ...props }: AuthInputProps) {

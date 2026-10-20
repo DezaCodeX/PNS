@@ -1,6 +1,8 @@
+"use client";
+
 import { CheckCircle2, ShieldAlert } from "lucide-react";
 import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 import { AuthButton } from "../components/AuthButton";
 import { AuthInput } from "../components/AuthInput";
@@ -109,7 +111,7 @@ export function CreateAdminAccount() {
       subtitle="Set up an administrator account for Hotel PNS Nakshatra."
       footer={
         <span>
-          Already have access? <Link to="/admin/login" className="font-medium text-[#051838] underline-offset-4 hover:underline">Go to Admin Login</Link>
+          Already have access? <Link href="/admin/login" className="font-medium text-[#051838] underline-offset-4 hover:underline">Go to Admin Login</Link>
         </span>
       }
     >
@@ -205,7 +207,7 @@ export function CreateAdminAccount() {
               <CheckCircle2 className="h-4 w-4" />
               Account created successfully.
             </div>
-            <Link to="/admin/login" className="inline-flex w-full items-center justify-center rounded-xl bg-[#051838] px-4 py-3 text-sm font-semibold text-[#f3f8fa] transition-colors hover:bg-[#0a2244]">
+            <Link href="/admin/login" className="inline-flex w-full items-center justify-center rounded-xl bg-[#051838] px-4 py-3 text-sm font-semibold text-[#f3f8fa] transition-colors hover:bg-[#0a2244]">
               Go to Admin Login
             </Link>
           </div>

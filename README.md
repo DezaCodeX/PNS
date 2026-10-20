@@ -1,57 +1,82 @@
-# Dynamic 3D Realm
+# Hotel PNS Nakshatra
 
-i need to build a website based on the given details attached using the react i need it as 3d attractive dynamic
-
-This project was built with [Lovable](https://lovable.dev).
-
-##
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/9df929d2-a46a-4f68-bfdb-f7f5fe9f088c).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+Hotel PNS Nakshatra is a React 19 and Next.js App Router website styled with Tailwind CSS 4.
+The existing page components, design system, images, transitions, and browser-side interactions
+are retained in `src/`; Next.js route entries live in `app/`.
 
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Use Node.js 20.9 or later.
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+npm install
 npm run dev
 ```
 
-## Room image library
+Available checks and production commands:
 
-Place room photographs under `src/assets/rooms/<room-type>/` using one of the supported image
-extensions (`webp`, `avif`, `jpg`, `jpeg`, or `png`). Vite discovers and bundles those files at
-build time; adding a file locally does not upload it to the deployed site. The room types are
-`vajra`, `garuda`, `arohana`, `madhurya`, and `maayukha`.
+```sh
+npm run lint
+npm run typecheck
+npm run build
+npm start
+```
 
-The homepage room cards, Rooms page, and room gallery read the same typed repository in
-`src/services/roomImageRepository.ts`. Their destination selections are independent and default to
-enabled for each discovered image. The local adapter stores only versioned selection/order metadata
-in this browser's localStorage; it does not synchronize settings between browsers or visitors.
+The production build runs on the Next.js server. Do not configure this application as a static
+export: its App Router runtime, metadata routes, and Vercel analytics integration require Next.js
+deployment support.
 
-## Dining image library
+## Routes
 
-Place dining photographs under `src/assets/dining/<category>/` using the supported image extensions
-listed above. The categories are `vrindavan`, `cloud9`, and `clinq`. Vite discovers and bundles
-these assets at build time; adding a file locally does not upload it to the deployed site.
+| URL                           | Page                                  |
+| ----------------------------- | ------------------------------------- |
+| `/`                           | Home                                  |
+| `/about-us`                   | About                                 |
+| `/rooms`                      | Rooms                                 |
+| `/dining`                     | Dining                                |
+| `/gallery`                    | Gallery                               |
+| `/contact`                    | Home page with the contact panel open |
+| `/privacy-policy`             | Privacy policy                        |
+| `/terms-and-conditions`       | Terms                                 |
+| `/refund-cancellation-policy` | Refund and cancellation policy        |
+| `/admin`                      | Admin dashboard prototype             |
+| `/admin/login`                | Admin login prototype                 |
+| `/admin/create-account`       | Admin account prototype               |
+| `/admin/forgot-password`      | Password reset prototype              |
 
-The homepage, Dining page and hero, About facility imagery, and Dining gallery groups use the
-dining records discovered by `src/services/roomImageRepository.ts`. Each image has independent
-destination selections. The Dining page and hero each have a per-category display count from one to
-three, bounded by how many active images are selected for that destination. Versioned selection,
-display-order, and count metadata is stored in this browser's localStorage; image binaries are not.
-New dining images default to enabled for each destination.
+The admin pages are not protected by real authentication or authorization. Their current form
+handlers are prototypes, and image settings are stored in the current browser only. Do not treat
+the admin interface as a production administration system.
 
-The current `/admin` dashboard and login are prototypes (the login does not authenticate users).
-Dining image-management controls are available in the dashboard without authentication for now;
-image selections remain local to this browser and are not shared with visitors. Add real server-side
-authentication and authorization before using this as a production admin workflow. Future uploads
-need a backend to validate and store files locally on the server or in object storage; browser code
-must not contain AWS credentials or write arbitrary server paths.
-hello
+## Room and dining image libraries
+
+The public room and dining pages, homepage previews, galleries, and admin selectors read from
+`src/services/roomImageRepository.ts`. Existing image binaries remain in `src/assets/rooms/` and
+`src/assets/dining/`; `src/lib/asset-manifest.ts` statically maps these assets for Next.js builds.
+
+When adding a supported room or dining photograph, place it in its existing category folder and
+add its static import and path entry to `src/lib/asset-manifest.ts`. Image selection, display order,
+and dining display-count settings are versioned in browser `localStorage`; images are bundled into
+the website and are not uploaded or synchronized. Local storage is not shared between visitors or
+browsers.
+
+Hero slide images are also statically listed in `src/lib/asset-manifest.ts`. Preserve their source
+files and update the corresponding manifest entries when changing those collections.
+
+## Environment and deployment
+
+`SITE_URL` is an optional server-only environment variable used for canonical URLs, the sitemap,
+and `robots.txt`. It defaults to `https://hotelpnsnakshatra.com`; set it to the canonical HTTPS
+origin for a different production domain before building. These metadata routes are generated at
+build time. The variable is read only by server-side code and is not exposed to browser code.
+
+Public pages include page-specific titles, descriptions, canonical URLs, Open Graph and Twitter
+metadata. The root layout also emits Hotel structured data using the existing site name, address,
+and contact number. Admin URLs are marked `noindex` and excluded from the sitemap.
+
+Vercel should use its Next.js framework detection and the normal `npm run build` command. The
+custom `vercel.json` security headers remain in place; the old Vite SPA rewrite has been removed.
+Keep environment values in the deployment platform rather than committing private `.env` files.
+
+There is no separate backend or HTTP API client in this repository. Authentication, database,
+and upload integrations have not been added or changed by this frontend migration.

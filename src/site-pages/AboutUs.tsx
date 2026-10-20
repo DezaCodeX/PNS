@@ -1,4 +1,6 @@
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+"use client";
+
+import dynamic from "next/dynamic";
 import {
   Accessibility,
   AirVent,
@@ -15,8 +17,7 @@ import {
   Utensils,
   Wifi,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import * as THREE from "three";
+import { useState } from "react";
 
 import { BookingPanel } from "@/components/BookingPanel";
 import { Cursor } from "@/components/Cursor";
@@ -32,15 +33,20 @@ import eventsBanquet from "@/assets/events-banquet.jpg";
 import { useDiningImageLibrary } from "@/hooks/useDiningImages";
 import { diningImageRepository, getSelectedDiningImages } from "@/services/roomImageRepository";
 
+const AboutScene = dynamic(() => import("@/three/AboutScene"), {
+  ssr: false,
+  loading: () => <div className="absolute inset-0 bg-[var(--hero-overlay)]" />,
+});
+
 const facilities = [
-  ["VRINDAVAN", "Fine Vegetarian Restaurant", diningVrindavan],
-  ["CLOUD NINE", "Multi Cuisine Rooftop Family Restaurant", diningCloud9],
-  ["CLINQ", "Casual Lounge Bar", clinqLounge],
-  ["TAVISHA", "Board Room", eventsBanquet],
-  ["TVASISTA", "Kitty Party Room", eventsBanquet],
-  ["TAMARA", "Pillarless Banquet / Party Hall", eventsBanquet],
-  ["TITIKSHA", "Board Room", eventsBanquet],
-  ["TRAVEL DESK", "Pickup & Drop, Vehicle on Rent", heroHotel],
+  ["VRINDAVAN", "Fine Vegetarian Restaurant", diningVrindavan.src],
+  ["CLOUD NINE", "Multi Cuisine Rooftop Family Restaurant", diningCloud9.src],
+  ["CLINQ", "Casual Lounge Bar", clinqLounge.src],
+  ["TAVISHA", "Board Room", eventsBanquet.src],
+  ["TVASISTA", "Kitty Party Room", eventsBanquet.src],
+  ["TAMARA", "Pillarless Banquet / Party Hall", eventsBanquet.src],
+  ["TITIKSHA", "Board Room", eventsBanquet.src],
+  ["TRAVEL DESK", "Pickup & Drop, Vehicle on Rent", heroHotel.src],
 ] as const;
 
 const amenities = [
@@ -62,32 +68,32 @@ const attractions = [
   [
     "VELLORE FORT",
     "Built during the Vijayanagar period, Vellore Fort is known for its massive ramparts, historic architecture and intricate details.",
-    heroHotel,
+    heroHotel.src,
   ],
   [
     "SRI LAXMI NARAYANI GOLDEN TEMPLE",
     "Located at Sripuram, the Golden Temple is a remarkable spiritual destination known for its striking golden architecture and serene surroundings.",
-    diningVrindavan,
+    diningVrindavan.src,
   ],
   [
     "VELLORE MUSEUM",
     "Discover Vellore's history and cultural heritage through the collections and exhibits preserved at the Government Museum.",
-    roomSuite,
+    roomSuite.src,
   ],
   [
     "AMIRTHI ZOOLOGICAL PARK",
     "Located around 25 kilometres from Vellore, Amirthi Zoological Park offers a refreshing escape into nature.",
-    heroHotel,
+    heroHotel.src,
   ],
   [
     "JALAKANDESWARAR TEMPLE",
     "Situated within the Vellore Fort complex, this temple is an impressive example of traditional Dravidian architecture and craftsmanship.",
-    eventsBanquet,
+    eventsBanquet.src,
   ],
   [
     "JALAGAMPARAI WATERFALLS",
     "Located in the surrounding hill region, the waterfalls provide a scenic getaway into the natural beauty around Vellore.",
-    roomPremier,
+    roomPremier.src,
   ],
 ] as const;
 
@@ -133,79 +139,6 @@ const services = [
   ],
   ["BATH KIT", "Enjoy a complimentary bath kit with essential premium toiletries."],
 ];
-
-function ArchitecturalScene() {
-  const group = useRef<THREE.Group>(null);
-  const { pointer } = useThree();
-  useFrame((state, delta) => {
-    const current = group.current;
-    if (!current) return;
-    const scrollDepth = (window.scrollY / Math.max(window.innerHeight, 1)) * 0.06;
-    const ease = 1 - Math.exp(-2 * Math.min(delta, 0.05));
-    current.rotation.y += (pointer.x * 0.08 + scrollDepth - current.rotation.y) * ease;
-    current.rotation.x += (-pointer.y * 0.025 - current.rotation.x) * ease;
-    current.position.z +=
-      (Math.sin(state.clock.elapsedTime * 0.16) * 0.08 - current.position.z) * ease;
-  });
-  return (
-    <group ref={group} position={[0, -1.6, 0]}>
-      <mesh rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[18, 14]} />
-        <meshStandardMaterial color="#b9cbd5" roughness={0.35} metalness={0.12} />
-      </mesh>
-      {[-4.3, 4.3].map((x) => (
-        <group key={x} position={[x, 2, -2]}>
-          <mesh>
-            <boxGeometry args={[0.48, 7, 0.48]} />
-            <meshStandardMaterial color="#f3f8fa" roughness={0.28} metalness={0.18} />
-          </mesh>
-          <mesh position={[0, 0.5, 0.25]}>
-            <boxGeometry args={[1.2, 2.3, 0.07]} />
-            <meshStandardMaterial color="#cf8c55" emissive="#6a4024" emissiveIntensity={0.22} />
-          </mesh>
-        </group>
-      ))}
-      {[2.5, 4.4, 6.2].map((z, index) => (
-        <mesh key={z} position={[0, 3.9 - index * 0.25, -z]} rotation={[0.08, 0, 0]}>
-          <boxGeometry args={[9.5 - index * 0.7, 0.22, 0.48]} />
-          <meshStandardMaterial
-            color={index === 0 ? "#cf8c55" : "#f3f8fa"}
-            roughness={0.3}
-            metalness={0.2}
-          />
-        </mesh>
-      ))}
-      <mesh position={[0, 4.9, -3.3]}>
-        <sphereGeometry args={[0.22, 16, 16]} />
-        <meshStandardMaterial color="#f6e2b4" emissive="#cf8c55" emissiveIntensity={1.2} />
-      </mesh>
-      <pointLight position={[0, 4.7, -3]} color="#cf8c55" intensity={12} distance={9} />
-    </group>
-  );
-}
-
-function AboutScene() {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setReduced(media.matches);
-    update();
-    media.addEventListener("change", update);
-    return () => media.removeEventListener("change", update);
-  }, []);
-  return (
-    <Canvas
-      dpr={reduced ? 1 : [1, 1.5]}
-      camera={{ position: [0, 1.1, 9], fov: 48 }}
-      gl={{ antialias: !reduced, alpha: true, powerPreference: "high-performance" }}
-      fallback={<div className="absolute inset-0 bg-[var(--hero-overlay)]" />}
-    >
-      <ambientLight intensity={1.2} color="#f3f8fa" />
-      <directionalLight position={[3, 6, 4]} intensity={2.4} color="#f6e2b4" />
-      <ArchitecturalScene />
-    </Canvas>
-  );
-}
 
 export function AboutUs() {
   const [booking, setBooking] = useState(false);
@@ -287,7 +220,7 @@ export function AboutUs() {
             </div>
           </div>
           <div className="about-image-strip">
-            <img src={heroHotel} alt="Hotel PNS Nakshatra illuminated facade" loading="lazy" />
+            <img src={heroHotel.src} alt="Hotel PNS Nakshatra illuminated facade" loading="lazy" />
             <div>
               <span className="eyebrow">Vellore · Tamil Nadu</span>
               <p className="mt-2 font-display text-3xl text-cream">
@@ -302,7 +235,7 @@ export function AboutUs() {
             <p className="eyebrow">Great stay experience at PNS Nakshatra</p>
           </div>
           <div className="about-feature-grid">
-            <img src={roomPremier} alt="Vajra Premium Room at Hotel PNS Nakshatra" loading="lazy" />
+            <img src={roomPremier.src} alt="Vajra Premium Room at Hotel PNS Nakshatra" loading="lazy" />
             <div className="about-feature-copy">
               <p className="eyebrow text-gold">Vajra Premium Rooms</p>
               <h2 className="about-title">
@@ -342,8 +275,8 @@ export function AboutUs() {
                 furnished with modern amenities and exudes a sense of comfort and elegance.
               </p>
               <div className="about-room-images mt-8">
-                <img src={roomSuite} alt="Nakshatra Suite living space" loading="lazy" />
-                <img src={roomPremier} alt="Premium room details" loading="lazy" />
+                <img src={roomSuite.src} alt="Nakshatra Suite living space" loading="lazy" />
+                <img src={roomPremier.src} alt="Premium room details" loading="lazy" />
               </div>
               <button
                 onClick={openBooking}

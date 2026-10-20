@@ -1,6 +1,8 @@
+"use client";
+
 import { CheckCircle2, ShieldCheck } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 import { AuthButton } from "../components/AuthButton";
 import { AuthInput } from "../components/AuthInput";
@@ -78,7 +80,7 @@ export function AdminLogin() {
       subtitle="Secure access to the Hotel PNS Nakshatra administration panel."
       footer={
         <span>
-          Need access? <Link to="/admin/create-account" className="font-medium text-[#051838] underline-offset-4 hover:underline">Create an account</Link>
+          Need access? <Link href="/admin/create-account" className="font-medium text-[#051838] underline-offset-4 hover:underline">Create an account</Link>
         </span>
       }
     >
@@ -123,7 +125,7 @@ export function AdminLogin() {
               Remember me
             </label>
 
-            <Link to="/admin/forgot-password" className="font-medium text-[#051838] underline-offset-4 hover:underline">
+            <Link href="/admin/forgot-password" className="font-medium text-[#051838] underline-offset-4 hover:underline">
               Forgot password?
             </Link>
           </div>

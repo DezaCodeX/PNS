@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 type AuthLayoutProps = {
   children: ReactNode;
@@ -16,7 +16,7 @@ export function AuthLayout({ children, title, subtitle, footer, useTimesFont = f
       <div className="mx-auto flex min-h-[calc(100vh-4rem)] max-w-xl items-center justify-center">
         <div className="w-full">
           <div className="mb-6 text-center">
-            <Link to="/admin/login" className="inline-flex items-center justify-center gap-3 text-[#051838] no-underline">
+            <Link href="/admin/login" className="inline-flex items-center justify-center gap-3 text-[#051838] no-underline">
               <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#dfe9f0] bg-white text-lg font-semibold shadow-sm">
                 P
               </div>

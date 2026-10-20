@@ -207,7 +207,7 @@ export function RoomImageManagement() {
                     className="size-full object-cover"
                     onError={() => {
                       setFailedImages((current) => new Set(current).add(image.id));
-                      if (import.meta.env.DEV) {
+                      if (process.env.NODE_ENV === "development") {
                         console.error(
                           `Room image failed to load (${image.roomType}/${image.filename}): ${image.url}`,
                         );
