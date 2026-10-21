@@ -121,7 +121,17 @@ async function findUserById(db: DatabaseClient, id: string) {
 
 export async function authenticateAdmin(email: string, password: string, remember: boolean) {
   const normalizedEmail = email.trim().toLowerCase();
-  if (!/^\S+@\S+\.\S+$/.test(normalizedEmail) || !password) {
+  const atIndex = normalizedEmail.indexOf("@");
+  const dotIndex = normalizedEmail.lastIndexOf(".");
+  const validEmail =
+    atIndex > 0 &&
+    dotIndex > atIndex + 1 &&
+    dotIndex < normalizedEmail.length - 1 &&
+    ![...normalizedEmail].some(
+      (character) =>
+        character === " " || character === "\t" || character === "\n" || character === "\r",
+    );
+  if (!validEmail || !password) {
     throw new AdminAuthError("invalid_credentials", "Invalid email or password.", 401);
   }
   const db = getAdminDb();

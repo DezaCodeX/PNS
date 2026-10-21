@@ -20,6 +20,18 @@ type ImageManagementControlsProps = {
   categoryLabel: string;
 };
 
+function safeImageSource(value: string) {
+  if ((value.startsWith("/") && !value.startsWith("//")) || value.startsWith("blob:")) {
+    return value;
+  }
+  try {
+    const parsed = new URL(value);
+    return parsed.protocol === "http:" || parsed.protocol === "https:" ? parsed.toString() : "";
+  } catch {
+    return "";
+  }
+}
+
 export function ImageManagementControls({
   collection,
   category,
@@ -233,7 +245,7 @@ export function ImageManagementControls({
           <div className="sm:col-span-2">
             <p className="mb-2 text-xs uppercase tracking-[0.12em] text-[#46536b]">Preview</p>
             <img
-              src={preview}
+              src={safeImageSource(preview)}
               alt="Selected image preview"
               className="h-28 w-44 rounded-lg object-cover"
             />
@@ -275,7 +287,7 @@ export function ImageManagementControls({
             className="overflow-hidden rounded-xl border border-[var(--color-border-warm)] bg-white"
           >
             <img
-              src={image.url}
+              src={safeImageSource(image.url)}
               alt={`${categoryLabel} managed image`}
               className="aspect-[4/3] w-full object-cover"
             />

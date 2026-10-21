@@ -71,8 +71,7 @@ export function AdminLogin() {
 
     setSubmitTone("success");
     setSubmitMessage("Signed in successfully.");
-    const next = new URLSearchParams(window.location.search).get("next");
-    window.location.assign(next?.startsWith("/") && !next.startsWith("//") ? next : "/admin");
+    window.location.assign("/admin");
   };
 
   return (
