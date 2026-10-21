@@ -193,6 +193,7 @@ export async function deleteManagedImage(
   const manifest = await readManifest();
   const image = manifest.images.find(
     (candidate) =>
+      !candidate.deleted &&
       candidate.id === id &&
       candidate.category === category &&
       candidate.id.startsWith(`${collection}:`),
