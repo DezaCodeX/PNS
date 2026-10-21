@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 export type ManagedImageRecord = {
   id: string;
@@ -40,7 +40,7 @@ export function ImageManagementControls({
   const [images, setImages] = useState<ManagedImageRecord[]>([]);
   const [url, setUrl] = useState("");
   const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
+  const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -49,14 +49,28 @@ export function ImageManagementControls({
   const endpoint = `/api/admin/${collection}-images`;
 
   useEffect(() => {
-    if (!file) {
-      setPreview(url.trim() || null);
-      return;
-    }
-    const objectUrl = URL.createObjectURL(file);
-    setPreview(objectUrl);
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [file, url]);
+    const canvas = previewCanvasRef.current;
+    if (!canvas) return;
+    const context = canvas.getContext("2d");
+    if (!context) return;
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    if (!file) return;
+    let cancelled = false;
+    void createImageBitmap(file).then((bitmap) => {
+      if (cancelled) {
+        bitmap.close();
+        return;
+      }
+      const scale = Math.min(176 / bitmap.width, 112 / bitmap.height);
+      canvas.width = Math.max(1, Math.round(bitmap.width * scale));
+      canvas.height = Math.max(1, Math.round(bitmap.height * scale));
+      context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+      bitmap.close();
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [file]);
 
   const requestHeaders = useMemo(() => ({}), []);
 
@@ -88,7 +102,6 @@ export function ImageManagementControls({
   const resetForm = () => {
     setFile(null);
     setUrl("");
-    setPreview(null);
   };
 
   const addImage = async () => {
@@ -241,15 +254,17 @@ export function ImageManagementControls({
             Cancel
           </button>
         </div>
-        {preview ? (
+        {file ? (
           <div className="sm:col-span-2">
             <p className="mb-2 text-xs uppercase tracking-[0.12em] text-[#46536b]">Preview</p>
-            <img
-              src={safeImageSource(preview)}
-              alt="Selected image preview"
+            <canvas
+              ref={previewCanvasRef}
+              aria-label="Selected image preview"
               className="h-28 w-44 rounded-lg object-cover"
             />
           </div>
+        ) : url.trim() ? (
+          <p className="sm:col-span-2 text-xs text-[#46536b]">External image preview will be available after saving.</p>
         ) : null}
       </div>
 
