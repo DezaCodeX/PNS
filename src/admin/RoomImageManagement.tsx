@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ImageManagementControls } from "@/admin/ImageManagementControls";
 import { getRoomImageCounts, roomImageRepository } from "@/services/roomImageRepository";
 import { useRoomImageLibrary } from "@/hooks/useRoomImages";
 import {
@@ -129,6 +130,12 @@ export function RoomImageManagement() {
           </button>
         ))}
       </div>
+
+      <ImageManagementControls
+        collection="room"
+        category={roomType}
+        categoryLabel={ROOM_TYPE_LABELS[roomType]}
+      />
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap gap-2" role="group" aria-label="Filter room images">

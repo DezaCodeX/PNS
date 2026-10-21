@@ -71,6 +71,7 @@ export function AdminLogin() {
 
     setSubmitTone("success");
     setSubmitMessage("Signed in successfully.");
+    window.location.assign("/admin");
   };
 
   return (
@@ -78,11 +79,7 @@ export function AdminLogin() {
       useTimesFont
       title="Admin Portal"
       subtitle="Secure access to the Hotel PNS Nakshatra administration panel."
-      footer={
-        <span>
-          Need access? <Link href="/admin/create-account" className="font-medium text-[#051838] underline-offset-4 hover:underline">Create an account</Link>
-        </span>
-      }
+      footer={<span>Need access? Contact an existing Super Admin.</span>}
     >
       <div className="space-y-5">
         <div className="flex items-center gap-2 rounded-xl border border-[#dfe7ef] bg-[#f4f8fb] px-3 py-2 text-xs font-medium uppercase tracking-[0.14em] text-[#051838]">
@@ -90,9 +87,7 @@ export function AdminLogin() {
           Administrator access only
         </div>
 
-        {submitMessage && (
-          <AuthMessage tone={submitTone}>{submitMessage}</AuthMessage>
-        )}
+        {submitMessage && <AuthMessage tone={submitTone}>{submitMessage}</AuthMessage>}
 
         <form className="space-y-5" onSubmit={handleSubmit} noValidate>
           <AuthInput
@@ -125,7 +120,10 @@ export function AdminLogin() {
               Remember me
             </label>
 
-            <Link href="/admin/forgot-password" className="font-medium text-[#051838] underline-offset-4 hover:underline">
+            <Link
+              href="/admin/forgot-password"
+              className="font-medium text-[#051838] underline-offset-4 hover:underline"
+            >
               Forgot password?
             </Link>
           </div>

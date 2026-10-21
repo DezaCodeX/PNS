@@ -7,6 +7,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "bootstrap:superadmin": "node scripts/bootstrap-superadmin.mjs",
+    "test:image-management": "node --test tests/image-management-smoke.mjs",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write ."
@@ -41,6 +43,7 @@
     "@radix-ui/react-tooltip": "^1.2.8",
     "@react-three/drei": "^10",
     "@react-three/fiber": "^9",
+    "@supabase/supabase-js": "^2.118.0",
     "@vercel/analytics": "^2.0.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
