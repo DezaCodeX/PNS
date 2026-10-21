@@ -9,6 +9,9 @@ export type ManagedImageRecord = {
   path: string | null;
   sourceType: "bundled" | "upload" | "external";
   filename: string | null;
+  displayLocation?: string;
+  displayOrder?: number;
+  active?: boolean;
 };
 
 type ImageManagementControlsProps = {
@@ -17,14 +20,11 @@ type ImageManagementControlsProps = {
   categoryLabel: string;
 };
 
-const tokenStorageKey = "pns-admin-image-token";
-
 export function ImageManagementControls({
   collection,
   category,
   categoryLabel,
 }: ImageManagementControlsProps) {
-  const [token, setToken] = useState("");
   const [images, setImages] = useState<ManagedImageRecord[]>([]);
   const [url, setUrl] = useState("");
   const [file, setFile] = useState<File | null>(null);
@@ -37,10 +37,6 @@ export function ImageManagementControls({
   const endpoint = `/api/admin/${collection}-images`;
 
   useEffect(() => {
-    setToken(sessionStorage.getItem(tokenStorageKey) ?? "");
-  }, []);
-
-  useEffect(() => {
     if (!file) {
       setPreview(url.trim() || null);
       return;
@@ -50,10 +46,7 @@ export function ImageManagementControls({
     return () => URL.revokeObjectURL(objectUrl);
   }, [file, url]);
 
-  const requestHeaders = useMemo(
-    () => (token ? { Authorization: `Bearer ${token}` } : {}),
-    [token],
-  );
+  const requestHeaders = useMemo(() => ({}), []);
 
   const loadImages = useCallback(async () => {
     setLoading(true);
@@ -79,12 +72,6 @@ export function ImageManagementControls({
   useEffect(() => {
     void loadImages();
   }, [loadImages]);
-
-  const saveToken = (value: string) => {
-    setToken(value);
-    if (value) sessionStorage.setItem(tokenStorageKey, value);
-    else sessionStorage.removeItem(tokenStorageKey);
-  };
 
   const resetForm = () => {
     setFile(null);
@@ -146,6 +133,27 @@ export function ImageManagementControls({
     }
   };
 
+  const updatePlacement = async (image: ManagedImageRecord, displayLocation: string) => {
+    setSaving(true);
+    setError(null);
+    try {
+      const response = await fetch(`/api/admin/images/${encodeURIComponent(image.id)}`, {
+        method: "PATCH",
+        headers: { ...requestHeaders, "Content-Type": "application/json" },
+        body: JSON.stringify({ categoryType: collection, displayLocation }),
+      });
+      const body = (await response.json()) as { error?: { message?: string } };
+      if (!response.ok)
+        throw new Error(body.error?.message ?? "Image placement could not be saved.");
+      setFeedback("Display location saved.");
+      await loadImages();
+    } catch (reason: unknown) {
+      setError(reason instanceof Error ? reason.message : "Image placement could not be saved.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const canSave = Boolean(file || url.trim()) && !saving;
 
   return (
@@ -168,17 +176,9 @@ export function ImageManagementControls({
             {images.length} saved image{images.length === 1 ? "" : "s"}
           </p>
         </div>
-        <label className="grid gap-1 text-xs text-[#46536b]">
-          Admin API token
-          <input
-            type="password"
-            value={token}
-            onChange={(event) => saveToken(event.target.value)}
-            placeholder="Configured deployment token"
-            className="rounded-lg border border-[var(--color-border-warm)] bg-white px-3 py-2 text-sm text-[#051838]"
-            autoComplete="off"
-          />
-        </label>
+        <p className="max-w-xs text-right text-xs text-[#46536b]">
+          Protected by your admin session.
+        </p>
       </div>
 
       <div className="mt-5 grid gap-3 rounded-xl border border-[var(--color-border-warm)] bg-white/60 p-4 md:grid-cols-[1fr_auto]">
@@ -293,6 +293,21 @@ export function ImageManagementControls({
               <p className="break-all">
                 <strong>Storage path:</strong> {image.path ?? "External URL"}
               </p>
+              <label className="grid gap-1 text-xs">
+                Display location
+                <select
+                  value={image.displayLocation ?? "gallery"}
+                  disabled={saving || image.sourceType === "bundled"}
+                  onChange={(event) => void updatePlacement(image, event.target.value)}
+                  className="rounded-lg border border-[var(--color-border-warm)] bg-white px-2 py-2 text-[#051838]"
+                >
+                  <option value="homepage">Homepage</option>
+                  <option value="room_listing">Room listing</option>
+                  <option value="room_detail">Room detail</option>
+                  <option value="dining_section">Dining section</option>
+                  <option value="gallery">Gallery</option>
+                </select>
+              </label>
               <button
                 type="button"
                 onClick={() => void deleteImage(image)}

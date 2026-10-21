@@ -3,6 +3,13 @@ import { mkdir, readFile, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { diningImageAssets, roomImageAssets } from "@/lib/asset-manifest";
 import { DINING_TYPES, ROOM_TYPES, type DiningType, type RoomType } from "@/types/roomImages";
+import {
+  disableBundledImage,
+  disableDatabaseImage,
+  listDatabaseImages,
+  saveDatabaseImage,
+  usesDatabaseImageStore,
+} from "@/lib/image-database";
 
 export type ImageCollection = "room" | "dining";
 export type ImageSourceType = "bundled" | "upload" | "external";
@@ -14,6 +21,9 @@ export type ManagedImage = {
   path: string | null;
   sourceType: ImageSourceType;
   filename: string | null;
+  displayLocation?: string;
+  displayOrder?: number;
+  active?: boolean;
 };
 
 type StoredImage = ManagedImage & { deleted?: boolean };
@@ -50,7 +60,7 @@ function categoryFromAsset(collection: ImageCollection, assetPath: string) {
   return match?.[1] ?? null;
 }
 
-function staticImages(collection: ImageCollection): ManagedImage[] {
+export function staticImages(collection: ImageCollection): ManagedImage[] {
   return Object.entries(assetsFor(collection)).flatMap(([assetPath, url]) => {
     const category = categoryFromAsset(collection, assetPath);
     if (!category || !categorySets[collection].includes(category)) return [];
@@ -63,6 +73,9 @@ function staticImages(collection: ImageCollection): ManagedImage[] {
         path: assetPath.replace(/^\//, ""),
         sourceType: "bundled" as const,
         filename,
+        displayLocation: "gallery",
+        displayOrder: 0,
+        active: true,
       },
     ];
   });
@@ -97,20 +110,39 @@ function visibleImages(collection: ImageCollection, category: string, manifest: 
   return [...bundled, ...managed];
 }
 
-export async function listManagedImages(collection: ImageCollection, category: string) {
+export async function listManagedImages(
+  collection: ImageCollection,
+  category: string,
+  displayLocation?: string,
+) {
   assertCategory(collection, category);
+  if (usesDatabaseImageStore()) {
+    const databaseImages = await listDatabaseImages(collection, category, displayLocation);
+    const deletedBundledIds = new Set(
+      databaseImages
+        .filter((image) => image.sourceType === "bundled" && !image.active)
+        .map((image) => image.id),
+    );
+    const bundled = staticImages(collection).filter((image) => !deletedBundledIds.has(image.id));
+    return [...bundled, ...databaseImages.filter((image) => image.active)];
+  }
   const manifest = await readManifest();
   return visibleImages(collection, category, manifest);
 }
 
-export async function listPublicImages(collection: ImageCollection, category: string) {
-  return listManagedImages(collection, category);
+export async function listPublicImages(
+  collection: ImageCollection,
+  category: string,
+  displayLocation?: string,
+) {
+  return listManagedImages(collection, category, displayLocation);
 }
 
 export async function addExternalImage(
   collection: ImageCollection,
   category: string,
   imageUrl: string,
+  createdBy: string | null = null,
 ) {
   assertCategory(collection, category);
   let parsed: URL;
@@ -126,6 +158,16 @@ export async function addExternalImage(
       400,
     );
   }
+  if (usesDatabaseImageStore()) {
+    return saveDatabaseImage({
+      collection,
+      category,
+      url: parsed.toString(),
+      path: null,
+      sourceType: "external",
+      createdBy,
+    });
+  }
   const image: StoredImage = {
     id: `${collection}:external:${randomUUID()}`,
     category,
@@ -140,7 +182,12 @@ export async function addExternalImage(
   return image;
 }
 
-export async function addUploadedImage(collection: ImageCollection, category: string, file: File) {
+export async function addUploadedImage(
+  collection: ImageCollection,
+  category: string,
+  file: File,
+  createdBy: string | null = null,
+) {
   assertCategory(collection, category);
   if (!allowedTypes.has(file.type)) {
     throw new ImageManagementError(
@@ -173,6 +220,14 @@ export async function addUploadedImage(collection: ImageCollection, category: st
     sourceType: "upload",
     filename,
   };
+  if (usesDatabaseImageStore()) {
+    try {
+      return await saveDatabaseImage({ ...image, collection, category, createdBy });
+    } catch (error) {
+      await unlink(destination).catch(() => undefined);
+      throw error;
+    }
+  }
   const manifest = await readManifest();
   manifest.images.push(image);
   try {
@@ -188,8 +243,36 @@ export async function deleteManagedImage(
   collection: ImageCollection,
   category: string,
   id: string,
+  createdBy?: string,
 ) {
   assertCategory(collection, category);
+  if (usesDatabaseImageStore()) {
+    const disabled = await disableDatabaseImage(collection, category, id);
+    if (disabled) {
+      if (disabled.source_type === "upload" && disabled.storage_path) {
+        const destination = path.resolve(
+          defaultStorageRoot,
+          disabled.storage_path.replace(/^uploads\//, ""),
+        );
+        if (!destination.startsWith(`${defaultStorageRoot}${path.sep}`))
+          throw new ImageManagementError(
+            "invalid_storage_path",
+            "The image storage path is invalid.",
+            500,
+          );
+        await unlink(destination).catch(() => undefined);
+      }
+      return;
+    }
+    const bundled = staticImages(collection).find(
+      (image) => image.id === id && image.category === category,
+    );
+    if (bundled) {
+      await disableBundledImage(collection, category, bundled, createdBy);
+      return;
+    }
+    throw new ImageManagementError("not_found", "The image was not found in this category.", 404);
+  }
   const manifest = await readManifest();
   const image = manifest.images.find(
     (candidate) =>
@@ -223,20 +306,6 @@ export async function deleteManagedImage(
     return;
   }
   throw new ImageManagementError("not_found", "The image was not found in this category.", 404);
-}
-
-export function assertAdminRequest(request: Request) {
-  const expected = process.env["ADMIN_IMAGE_API_TOKEN"];
-  const supplied =
-    request.headers.get("authorization")?.replace(/^Bearer\s+/i, "") ??
-    request.headers.get("x-admin-image-token");
-  if (!expected || !supplied || supplied !== expected) {
-    throw new ImageManagementError(
-      "unauthorized",
-      "Admin image management is not configured or authorized.",
-      401,
-    );
-  }
 }
 
 export class ImageManagementError extends Error {

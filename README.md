@@ -39,14 +39,13 @@ deployment support.
 | `/privacy-policy`             | Privacy policy                        |
 | `/terms-and-conditions`       | Terms                                 |
 | `/refund-cancellation-policy` | Refund and cancellation policy        |
-| `/admin`                      | Admin dashboard prototype             |
-| `/admin/login`                | Admin login prototype                 |
-| `/admin/create-account`       | Admin account prototype               |
-| `/admin/forgot-password`      | Password reset prototype              |
+| `/admin`                      | Authenticated admin dashboard         |
+| `/admin/login`                | Admin login                           |
+| `/admin/forgot-password`      | Password reset information            |
 
-The admin pages are not protected by real authentication or authorization. Their current form
-handlers are prototypes, and image settings are stored in the current browser only. Do not treat
-the admin interface as a production administration system.
+The admin dashboard requires a server-managed session. Public website routes remain accessible
+without authentication. User, group, permission, session, audit, and managed-image records are
+stored in Supabase PostgreSQL after applying `supabase/migrations/20261021_admin_rbac.sql`.
 
 ## Room and dining image libraries
 
@@ -78,18 +77,21 @@ Vercel should use its Next.js framework detection and the normal `npm run build`
 custom `vercel.json` security headers remain in place; the old Vite SPA rewrite has been removed.
 Keep environment values in the deployment platform rather than committing private `.env` files.
 
-The admin image controls use the Next.js server runtime. Room image routes are
+The admin image controls use the Next.js server runtime and RBAC. Room image routes are
 `/api/admin/room-images` and `/api/admin/room-images/:imageId`; dining image routes are
 `/api/admin/dining-images` and `/api/admin/dining-images/:imageId`. Both collections support
 authenticated `GET`, multipart `POST` uploads, JSON URL `POST` requests, and `DELETE`. Public
 website consumers read `/api/images/room?type=...` and `/api/images/dining?type=...`, while bundled
-assets remain the fallback if the public read is unavailable.
+assets remain the fallback. Managed records also support `PATCH /api/admin/images/:imageId` for
+display location, order, and active-state metadata.
 
-Set `ADMIN_IMAGE_API_TOKEN` in the deployment environment before using the admin controls. The
-existing login screens are still prototypes and do not establish a server session, so the current
-admin UI asks for this deployment token and keeps it only in session storage. Do not expose this
-token in source control. Upload metadata is stored in `data/uploads/image-manifest.json` and files
-in `public/uploads/<room-or-dining>/<category>/` by default. Set `PNS_IMAGE_MANIFEST` and
-`PNS_IMAGE_STORAGE_DIR` to a persistent mounted volume or object-storage adapter in deployments
-where the local filesystem is ephemeral, such as serverless hosting. External URLs are stored as
-references and are never downloaded or deleted remotely.
+Set `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, and `PNS_IMAGE_BACKEND=supabase` in production. Run
+`INITIAL_SUPERADMIN_EMAIL` and `INITIAL_SUPERADMIN_PASSWORD` through the server-only
+`npm run bootstrap:superadmin` command after applying the migration. The bootstrap is idempotent
+and never overwrites an existing account. Never commit `.env`; use `.env.example` as the variable
+template and rotate any credential that has been exposed.
+
+For local image smoke tests, set `PNS_IMAGE_BACKEND=file`, `PNS_IMAGE_MANIFEST`, and
+`PNS_IMAGE_STORAGE_DIR` to temporary paths. Production uploads require a persistent mounted
+volume or an object-storage implementation; external URLs are stored as references and are never
+downloaded or deleted remotely.

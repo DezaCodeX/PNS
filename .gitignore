@@ -32,3 +32,4 @@ out
 *.sln
 *.sw?
 .env
+public/uploads/

@@ -10,6 +10,7 @@ import {
   Gauge,
   Home,
   Image as ImageIcon,
+  LogOut,
   MapPinned,
   MessageSquareText,
   Settings,
@@ -33,8 +34,11 @@ import {
   YAxis,
 } from "recharts";
 import { useState } from "react";
+import { AdminAccessManagement } from "@/admin/AdminAccessManagement";
 import { DiningImageManagement } from "@/admin/DiningImageManagement";
 import { RoomImageManagement } from "@/admin/RoomImageManagement";
+import { authService } from "@/admin/auth/services/authService";
+import type { AdminUser } from "@/lib/admin-auth";
 
 const navSections = [
   ["Dashboard", Home],
@@ -44,6 +48,7 @@ const navSections = [
   ["Gallery / Media", Camera],
   ["Room Image Management", ImageIcon],
   ["Dining Image Management", Utensils],
+  ["Users and Groups", Users],
   ["Guest Reviews", Star],
   ["Website Content", FileTextIcon],
   ["Settings", Settings],
@@ -139,8 +144,15 @@ function FileTextIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-export function AdminPanel() {
+export function AdminPanel({
+  currentUser,
+  permissions,
+}: {
+  currentUser: AdminUser;
+  permissions: string[];
+}) {
   const [activeSection, setActiveSection] = useState("Dashboard");
+  const [loggingOut, setLoggingOut] = useState(false);
 
   return (
     <div className="admin-times-font min-h-screen bg-[var(--color-surface-cool)] text-[var(--color-text-primary)]">
@@ -159,33 +171,44 @@ export function AdminPanel() {
           </div>
 
           <nav className="flex gap-1 overflow-x-auto px-3 py-3 md:block md:space-y-1 md:overflow-visible md:px-4 md:py-6">
-            {navSections.map(([label, Icon]) => (
-              <button
-                key={label}
-                type="button"
-                onClick={() => {
-                  if (
-                    label === "Dashboard" ||
-                    label === "Room Image Management" ||
-                    label === "Dining Image Management"
-                  ) {
-                    setActiveSection(label);
-                  }
-                }}
-                aria-current={activeSection === label ? "page" : undefined}
-                className={`flex w-auto shrink-0 items-center justify-between whitespace-nowrap rounded-xl px-3 py-3 text-left text-sm uppercase tracking-[0.12em] transition-colors md:w-full ${
-                  activeSection === label
-                    ? "bg-white/8 text-[var(--color-ivory)]"
-                    : "text-[var(--color-ivory)]/75 hover:bg-white/5 hover:text-[var(--color-ivory)]"
-                }`}
-              >
-                <span className="flex items-center gap-3">
-                  <Icon className="h-4 w-4" />
-                  {label}
-                </span>
-                <ArrowUpRight className="h-3.5 w-3.5 opacity-70" />
-              </button>
-            ))}
+            {navSections
+              .filter(([label]) =>
+                label === "Room Image Management"
+                  ? permissions.includes("room_images.read")
+                  : label === "Dining Image Management"
+                    ? permissions.includes("dining_images.read")
+                    : label === "Users and Groups"
+                      ? permissions.includes("users.read") || permissions.includes("groups.read")
+                      : true,
+              )
+              .map(([label, Icon]) => (
+                <button
+                  key={label}
+                  type="button"
+                  onClick={() => {
+                    if (
+                      label === "Dashboard" ||
+                      label === "Room Image Management" ||
+                      label === "Dining Image Management" ||
+                      (label === "Users and Groups" && permissions.includes("users.read"))
+                    ) {
+                      setActiveSection(label);
+                    }
+                  }}
+                  aria-current={activeSection === label ? "page" : undefined}
+                  className={`flex w-auto shrink-0 items-center justify-between whitespace-nowrap rounded-xl px-3 py-3 text-left text-sm uppercase tracking-[0.12em] transition-colors md:w-full ${
+                    activeSection === label
+                      ? "bg-white/8 text-[var(--color-ivory)]"
+                      : "text-[var(--color-ivory)]/75 hover:bg-white/5 hover:text-[var(--color-ivory)]"
+                  }`}
+                >
+                  <span className="flex items-center gap-3">
+                    <Icon className="h-4 w-4" />
+                    {label}
+                  </span>
+                  <ArrowUpRight className="h-3.5 w-3.5 opacity-70" />
+                </button>
+              ))}
           </nav>
         </aside>
 
@@ -198,16 +221,38 @@ export function AdminPanel() {
               <h1 className="mt-2 text-4xl leading-none text-[var(--color-text-primary)]">
                 {activeSection}
               </h1>
+              <p className="mt-2 text-sm text-[var(--color-text-primary)]/65">
+                Signed in as {currentUser.displayName} · {currentUser.roleName}
+              </p>
             </div>
-            {activeSection === "Dashboard" ? (
-              <button className="luxury-button luxury-button-hover px-5 py-3 text-xs uppercase tracking-[0.14em]">
-                New booking
+            <div className="flex items-center gap-3">
+              {activeSection === "Dashboard" ? (
+                <button className="luxury-button luxury-button-hover px-5 py-3 text-xs uppercase tracking-[0.14em]">
+                  New booking
+                </button>
+              ) : null}
+              <button
+                type="button"
+                disabled={loggingOut}
+                onClick={async () => {
+                  setLoggingOut(true);
+                  const result = await authService.logout();
+                  if (result.success) window.location.assign("/admin/login");
+                  else setLoggingOut(false);
+                }}
+                className="inline-flex items-center gap-2 rounded-lg border border-[var(--color-border-warm)] px-4 py-2 text-xs uppercase tracking-[0.1em] text-[#051838] disabled:opacity-50"
+              >
+                <LogOut className="h-4 w-4" />
+                {loggingOut ? "Signing out..." : "Sign out"}
               </button>
-            ) : null}
+            </div>
           </header>
 
           {activeSection === "Room Image Management" ? <RoomImageManagement /> : null}
           {activeSection === "Dining Image Management" ? <DiningImageManagement /> : null}
+          {activeSection === "Users and Groups" ? (
+            <AdminAccessManagement permissions={permissions} />
+          ) : null}
           {activeSection === "Dashboard" ? (
             <div>
               <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">

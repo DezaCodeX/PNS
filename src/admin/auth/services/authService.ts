@@ -3,6 +3,7 @@ import type { CreateAccountFormData, LoginFormData } from "../types";
 export type AuthApiResult = {
   success: boolean;
   message?: string;
+  user?: { id: string; email: string; displayName: string; roleName: string };
 };
 
 export const passwordRules = [
@@ -25,30 +26,36 @@ export function validatePasswordRequirements(password: string) {
 
 export const authService = {
   async login(payload: LoginFormData): Promise<AuthApiResult> {
-    await new Promise((resolve) => window.setTimeout(resolve, 550));
+    const response = await fetch("/api/admin/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const body = (await response.json()) as {
+      success?: boolean;
+      user?: AuthApiResult["user"];
+      error?: { message?: string };
+    };
+    if (!response.ok)
+      return { success: false, message: body.error?.message ?? "Invalid email or password." };
+    return body.user
+      ? { success: true, user: body.user, message: "Signed in successfully." }
+      : { success: true, message: "Signed in successfully." };
+  },
 
-    const validEmail = isValidEmail(payload.email);
-    const validPassword = payload.password.length >= 8;
-
-    if (!validEmail || !validPassword) {
-      return { success: false, message: "Invalid email or password." };
-    }
-
-    return { success: true, message: "Signed in successfully." };
+  async logout(): Promise<AuthApiResult> {
+    const response = await fetch("/api/admin/auth/logout", { method: "POST" });
+    return response.ok
+      ? { success: true }
+      : { success: false, message: "Sign-out is temporarily unavailable." };
   },
 
   async createAccount(payload: CreateAccountFormData): Promise<AuthApiResult> {
-    await new Promise((resolve) => window.setTimeout(resolve, 650));
-
-    if (!payload.fullName.trim() || !isValidEmail(payload.email) || payload.password.length < 8) {
-      return { success: false, message: "Please review the account details and try again." };
-    }
-
-    if (payload.password !== payload.confirmPassword) {
-      return { success: false, message: "Passwords do not match." };
-    }
-
-    return { success: true, message: "Account created successfully." };
+    void payload;
+    return {
+      success: false,
+      message: "Only an authenticated administrator can create accounts.",
+    };
   },
 
   async requestPasswordReset(email: string): Promise<AuthApiResult> {
