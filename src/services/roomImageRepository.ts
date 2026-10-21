@@ -233,6 +233,60 @@ function createLoadResult(): RoomImageLoadResult {
   return { images, warnings };
 }
 
+async function mergeServerRoomImages(result: RoomImageLoadResult) {
+  if (typeof window === "undefined") return result;
+  try {
+    const responses = await Promise.all(
+      ROOM_TYPES.map((roomType) =>
+        fetch(`/api/images/room?type=${roomType}`, { cache: "no-store" }),
+      ),
+    );
+    const payloads = await Promise.all(
+      responses.map((response) =>
+        response.ok
+          ? (response.json() as Promise<{
+              images?: Array<{
+                id: string;
+                category: string;
+                url: string;
+                path: string | null;
+                sourceType: "bundled" | "upload" | "external";
+                filename: string | null;
+              }>;
+            }>)
+          : null,
+      ),
+    );
+    const serverIds = new Set(
+      payloads.flatMap((payload) => payload?.images?.map((image) => image.id) ?? []),
+    );
+    const bundledIds = new Set(createDiscoveredImages().map((image) => image.id));
+    result.images = result.images.filter(
+      (image) => !bundledIds.has(image.id) || serverIds.has(image.id),
+    );
+    for (const image of payloads.flatMap((payload) => payload?.images ?? [])) {
+      if (result.images.some((current) => current.id === image.id)) continue;
+      result.images.push({
+        id: image.id,
+        roomType: image.category as RoomType,
+        filename: image.filename ?? image.id,
+        storageKey: image.path ?? image.url,
+        url: image.url,
+        altText: `${ROOM_TYPE_LABELS[image.category as RoomType]} room at Hotel PNS Nakshatra`,
+        displayOrder: 0,
+        active: true,
+        selections: { ...DEFAULT_SELECTIONS },
+      });
+    }
+    result.images.sort((left, right) => left.storageKey.localeCompare(right.storageKey));
+  } catch {
+    result.warnings.push(
+      "Managed room images could not be refreshed; bundled images are being used.",
+    );
+  }
+  return result;
+}
+
 function serializeSettings(images: RoomImage[]): PersistedSettings {
   return {
     version: SCHEMA_VERSION,
@@ -261,7 +315,7 @@ export class LocalRoomImageRepository implements RoomImageRepository {
   }
 
   async listImages(): Promise<RoomImageLoadResult> {
-    return createLoadResult();
+    return mergeServerRoomImages(createLoadResult());
   }
 
   async updateSelection(
@@ -539,6 +593,61 @@ function createDiningLoadResult(): DiningImageLoadResult {
   return { images, warnings: saved.warnings, displayCounts: counts };
 }
 
+async function mergeServerDiningImages(result: DiningImageLoadResult) {
+  if (typeof window === "undefined") return result;
+  try {
+    const responses = await Promise.all(
+      DINING_TYPES.map((diningType) =>
+        fetch(`/api/images/dining?type=${diningType}`, { cache: "no-store" }),
+      ),
+    );
+    const payloads = await Promise.all(
+      responses.map((response) =>
+        response.ok
+          ? (response.json() as Promise<{
+              images?: Array<{
+                id: string;
+                category: string;
+                url: string;
+                path: string | null;
+                sourceType: "bundled" | "upload" | "external";
+                filename: string | null;
+              }>;
+            }>)
+          : null,
+      ),
+    );
+    const serverIds = new Set(
+      payloads.flatMap((payload) => payload?.images?.map((image) => image.id) ?? []),
+    );
+    const bundledIds = new Set(createDiscoveredDiningImages().map((image) => image.id));
+    result.images = result.images.filter(
+      (image) => !bundledIds.has(image.id) || serverIds.has(image.id),
+    );
+    for (const image of payloads.flatMap((payload) => payload?.images ?? [])) {
+      if (result.images.some((current) => current.id === image.id)) continue;
+      const diningType = image.category as DiningType;
+      result.images.push({
+        id: image.id,
+        diningType,
+        filename: image.filename ?? image.id,
+        storageKey: image.path ?? image.url,
+        url: image.url,
+        altText: `${DINING_TYPE_LABELS[diningType]} at Hotel PNS Nakshatra`,
+        displayOrder: 0,
+        active: true,
+        selections: { ...DEFAULT_DINING_SELECTIONS },
+      });
+    }
+    result.images.sort((left, right) => left.storageKey.localeCompare(right.storageKey));
+  } catch {
+    result.warnings.push(
+      "Managed dining images could not be refreshed; bundled images are being used.",
+    );
+  }
+  return result;
+}
+
 function serializeDiningSettings(result: DiningImageLoadResult): PersistedDiningSettings {
   return {
     version: 1,
@@ -568,7 +677,7 @@ export class LocalDiningImageRepository implements DiningImageRepository {
   }
 
   async listImages() {
-    return createDiningLoadResult();
+    return mergeServerDiningImages(createDiningLoadResult());
   }
 
   async updateSelection(imageId: string, destination: DiningImageDestination, selected: boolean) {

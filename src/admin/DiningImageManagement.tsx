@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ImageManagementControls } from "@/admin/ImageManagementControls";
 import { diningImageRepository, getDiningImageCounts } from "@/services/roomImageRepository";
 import { useDiningImageLibrary } from "@/hooks/useDiningImages";
 import {
@@ -183,6 +184,12 @@ export function DiningImageManagement() {
           </button>
         ))}
       </div>
+
+      <ImageManagementControls
+        collection="dining"
+        category={diningType}
+        categoryLabel={DINING_TYPE_LABELS[diningType]}
+      />
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap gap-2" role="group" aria-label="Filter dining images">

@@ -78,5 +78,18 @@ Vercel should use its Next.js framework detection and the normal `npm run build`
 custom `vercel.json` security headers remain in place; the old Vite SPA rewrite has been removed.
 Keep environment values in the deployment platform rather than committing private `.env` files.
 
-There is no separate backend or HTTP API client in this repository. Authentication, database,
-and upload integrations have not been added or changed by this frontend migration.
+The admin image controls use the Next.js server runtime. Room image routes are
+`/api/admin/room-images` and `/api/admin/room-images/:imageId`; dining image routes are
+`/api/admin/dining-images` and `/api/admin/dining-images/:imageId`. Both collections support
+authenticated `GET`, multipart `POST` uploads, JSON URL `POST` requests, and `DELETE`. Public
+website consumers read `/api/images/room?type=...` and `/api/images/dining?type=...`, while bundled
+assets remain the fallback if the public read is unavailable.
+
+Set `ADMIN_IMAGE_API_TOKEN` in the deployment environment before using the admin controls. The
+existing login screens are still prototypes and do not establish a server session, so the current
+admin UI asks for this deployment token and keeps it only in session storage. Do not expose this
+token in source control. Upload metadata is stored in `data/uploads/image-manifest.json` and files
+in `public/uploads/<room-or-dining>/<category>/` by default. Set `PNS_IMAGE_MANIFEST` and
+`PNS_IMAGE_STORAGE_DIR` to a persistent mounted volume or object-storage adapter in deployments
+where the local filesystem is ephemeral, such as serverless hosting. External URLs are stored as
+references and are never downloaded or deleted remotely.
