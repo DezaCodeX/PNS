@@ -1,7 +1,7 @@
 "use client";
 
 import { CheckCircle2, ShieldCheck } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import { AuthButton } from "../components/AuthButton";

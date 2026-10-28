@@ -251,7 +251,7 @@ export function AdminPanel({
           {activeSection === "Room Image Management" ? <RoomImageManagement /> : null}
           {activeSection === "Dining Image Management" ? <DiningImageManagement /> : null}
           {activeSection === "Users and Groups" ? (
-            <AdminAccessManagement permissions={permissions} />
+            <AdminAccessManagement permissions={permissions} currentUserRole={currentUser.roleName} />
           ) : null}
           {activeSection === "Dashboard" ? (
             <div>

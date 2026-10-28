@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 import { createHash, randomBytes, scrypt as nodeScrypt, timingSafeEqual } from "node:crypto";
@@ -6,7 +7,7 @@ import path from "node:path";
 
 type ScryptOptions = { N: number; r: number; p: number };
 
-function deriveScrypt(password: string, salt: Buffer, keyLength: number, options: ScryptOptions) {
+function deriveLegacyScrypt(password: string, salt: Buffer, keyLength: number, options: ScryptOptions) {
   return new Promise<Buffer>((resolve, reject) => {
     nodeScrypt(password, salt, keyLength, options, (error, derived) => {
       if (error) reject(error);
@@ -14,12 +15,13 @@ function deriveScrypt(password: string, salt: Buffer, keyLength: number, options
     });
   });
 }
+
 const sessionCookieName = "pns_admin_session";
 const sessionDurationSeconds = 60 * 60 * 8;
 const rememberedSessionDurationSeconds = 60 * 60 * 24 * 30;
-const localAdminDefaults = {
-  email: "dezacodex@gmail.com",
-  password: "Mohan2212@",
+const localAdminSeed = {
+  email: (process.env["INITIAL_SUPERADMIN_EMAIL"] ?? "").trim().toLowerCase(),
+  password: process.env["INITIAL_SUPERADMIN_PASSWORD"] ?? "",
 };
 
 type LocalAdminUserRecord = {
@@ -184,10 +186,11 @@ async function writeLocalAdminStore(store: LocalAdminStore) {
 
 async function ensureLocalAdminSeeded() {
   const store = await readLocalAdminStore();
-  const normalizedEmail = localAdminDefaults.email.trim().toLowerCase();
+  if (!localAdminSeed.email || !localAdminSeed.password) return store;
+  const normalizedEmail = localAdminSeed.email.trim().toLowerCase();
   const existing = store.users.find((user) => user.email === normalizedEmail);
   if (existing) return store;
-  const passwordHash = await hashPassword(localAdminDefaults.password);
+  const passwordHash = await hashPassword(localAdminSeed.password);
   const now = new Date().toISOString();
   store.users.push({
     id: crypto.randomUUID(),
@@ -330,6 +333,96 @@ async function findUserById(db: DatabaseClient, id: string) {
   return data as (Record<string, unknown> & { password_hash: string }) | null;
 }
 
+async function findSuperAdminByEmail(db: DatabaseClient, email: string) {
+  const { data, error } = await db
+    .from("super_admins")
+    .select("id,email,password_hash,is_active,created_at,updated_at,last_login_at")
+    .eq("email", email)
+    .maybeSingle();
+  if (error) throw error;
+  return data as
+    | (Record<string, unknown> & {
+        id: string;
+        email: string;
+        password_hash: string;
+        is_active: boolean;
+      })
+    | null;
+}
+
+async function ensureSuperAdminUserRecord(
+  db: DatabaseClient,
+  superAdmin: { id: string; email: string; password_hash: string; is_active: boolean },
+) {
+  const { data: role, error: roleError } = await db
+    .from("admin_roles")
+    .select("id")
+    .eq("name", "Super Admin")
+    .maybeSingle();
+  if (roleError) throw roleError;
+  if (!role) throw new Error("The Super Admin role is missing.");
+
+  const { data: existingUser, error: existingUserError } = await db
+    .from("admin_users")
+    .select("id,email,display_name,password_hash,status,role_id")
+    .eq("email", superAdmin.email)
+    .maybeSingle();
+  if (existingUserError) throw existingUserError;
+
+  const displayName = existingUser?.display_name ?? superAdmin.email.split("@")[0];
+  if (!existingUser) {
+    const { data: insertedUser, error: insertError } = await db
+      .from("admin_users")
+      .insert({
+        email: superAdmin.email,
+        display_name: displayName,
+        password_hash: superAdmin.password_hash,
+        status: "active",
+        role_id: role.id,
+      })
+      .select(
+        "id,email,display_name,password_hash,status,created_at,updated_at,last_login_at,role:admin_roles(name)",
+      )
+      .single();
+    if (insertError) throw insertError;
+
+    const { data: superGroup, error: groupError } = await db
+      .from("admin_groups")
+      .select("id")
+      .eq("name", "Super Admins")
+      .maybeSingle();
+    if (groupError) throw groupError;
+    if (superGroup) {
+      const { error: membershipError } = await db
+        .from("admin_user_groups")
+        .insert({ user_id: insertedUser.id, group_id: superGroup.id });
+      if (membershipError && membershipError.code !== "23505") throw membershipError;
+    }
+    return insertedUser;
+  }
+
+  const { error: updateError } = await db
+    .from("admin_users")
+    .update({
+      display_name: displayName,
+      password_hash: superAdmin.password_hash,
+      status: "active",
+      role_id: role.id,
+    })
+    .eq("id", existingUser.id);
+  if (updateError) throw updateError;
+
+  const { data: refreshedUser, error: refreshedUserError } = await db
+    .from("admin_users")
+    .select(
+      "id,email,display_name,password_hash,status,created_at,updated_at,last_login_at,role:admin_roles(name)",
+    )
+    .eq("id", existingUser.id)
+    .single();
+  if (refreshedUserError) throw refreshedUserError;
+  return refreshedUser;
+}
+
 export async function authenticateAdmin(email: string, password: string, remember: boolean) {
   const normalizedEmail = email.trim().toLowerCase();
   const atIndex = normalizedEmail.indexOf("@");
@@ -377,23 +470,29 @@ export async function authenticateAdmin(email: string, password: string, remembe
     return { token, user };
   }
   const db = getAdminDb();
-  const rawUser = await findUserByEmail(db, normalizedEmail);
+  const superAdmin = await findSuperAdminByEmail(db, normalizedEmail);
   if (
-    !rawUser ||
-    rawUser["status"] !== "active" ||
-    !(await verifyPassword(password, rawUser["password_hash"]))
+    !superAdmin ||
+    !superAdmin.is_active ||
+    !(await verifyPassword(password, superAdmin.password_hash))
   ) {
     await writeAuditEvent(
       null,
       "auth.login",
       "user",
-      rawUser ? String(rawUser["id"]) : null,
+      superAdmin ? String(superAdmin.id) : null,
       "denied",
     );
     throw new AdminAuthError("invalid_credentials", "Invalid email or password.", 401);
   }
-  const user = rowToUser(rawUser);
+
+  const adminUser = await ensureSuperAdminUserRecord(db, superAdmin);
+  const user = rowToUser(adminUser);
   const token = await createAdminSession(user.id, remember);
+  await db
+    .from("super_admins")
+    .update({ last_login_at: new Date().toISOString() })
+    .eq("id", superAdmin.id);
   await db
     .from("admin_users")
     .update({ last_login_at: new Date().toISOString() })
@@ -405,18 +504,28 @@ export async function authenticateAdmin(email: string, password: string, remembe
 export async function hashPassword(password: string) {
   if (password.length < 8)
     throw new AdminAuthError("validation", "Password must be at least 8 characters.", 400);
-  const salt = randomBytes(16);
-  const derived = await deriveScrypt(password, salt, 64, { N: 16384, r: 8, p: 1 });
-  return `scrypt$16384$8$1$${salt.toString("base64url")}$${derived.toString("base64url")}`;
+  return bcrypt.hash(password, 12);
 }
 
 export async function verifyPassword(password: string, storedHash: string) {
-  const [, n, r, p, saltValue, hashValue] = storedHash.split("$");
-  if (!n || !r || !p || !saltValue || !hashValue) return false;
+  if (!storedHash) return false;
+
+  if (storedHash.startsWith("$2") || storedHash.startsWith("$2a$") || storedHash.startsWith("$2b$") || storedHash.startsWith("$2y$")) {
+    try {
+      return await bcrypt.compare(password, storedHash);
+    } catch {
+      return false;
+    }
+  }
+
+  if (!storedHash.startsWith("scrypt$")) return false;
+
   try {
+    const [, n, r, p, saltValue, hashValue] = storedHash.split("$");
+    if (!n || !r || !p || !saltValue || !hashValue) return false;
     const salt = Buffer.from(saltValue, "base64url");
     const expected = Buffer.from(hashValue, "base64url");
-    const actual = await deriveScrypt(password, salt, expected.length, {
+    const actual = await deriveLegacyScrypt(password, salt, expected.length, {
       N: Number(n),
       r: Number(r),
       p: Number(p),

@@ -35,14 +35,15 @@ type Group = {
   permissions?: Array<{ effect: "allow" | "deny"; permission?: { permission_key?: string } }>;
 };
 
-type Props = { permissions: string[] };
+type Props = { permissions: string[]; currentUserRole?: string };
 
-export function AdminAccessManagement({ permissions }: Props) {
+export function AdminAccessManagement({ permissions, currentUserRole }: Props) {
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [groups, setGroups] = useState<Group[]>([]);
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
   const [newUser, setNewUser] = useState({ displayName: "", email: "", password: "" });
   const [newGroup, setNewGroup] = useState({ name: "", description: "" });
+  const [newSuperAdmin, setNewSuperAdmin] = useState({ email: "", password: "" });
   const [search, setSearch] = useState("");
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -54,6 +55,7 @@ export function AdminAccessManagement({ permissions }: Props) {
   const canCreateGroups = permissions.includes("groups.create");
   const canManagePermissions = permissions.includes("groups.permissions.manage");
   const canManageMembers = permissions.includes("groups.members.manage");
+  const isSuperAdmin = currentUserRole === "Super Admin";
 
   const load = useCallback(async () => {
     setError(null);
@@ -120,6 +122,29 @@ export function AdminAccessManagement({ permissions }: Props) {
       await load();
     } catch (reason: unknown) {
       setError(reason instanceof Error ? reason.message : "Group could not be created.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const createSuperAdmin = async () => {
+    if (!isSuperAdmin) return;
+    setSaving(true);
+    setError(null);
+    try {
+      const response = await fetch("/api/admin/super-admins", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newSuperAdmin),
+      });
+      const body = await response.json();
+      if (!response.ok) throw new Error(body.error?.message ?? "Super admin could not be created.");
+      setNewSuperAdmin({ email: "", password: "" });
+      setMessage("Super admin created.");
+    } catch (reason: unknown) {
+      setError(
+        reason instanceof Error ? reason.message : "Super admin could not be created.",
+      );
     } finally {
       setSaving(false);
     }
@@ -279,6 +304,38 @@ export function AdminAccessManagement({ permissions }: Props) {
                 ) : null}
               </div>
             ))}
+          </div>
+        </div>
+      ) : null}
+
+      {isSuperAdmin ? (
+        <div className="rounded-2xl border border-[var(--color-border-warm)] bg-white/50 p-5">
+          <h3 className="text-xl font-semibold text-[#051838]">Super Admin management</h3>
+          <div className="mt-4 grid gap-3 md:grid-cols-[1fr_1fr_auto]">
+            <input
+              aria-label="Super admin email"
+              type="email"
+              value={newSuperAdmin.email}
+              onChange={(event) => setNewSuperAdmin({ ...newSuperAdmin, email: event.target.value })}
+              placeholder="Super admin email"
+              className="rounded-lg border border-[var(--color-border-warm)] px-3 py-2"
+            />
+            <input
+              aria-label="Super admin password"
+              type="password"
+              value={newSuperAdmin.password}
+              onChange={(event) => setNewSuperAdmin({ ...newSuperAdmin, password: event.target.value })}
+              placeholder="Password"
+              className="rounded-lg border border-[var(--color-border-warm)] px-3 py-2"
+            />
+            <button
+              type="button"
+              disabled={saving}
+              onClick={() => void createSuperAdmin()}
+              className="luxury-button px-4 py-2 text-xs uppercase disabled:opacity-50"
+            >
+              Add super admin
+            </button>
           </div>
         </div>
       ) : null}
