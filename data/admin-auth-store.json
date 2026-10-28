@@ -8,24 +8,17 @@
       "status": "active",
       "role_name": "Super Admin",
       "created_at": "2026-10-28T03:31:17.953Z",
-      "updated_at": "2026-10-28T03:33:35.891Z",
-      "last_login_at": "2026-10-28T03:33:35.891Z"
+      "updated_at": "2026-10-28T12:51:31.087Z",
+      "last_login_at": "2026-10-28T12:51:31.087Z"
     }
   ],
   "sessions": [
     {
-      "id": "1132e03c-f278-4141-b664-3db5f66f24e4",
+      "id": "2428b943-2d60-42fd-8e27-40a6c1241b17",
       "user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
-      "token_hash": "cee980c998e910fd37d9a40f68e7c9274293e4e0c83fdd26b8cb7601ad03baf9",
-      "expires_at": "2026-10-28T11:32:08.359Z",
-      "created_at": "2026-10-28T03:32:08.359Z"
-    },
-    {
-      "id": "b6f86046-5b68-420a-a8e1-f986b25d0015",
-      "user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
-      "token_hash": "0e07fc1880c80a833ac75ce521e857f148fa2e62ab951c7532e52d0753ceefb9",
-      "expires_at": "2026-10-28T11:33:35.883Z",
-      "created_at": "2026-10-28T03:33:35.883Z"
+      "token_hash": "b194f1853984973bd3cf307fa772e8d577e2c0468639fbe827feecddafccaee9",
+      "expires_at": "2026-10-28T20:51:31.083Z",
+      "created_at": "2026-10-28T12:51:31.084Z"
     }
   ],
   "audit": [
@@ -50,6 +43,39 @@
       "request_id": null,
       "metadata": {},
       "created_at": "2026-10-28T03:33:35.980Z"
+    },
+    {
+      "id": "12de46c4-128d-4829-8aee-dfdde302f060",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "auth.login",
+      "target_type": "user",
+      "target_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "outcome": "success",
+      "request_id": null,
+      "metadata": {},
+      "created_at": "2026-10-28T12:51:31.090Z"
+    },
+    {
+      "id": "cdb75c1d-28cc-4196-9d24-16fc27f790de",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "53276733-657e-4c58-a6fd-8190015281eb",
+      "metadata": {},
+      "created_at": "2026-10-28T12:51:36.916Z"
+    },
+    {
+      "id": "eea666c8-dd2b-4420-9853-02e9cebe28a9",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "garuda",
+      "outcome": "success",
+      "request_id": "2f649525-859d-4ba9-b5c4-fcaf33d599dd",
+      "metadata": {},
+      "created_at": "2026-10-28T12:52:18.968Z"
     }
   ]
 }
