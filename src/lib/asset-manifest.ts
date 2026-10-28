@@ -2,14 +2,26 @@ import arohanaScreenshot185103 from "@/assets/rooms/arohana/Screenshot 2026-10-1
 import arohanaScreenshot185155 from "@/assets/rooms/arohana/Screenshot 2026-10-15 185155.png";
 import arohanaScreenshot185245 from "@/assets/rooms/arohana/Screenshot 2026-10-15 185245.png";
 import arohanaScreenshot185305 from "@/assets/rooms/arohana/Screenshot 2026-10-15 185305.png";
-import arohanaRoomDeluxe from "@/assets/rooms/arohana/room-deluxe.jpg";
-import garudaScreenshot184715 from "@/assets/rooms/garuda/Screenshot 2026-10-15 184715.png";
-import garudaScreenshot184740 from "@/assets/rooms/garuda/Screenshot 2026-10-15 184740.png";
-import garudaRoomPremier from "@/assets/rooms/garuda/room-premier.jpg";
-import maayukhaScreenshot184841 from "@/assets/rooms/maayukha/Screenshot 2026-10-15 184841.png";
-import maayukhaRoomSuite from "@/assets/rooms/maayukha/room-suite.jpg";
-import madhuryaScreenshot183607 from "@/assets/rooms/madhurya/Screenshot 2026-10-15 183607.png";
-import vajraScreenshot184725 from "@/assets/rooms/vajra/Screenshot 2026-10-15 184725.png";
+import garudaScreenshot185103 from "@/assets/rooms/garuda/Screenshot 2026-10-15 185103.png";
+import garudaScreenshot185155 from "@/assets/rooms/garuda/Screenshot 2026-10-15 185155.png";
+import garudaScreenshot185245 from "@/assets/rooms/garuda/Screenshot 2026-10-15 185245.png";
+import garudaScreenshot185305 from "@/assets/rooms/garuda/Screenshot 2026-10-15 185305.png";
+import garudaScreenshot185401 from "@/assets/rooms/garuda/Screenshot 2026-10-15 185401.png";
+import maayukhaScreenshot185103 from "@/assets/rooms/maayukha/Screenshot 2026-10-15 185103.png";
+import maayukhaScreenshot185155 from "@/assets/rooms/maayukha/Screenshot 2026-10-15 185155.png";
+import maayukhaScreenshot185245 from "@/assets/rooms/maayukha/Screenshot 2026-10-15 185245.png";
+import maayukhaScreenshot185305 from "@/assets/rooms/maayukha/Screenshot 2026-10-15 185305.png";
+import maayukhaScreenshot185401 from "@/assets/rooms/maayukha/Screenshot 2026-10-15 185401.png";
+import madhuryaScreenshot185103 from "@/assets/rooms/madhurya/Screenshot 2026-10-15 185103.png";
+import madhuryaScreenshot185155 from "@/assets/rooms/madhurya/Screenshot 2026-10-15 185155.png";
+import madhuryaScreenshot185245 from "@/assets/rooms/madhurya/Screenshot 2026-10-15 185245.png";
+import madhuryaScreenshot185305 from "@/assets/rooms/madhurya/Screenshot 2026-10-15 185305.png";
+import madhuryaScreenshot185401 from "@/assets/rooms/madhurya/Screenshot 2026-10-15 185401.png";
+import vajraScreenshot185103 from "@/assets/rooms/vajra/Screenshot 2026-10-15 185103.png";
+import vajraScreenshot185155 from "@/assets/rooms/vajra/Screenshot 2026-10-15 185155.png";
+import vajraScreenshot185245 from "@/assets/rooms/vajra/Screenshot 2026-10-15 185245.png";
+import vajraScreenshot185305 from "@/assets/rooms/vajra/Screenshot 2026-10-15 185305.png";
+import vajraScreenshot185401 from "@/assets/rooms/vajra/Screenshot 2026-10-15 185401.png";
 import clinqDiningScreenshot from "@/assets/dining/clinq/Screenshot 2026-10-15 183436.png";
 import cloud9DiningScreenshot from "@/assets/dining/cloud9/Screenshot 2026-10-15 184825.png";
 import vrindavanDiningScreenshot from "@/assets/dining/vrindavan/Screenshot 2026-10-15 183710.png";
@@ -34,14 +46,26 @@ export const roomImageAssets: Record<string, string> = {
   "/src/assets/rooms/arohana/Screenshot 2026-10-15 185155.png": arohanaScreenshot185155.src,
   "/src/assets/rooms/arohana/Screenshot 2026-10-15 185245.png": arohanaScreenshot185245.src,
   "/src/assets/rooms/arohana/Screenshot 2026-10-15 185305.png": arohanaScreenshot185305.src,
-  "/src/assets/rooms/arohana/room-deluxe.jpg": arohanaRoomDeluxe.src,
-  "/src/assets/rooms/garuda/Screenshot 2026-10-15 184715.png": garudaScreenshot184715.src,
-  "/src/assets/rooms/garuda/Screenshot 2026-10-15 184740.png": garudaScreenshot184740.src,
-  "/src/assets/rooms/garuda/room-premier.jpg": garudaRoomPremier.src,
-  "/src/assets/rooms/maayukha/Screenshot 2026-10-15 184841.png": maayukhaScreenshot184841.src,
-  "/src/assets/rooms/maayukha/room-suite.jpg": maayukhaRoomSuite.src,
-  "/src/assets/rooms/madhurya/Screenshot 2026-10-15 183607.png": madhuryaScreenshot183607.src,
-  "/src/assets/rooms/vajra/Screenshot 2026-10-15 184725.png": vajraScreenshot184725.src,
+  "/src/assets/rooms/garuda/Screenshot 2026-10-15 185103.png": garudaScreenshot185103.src,
+  "/src/assets/rooms/garuda/Screenshot 2026-10-15 185155.png": garudaScreenshot185155.src,
+  "/src/assets/rooms/garuda/Screenshot 2026-10-15 185245.png": garudaScreenshot185245.src,
+  "/src/assets/rooms/garuda/Screenshot 2026-10-15 185305.png": garudaScreenshot185305.src,
+  "/src/assets/rooms/garuda/Screenshot 2026-10-15 185401.png": garudaScreenshot185401.src,
+  "/src/assets/rooms/maayukha/Screenshot 2026-10-15 185103.png": maayukhaScreenshot185103.src,
+  "/src/assets/rooms/maayukha/Screenshot 2026-10-15 185155.png": maayukhaScreenshot185155.src,
+  "/src/assets/rooms/maayukha/Screenshot 2026-10-15 185245.png": maayukhaScreenshot185245.src,
+  "/src/assets/rooms/maayukha/Screenshot 2026-10-15 185305.png": maayukhaScreenshot185305.src,
+  "/src/assets/rooms/maayukha/Screenshot 2026-10-15 185401.png": maayukhaScreenshot185401.src,
+  "/src/assets/rooms/madhurya/Screenshot 2026-10-15 185103.png": madhuryaScreenshot185103.src,
+  "/src/assets/rooms/madhurya/Screenshot 2026-10-15 185155.png": madhuryaScreenshot185155.src,
+  "/src/assets/rooms/madhurya/Screenshot 2026-10-15 185245.png": madhuryaScreenshot185245.src,
+  "/src/assets/rooms/madhurya/Screenshot 2026-10-15 185305.png": madhuryaScreenshot185305.src,
+  "/src/assets/rooms/madhurya/Screenshot 2026-10-15 185401.png": madhuryaScreenshot185401.src,
+  "/src/assets/rooms/vajra/Screenshot 2026-10-15 185103.png": vajraScreenshot185103.src,
+  "/src/assets/rooms/vajra/Screenshot 2026-10-15 185155.png": vajraScreenshot185155.src,
+  "/src/assets/rooms/vajra/Screenshot 2026-10-15 185245.png": vajraScreenshot185245.src,
+  "/src/assets/rooms/vajra/Screenshot 2026-10-15 185305.png": vajraScreenshot185305.src,
+  "/src/assets/rooms/vajra/Screenshot 2026-10-15 185401.png": vajraScreenshot185401.src,
 };
 
 export const diningImageAssets: Record<string, string> = {
