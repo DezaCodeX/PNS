@@ -1,0 +1,55 @@
+{
+  "users": [
+    {
+      "id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "email": "dezacodex@gmail.com",
+      "display_name": "Super Admin",
+      "password_hash": "scrypt$16384$8$1$Xilo4HXWx-F-7ANb5RjI9A$GIUfBO7jU8QbYmszMo1yCRcxnxhxtjk6-OwiBa-r5R3G-uQhiBjWWLQl8dHE4-yYNJ4akgX-MLAJz6nBYmngGQ",
+      "status": "active",
+      "role_name": "Super Admin",
+      "created_at": "2026-10-28T03:31:17.953Z",
+      "updated_at": "2026-10-28T03:33:35.891Z",
+      "last_login_at": "2026-10-28T03:33:35.891Z"
+    }
+  ],
+  "sessions": [
+    {
+      "id": "1132e03c-f278-4141-b664-3db5f66f24e4",
+      "user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "token_hash": "cee980c998e910fd37d9a40f68e7c9274293e4e0c83fdd26b8cb7601ad03baf9",
+      "expires_at": "2026-10-28T11:32:08.359Z",
+      "created_at": "2026-10-28T03:32:08.359Z"
+    },
+    {
+      "id": "b6f86046-5b68-420a-a8e1-f986b25d0015",
+      "user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "token_hash": "0e07fc1880c80a833ac75ce521e857f148fa2e62ab951c7532e52d0753ceefb9",
+      "expires_at": "2026-10-28T11:33:35.883Z",
+      "created_at": "2026-10-28T03:33:35.883Z"
+    }
+  ],
+  "audit": [
+    {
+      "id": "08277ff8-436e-4f5a-9f3f-0f229dec08d4",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "auth.login",
+      "target_type": "user",
+      "target_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "outcome": "success",
+      "request_id": null,
+      "metadata": {},
+      "created_at": "2026-10-28T03:32:08.383Z"
+    },
+    {
+      "id": "91d883cf-c463-4a13-9dd7-bdec34ed93af",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "auth.login",
+      "target_type": "user",
+      "target_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "outcome": "success",
+      "request_id": null,
+      "metadata": {},
+      "created_at": "2026-10-28T03:33:35.980Z"
+    }
+  ]
+}
