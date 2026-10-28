@@ -235,7 +235,11 @@ export function AboutUs() {
             <p className="eyebrow">Great stay experience at PNS Nakshatra</p>
           </div>
           <div className="about-feature-grid">
-            <img src={roomPremier.src} alt="Vajra Premium Room at Hotel PNS Nakshatra" loading="lazy" />
+            <img
+              src={roomPremier.src}
+              alt="Vajra Premium Room at Hotel PNS Nakshatra"
+              loading="lazy"
+            />
             <div className="about-feature-copy">
               <p className="eyebrow text-gold">Vajra Premium Rooms</p>
               <h2 className="about-title">

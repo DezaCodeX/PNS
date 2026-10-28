@@ -14,5 +14,7 @@ const toneStyles = {
 };
 
 export function AuthMessage({ tone = "info", children }: AuthMessageProps) {
-  return <div className={`rounded-xl border px-3 py-2.5 text-sm ${toneStyles[tone]}`}>{children}</div>;
+  return (
+    <div className={`rounded-xl border px-3 py-2.5 text-sm ${toneStyles[tone]}`}>{children}</div>
+  );
 }

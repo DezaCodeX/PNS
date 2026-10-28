@@ -6,7 +6,14 @@ type AuthButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: ReactNode;
 };
 
-export function AuthButton({ loading = false, variant = "primary", children, className = "", disabled, ...props }: AuthButtonProps) {
+export function AuthButton({
+  loading = false,
+  variant = "primary",
+  children,
+  className = "",
+  disabled,
+  ...props
+}: AuthButtonProps) {
   const styles =
     variant === "primary"
       ? "bg-[#051838] text-[#f3f8fa] hover:bg-[#0a2244]"

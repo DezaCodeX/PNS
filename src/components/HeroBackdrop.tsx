@@ -3,14 +3,11 @@ import gsap from "gsap";
 import { heroImageSlides } from "@/lib/heroImageSlides";
 import { heroBackgroundImageAssets } from "@/lib/asset-manifest";
 
-const slides = heroImageSlides(
-  heroBackgroundImageAssets,
-  {
-    "hero-hotel": "Hotel PNS Nakshatra illuminated at night",
-    image: "Hotel PNS Nakshatra exterior",
-    "room-deluxe1": "Deluxe room at Hotel PNS Nakshatra",
-  },
-);
+const slides = heroImageSlides(heroBackgroundImageAssets, {
+  "hero-hotel": "Hotel PNS Nakshatra illuminated at night",
+  image: "Hotel PNS Nakshatra exterior",
+  "room-deluxe1": "Deluxe room at Hotel PNS Nakshatra",
+});
 
 /**
  * Cinematic hotel backdrop: slow ken-burns crossfade between hotel scenes,

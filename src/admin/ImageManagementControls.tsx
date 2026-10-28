@@ -264,7 +264,9 @@ export function ImageManagementControls({
             />
           </div>
         ) : url.trim() ? (
-          <p className="sm:col-span-2 text-xs text-[#46536b]">External image preview will be available after saving.</p>
+          <p className="sm:col-span-2 text-xs text-[#46536b]">
+            External image preview will be available after saving.
+          </p>
         ) : null}
       </div>
 

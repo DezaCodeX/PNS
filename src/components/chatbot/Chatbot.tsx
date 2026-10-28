@@ -133,11 +133,7 @@ export function Chatbot() {
               onChange={(event) => setInputValue(event.target.value)}
             />
 
-            <button
-              type="submit"
-              aria-label="Send message"
-              className="chatbot-send"
-            >
+            <button type="submit" aria-label="Send message" className="chatbot-send">
               <SendHorizontal className="size-4" />
             </button>
           </form>

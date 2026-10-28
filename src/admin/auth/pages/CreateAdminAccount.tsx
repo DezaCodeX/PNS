@@ -111,7 +111,13 @@ export function CreateAdminAccount() {
       subtitle="Set up an administrator account for Hotel PNS Nakshatra."
       footer={
         <span>
-          Already have access? <Link href="/admin/login" className="font-medium text-[#051838] underline-offset-4 hover:underline">Go to Admin Login</Link>
+          Already have access?{" "}
+          <Link
+            href="/admin/login"
+            className="font-medium text-[#051838] underline-offset-4 hover:underline"
+          >
+            Go to Admin Login
+          </Link>
         </span>
       }
     >
@@ -168,7 +174,9 @@ export function CreateAdminAccount() {
             <ul className="space-y-2 text-xs text-[#46536b]">
               {passwordChecks.map((rule) => (
                 <li key={rule.label} className="flex items-center gap-2">
-                  <span className={`inline-flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold ${rule.valid ? "bg-[#eaf7ef] text-[#1d6c4a]" : "bg-[#edf1f5] text-[#46536b]"}`}>
+                  <span
+                    className={`inline-flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold ${rule.valid ? "bg-[#eaf7ef] text-[#1d6c4a]" : "bg-[#edf1f5] text-[#46536b]"}`}
+                  >
                     {rule.valid ? "✓" : "•"}
                   </span>
                   <span>{rule.label}</span>
@@ -187,7 +195,9 @@ export function CreateAdminAccount() {
           />
 
           {confirmPasswordState && (
-            <p className={`text-xs ${confirmPasswordState.includes("match") ? "text-[#1d6c4a]" : "text-[#b34c46]"}`}>
+            <p
+              className={`text-xs ${confirmPasswordState.includes("match") ? "text-[#1d6c4a]" : "text-[#b34c46]"}`}
+            >
               {confirmPasswordState}
             </p>
           )}
@@ -207,7 +217,10 @@ export function CreateAdminAccount() {
               <CheckCircle2 className="h-4 w-4" />
               Account created successfully.
             </div>
-            <Link href="/admin/login" className="inline-flex w-full items-center justify-center rounded-xl bg-[#051838] px-4 py-3 text-sm font-semibold text-[#f3f8fa] transition-colors hover:bg-[#0a2244]">
+            <Link
+              href="/admin/login"
+              className="inline-flex w-full items-center justify-center rounded-xl bg-[#051838] px-4 py-3 text-sm font-semibold text-[#f3f8fa] transition-colors hover:bg-[#0a2244]"
+            >
               Go to Admin Login
             </Link>
           </div>

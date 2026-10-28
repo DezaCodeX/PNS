@@ -25,7 +25,9 @@ export function PasswordInput({ label, id, error, className = "", ...props }: Pa
           aria-invalid={Boolean(error)}
           aria-describedby={error ? `${inputId}-error` : undefined}
           className={`w-full rounded-xl border bg-[#f8fbfd] px-3.5 py-3 pr-11 text-sm text-[#051838] placeholder:text-[#687a90] transition-colors duration-150 outline-none ${
-            error ? "border-[#b34c46] focus:border-[#b34c46]" : "border-[#dfe7ef] focus:border-[#051838]"
+            error
+              ? "border-[#b34c46] focus:border-[#b34c46]"
+              : "border-[#dfe7ef] focus:border-[#051838]"
           } ${className}`}
           {...props}
         />

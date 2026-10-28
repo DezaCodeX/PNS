@@ -11,8 +11,8 @@ import maayukhaRoomSuite from "@/assets/rooms/maayukha/room-suite.jpg";
 import madhuryaScreenshot183607 from "@/assets/rooms/madhurya/Screenshot 2026-10-15 183607.png";
 import vajraScreenshot184725 from "@/assets/rooms/vajra/Screenshot 2026-10-15 184725.png";
 import clinqDiningScreenshot from "@/assets/dining/clinq/Screenshot 2026-10-15 183436.png";
-import cloud9DiningScreenshot from "@/assets/dining/cloud9/Screenshot 2026-10-15 183457.png";
-import vrindavanDiningScreenshot from "@/assets/dining/vrindavan/Screenshot 2026-10-15 183541.png";
+import cloud9DiningScreenshot from "@/assets/dining/cloud9/Screenshot 2026-10-15 184825.png";
+import vrindavanDiningScreenshot from "@/assets/dining/vrindavan/Screenshot 2026-10-15 183710.png";
 import heroContainerScreenshot183541 from "@/assets/hero-container-img/Screenshot 2026-10-15 183541.png";
 import heroContainerScreenshot183607 from "@/assets/hero-container-img/Screenshot 2026-10-15 183607.png";
 import heroContainerScreenshot183636 from "@/assets/hero-container-img/Screenshot 2026-10-15 183636.png";
@@ -46,8 +46,8 @@ export const roomImageAssets: Record<string, string> = {
 
 export const diningImageAssets: Record<string, string> = {
   "/src/assets/dining/clinq/Screenshot 2026-10-15 183436.png": clinqDiningScreenshot.src,
-  "/src/assets/dining/cloud9/Screenshot 2026-10-15 183457.png": cloud9DiningScreenshot.src,
-  "/src/assets/dining/vrindavan/Screenshot 2026-10-15 183541.png": vrindavanDiningScreenshot.src,
+  "/src/assets/dining/cloud9/Screenshot 2026-10-15 184825.png": cloud9DiningScreenshot.src,
+  "/src/assets/dining/vrindavan/Screenshot 2026-10-15 183710.png": vrindavanDiningScreenshot.src,
 };
 
 export const heroContainerImageAssets: Record<string, string> = {

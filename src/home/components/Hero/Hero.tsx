@@ -7,14 +7,11 @@ import type { BookingDetails } from "@/home/components/Booking/BookingWidget";
 import { BookingWidget } from "@/home/components/Booking/BookingWidget";
 import { heroContainerImageAssets } from "@/lib/asset-manifest";
 
-const cardSlides = heroImageSlides(
-  heroContainerImageAssets,
-  {
-    "hero-hotel1": "Hotel PNS Nakshatra guest room",
-    image: "Hotel PNS Nakshatra exterior",
-    "pns logo": "Hotel PNS Nakshatra logo",
-  },
-);
+const cardSlides = heroImageSlides(heroContainerImageAssets, {
+  "hero-hotel1": "Hotel PNS Nakshatra guest room",
+  image: "Hotel PNS Nakshatra exterior",
+  "pns logo": "Hotel PNS Nakshatra logo",
+});
 
 export function Hero({
   ready = true,

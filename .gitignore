@@ -33,3 +33,5 @@ out
 *.sw?
 .env
 public/uploads/
+.vercel
+.env*

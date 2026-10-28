@@ -19,10 +19,7 @@ export function BookingCTA({ onBook }: { onBook: () => void }) {
           <button onClick={onBook} className="luxury-button luxury-button-hover px-9 py-4">
             Book your stay
           </button>
-          <a
-            href="mailto:stay@pnsnakshatra.com"
-            className="luxury-button-ghost px-9 py-4"
-          >
+          <a href="mailto:stay@pnsnakshatra.com" className="luxury-button-ghost px-9 py-4">
             Contact us
           </a>
         </div>

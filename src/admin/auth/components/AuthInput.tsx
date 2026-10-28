@@ -6,7 +6,14 @@ type AuthInputProps = InputHTMLAttributes<HTMLInputElement> & {
   helperText?: string | undefined;
 };
 
-export function AuthInput({ label, id, error, helperText, className = "", ...props }: AuthInputProps) {
+export function AuthInput({
+  label,
+  id,
+  error,
+  helperText,
+  className = "",
+  ...props
+}: AuthInputProps) {
   const inputId = id ?? label.toLowerCase().replace(/\s+/g, "-");
   const describedBy = error ? `${inputId}-error` : helperText ? `${inputId}-helper` : undefined;
 
@@ -21,7 +28,9 @@ export function AuthInput({ label, id, error, helperText, className = "", ...pro
         aria-invalid={Boolean(error)}
         aria-describedby={describedBy}
         className={`w-full rounded-xl border bg-[#f8fbfd] px-3.5 py-3 text-sm text-[#051838] placeholder:text-[#687a90] transition-colors duration-150 outline-none ${
-          error ? "border-[#b34c46] focus:border-[#b34c46]" : "border-[#dfe7ef] focus:border-[#051838]"
+          error
+            ? "border-[#b34c46] focus:border-[#b34c46]"
+            : "border-[#dfe7ef] focus:border-[#051838]"
         } ${className}`}
         {...props}
       />

@@ -4,14 +4,11 @@ import { HeroBackdrop } from "@/components/HeroBackdrop";
 import { heroImageSlides } from "@/lib/heroImageSlides";
 import { heroContainerImageAssets } from "@/lib/asset-manifest";
 
-const cardSlides = heroImageSlides(
-  heroContainerImageAssets,
-  {
-    "hero-hotel1": "Hotel PNS Nakshatra guest room",
-    image: "Hotel PNS Nakshatra exterior",
-    "pns logo": "Hotel PNS Nakshatra logo",
-  },
-);
+const cardSlides = heroImageSlides(heroContainerImageAssets, {
+  "hero-hotel1": "Hotel PNS Nakshatra guest room",
+  image: "Hotel PNS Nakshatra exterior",
+  "pns logo": "Hotel PNS Nakshatra logo",
+});
 
 export function Hero({ ready, onBook }: { ready: boolean; onBook: () => void }) {
   const root = useRef<HTMLElement>(null);
