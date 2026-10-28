@@ -127,15 +127,23 @@ function isPlaceholderValue(value: string | undefined) {
   );
 }
 
-function hasSupabaseConfig() {
-  const url = process.env["SUPABASE_URL"] ?? process.env["NEXT_PUBLIC_SUPABASE_URL"];
-  const key = process.env["SUPABASE_SECRET_KEY"];
+function resolveSupabaseServerConfig() {
+  const url = process.env["SUPABASE_URL"] ?? process.env["NEXT_PUBLIC_SUPABASE_URL"] ?? "";
+  const key =
+    process.env["SUPABASE_SECRET_KEY"] ??
+    process.env["SUPABASE_SERVICE_ROLE_KEY"] ??
+    process.env["SUPABASE_SERVICE_ROLE"] ??
+    "";
+  return { url, key };
+}
+
+export function hasSupabaseConfig() {
+  const { url, key } = resolveSupabaseServerConfig();
   return Boolean(url && key && !isPlaceholderValue(url) && !isPlaceholderValue(key));
 }
 
 export function getAdminDb(): DatabaseClient {
-  const url = process.env["SUPABASE_URL"] ?? process.env["NEXT_PUBLIC_SUPABASE_URL"];
-  const key = process.env["SUPABASE_SECRET_KEY"];
+  const { url, key } = resolveSupabaseServerConfig();
   if (!url || !key || isPlaceholderValue(url) || isPlaceholderValue(key)) {
     throw new Error("Supabase server configuration is missing.");
   }

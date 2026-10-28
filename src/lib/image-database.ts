@@ -1,11 +1,11 @@
-import { getAdminDb } from "@/lib/admin-auth";
+import { getAdminDb, hasSupabaseConfig } from "@/lib/admin-auth";
 import type { ImageCollection, ImageSourceType, ManagedImage } from "@/lib/image-management";
 
 export function usesDatabaseImageStore() {
   const backend = process.env["PNS_IMAGE_BACKEND"];
   return (
     (backend === "supabase" || (process.env["NODE_ENV"] === "production" && backend !== "file")) &&
-    Boolean(process.env["SUPABASE_URL"] && process.env["SUPABASE_SECRET_KEY"])
+    hasSupabaseConfig()
   );
 }
 

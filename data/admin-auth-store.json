@@ -8,8 +8,8 @@
       "status": "active",
       "role_name": "Super Admin",
       "created_at": "2026-10-28T03:31:17.953Z",
-      "updated_at": "2026-10-28T12:51:31.087Z",
-      "last_login_at": "2026-10-28T12:51:31.087Z"
+      "updated_at": "2026-10-28T18:41:16.774Z",
+      "last_login_at": "2026-10-28T18:41:16.774Z"
     }
   ],
   "sessions": [
@@ -19,6 +19,13 @@
       "token_hash": "b194f1853984973bd3cf307fa772e8d577e2c0468639fbe827feecddafccaee9",
       "expires_at": "2026-10-28T20:51:31.083Z",
       "created_at": "2026-10-28T12:51:31.084Z"
+    },
+    {
+      "id": "69d831ab-66f8-4d34-97c2-58f52ac8abd4",
+      "user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "token_hash": "8f704156979abfa215002a0653ca08e238716d493d9fe596031e5d83d60982e3",
+      "expires_at": "2026-10-29T02:41:16.747Z",
+      "created_at": "2026-10-28T18:41:16.771Z"
     }
   ],
   "audit": [
@@ -76,6 +83,17 @@
       "request_id": "2f649525-859d-4ba9-b5c4-fcaf33d599dd",
       "metadata": {},
       "created_at": "2026-10-28T12:52:18.968Z"
+    },
+    {
+      "id": "3e19d253-874e-4d68-a92b-75464dab7326",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "auth.login",
+      "target_type": "user",
+      "target_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "outcome": "success",
+      "request_id": null,
+      "metadata": {},
+      "created_at": "2026-10-28T18:41:16.778Z"
     }
   ]
 }

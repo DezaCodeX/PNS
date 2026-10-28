@@ -85,11 +85,12 @@ website consumers read `/api/images/room?type=...` and `/api/images/dining?type=
 assets remain the fallback. Managed records also support `PATCH /api/admin/images/:imageId` for
 display location, order, and active-state metadata.
 
-Set `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, and `PNS_IMAGE_BACKEND=supabase` in production. Run
-`INITIAL_SUPERADMIN_EMAIL` and `INITIAL_SUPERADMIN_PASSWORD` through the server-only
-`npm run bootstrap:superadmin` command after applying the migration. The bootstrap is idempotent
-and never overwrites an existing account. Never commit `.env`; use `.env.example` as the variable
-template and rotate any credential that has been exposed.
+Set `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` (or the legacy `SUPABASE_SECRET_KEY` alias)
+with `PNS_IMAGE_BACKEND=supabase` in production. Run `INITIAL_SUPERADMIN_EMAIL` and
+`INITIAL_SUPERADMIN_PASSWORD` through the server-only `npm run bootstrap:superadmin` command after
+applying the migration. The bootstrap is idempotent and never overwrites an existing account.
+Never commit `.env`; use `.env.example` as the variable template and rotate any credential that
+has been exposed.
 
 For local image smoke tests, set `PNS_IMAGE_BACKEND=file`, `PNS_IMAGE_MANIFEST`, and
 `PNS_IMAGE_STORAGE_DIR` to temporary paths. Production uploads require a persistent mounted
