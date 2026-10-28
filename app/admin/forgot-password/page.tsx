@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { ForgotPassword } from "@/admin/auth/pages/ForgotPassword";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = { title: "Forgot Password" };
 
 export default function Page() {
-  return <ForgotPassword />;
+  redirect("/");
 }

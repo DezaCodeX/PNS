@@ -39,9 +39,9 @@ deployment support.
 | `/privacy-policy`             | Privacy policy                        |
 | `/terms-and-conditions`       | Terms                                 |
 | `/refund-cancellation-policy` | Refund and cancellation policy        |
-| `/admin`                      | Authenticated admin dashboard         |
-| `/admin/login`                | Admin login                           |
-| `/admin/forgot-password`      | Password reset information            |
+| `/admin`                      | Redirects to the public homepage      |
+| `/admin/login`                | Redirects to the public homepage      |
+| `/admin/forgot-password`      | Redirects to the public homepage      |
 
 The admin dashboard requires a server-managed session. Public website routes remain accessible
 without authentication. User, group, permission, session, audit, and managed-image records are
