@@ -82,12 +82,6 @@ export function RoomImageManagement() {
           </span>
         </div>
 
-        <p className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-          Access note: the current admin login is a prototype and this route has no server-side
-          authorization. These local selections are not shared with site visitors. Do not treat this
-          page as a secured production admin until server authentication is added.
-        </p>
-
         <div
           className="mt-6 grid gap-3 sm:grid-cols-3"
           aria-label={`${ROOM_TYPE_LABELS[roomType]} selection counts`}
