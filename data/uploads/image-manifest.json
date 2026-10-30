@@ -186,6 +186,14 @@
       "displayOrder": 0,
       "active": true,
       "deleted": true
+    },
+    {
+      "id": "room:upload:77eac511-58bc-4314-92b6-e3adc12a9645",
+      "category": "vajra",
+      "url": "/uploads/room/vajra/ae85f133-b093-4023-ab9d-3ed64778f385-pns-logo.webp",
+      "path": "uploads/room/vajra/ae85f133-b093-4023-ab9d-3ed64778f385-pns-logo.webp",
+      "sourceType": "upload",
+      "filename": "ae85f133-b093-4023-ab9d-3ed64778f385-pns-logo.webp"
     }
   ]
 }

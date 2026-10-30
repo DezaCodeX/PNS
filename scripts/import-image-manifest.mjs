@@ -2,12 +2,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { createClient } from "@supabase/supabase-js";
 
-async function main() {
-  const manifestPath = path.resolve(process.env.PNS_IMAGE_MANIFEST ?? "data/uploads/image-manifest.json");
-  const raw = await readFile(manifestPath, "utf8");
-  const manifest = JSON.parse(raw);
-  const entries = Array.isArray(manifest?.images) ? manifest.images : [];
-
+function getSupabaseClient() {
   const url = process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
   const key =
     process.env.SUPABASE_SERVICE_ROLE_KEY ??
@@ -16,16 +11,125 @@ async function main() {
     "";
 
   if (!url || !key) {
-    console.warn("No Supabase credentials found; skipping image-manifest import.");
-    process.exit(0);
+    return null;
   }
 
-  const client = createClient(url, key, {
+  return createClient(url, key, {
     auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
   });
+}
 
-  const rows = entries.map((image) => {
-    const destinationKey = image.destinationKey ?? `${image.category ?? "unknown"}:${image.id ?? image.filename ?? "item"}`;
+async function importLegacyAuthData(client) {
+  const authPath = path.resolve("data", "admin-auth-store.json");
+  let raw;
+  try {
+    raw = await readFile(authPath, "utf8");
+  } catch {
+    console.log("No legacy admin-auth-store.json found; skipping admin auth backup import.");
+    return;
+  }
+
+  const authStore = JSON.parse(raw);
+  const users = Array.isArray(authStore?.users) ? authStore.users : [];
+  const sessions = Array.isArray(authStore?.sessions) ? authStore.sessions : [];
+  const auditEvents = Array.isArray(authStore?.audit) ? authStore.audit : [];
+
+  if (!users.length && !sessions.length && !auditEvents.length) {
+    console.log("Legacy admin auth store is empty; skipping auth backup import.");
+    return;
+  }
+
+  const { data: roleData, error: roleError } = await client
+    .from("admin_roles")
+    .select("id")
+    .eq("name", "Super Admin")
+    .maybeSingle();
+
+  if (roleError) throw roleError;
+  if (!roleData) throw new Error("The Super Admin role is missing from the database.");
+
+  if (users.length) {
+    const userRows = users.map((user) => ({
+      id: user.id,
+      email: user.email,
+      display_name: user.display_name ?? user.email.split("@")[0] ?? "Super Admin",
+      password_hash: user.password_hash,
+      status: user.status === "disabled" ? "disabled" : "active",
+      role_id: roleData.id,
+      last_login_at: user.last_login_at ?? null,
+      created_at: user.created_at ?? new Date().toISOString(),
+      updated_at: user.updated_at ?? user.created_at ?? new Date().toISOString(),
+    }));
+
+    const { error: userError } = await client.from("admin_users").upsert(userRows, {
+      onConflict: "id",
+      ignoreDuplicates: false,
+    });
+    if (userError) throw userError;
+  }
+
+  if (sessions.length) {
+    const sessionRows = sessions.map((session) => ({
+      id: session.id,
+      user_id: session.user_id,
+      token_hash: session.token_hash,
+      expires_at: session.expires_at,
+      created_at: session.created_at ?? new Date().toISOString(),
+    }));
+
+    const { error: sessionError } = await client.from("admin_sessions").upsert(sessionRows, {
+      onConflict: "id",
+      ignoreDuplicates: false,
+    });
+    if (sessionError) throw sessionError;
+  }
+
+  if (auditEvents.length) {
+    const auditRows = auditEvents.map((event) => ({
+      id: event.id,
+      actor_user_id: event.actor_user_id ?? null,
+      action: event.action,
+      target_type: event.target_type ?? null,
+      target_id: event.target_id ?? null,
+      outcome: event.outcome,
+      request_id: event.request_id ?? null,
+      metadata: event.metadata ?? {},
+      created_at: event.created_at ?? new Date().toISOString(),
+    }));
+
+    const { error: auditError } = await client.from("admin_audit_events").upsert(auditRows, {
+      onConflict: "id",
+      ignoreDuplicates: false,
+    });
+    if (auditError) throw auditError;
+  }
+
+  console.log(
+    `Imported legacy admin auth data (${users.length} users, ${sessions.length} sessions, ${auditEvents.length} audit events).`,
+  );
+}
+
+async function importLegacyImageManifest(client) {
+  const manifestPath = path.resolve(process.env.PNS_IMAGE_MANIFEST ?? "data/uploads/image-manifest.json");
+  let raw;
+  try {
+    raw = await readFile(manifestPath, "utf8");
+  } catch {
+    console.log("No legacy image manifest found; skipping image manifest backup import.");
+    return;
+  }
+
+  const manifest = JSON.parse(raw);
+  const entries = Array.isArray(manifest?.images) ? manifest.images : [];
+
+  if (!entries.length) {
+    console.log(`No image-manifest entries found in ${manifestPath}.`);
+    return;
+  }
+
+  const configRows = entries.map((image) => {
+    const destinationKey =
+      image.destinationKey ?? `${image.category ?? "unknown"}:${image.id ?? image.filename ?? "item"}`;
     const folderPath = image.path ?? image.folderPath ?? "uploads/unknown";
     const publicUrlPrefix = image.publicUrlPrefix ?? image.url ?? "";
     const displayPlacement = image.displayLocation ?? image.display_placement ?? "gallery";
@@ -51,25 +155,64 @@ async function main() {
     };
   });
 
-  if (!rows.length) {
-    console.log(`No image-manifest entries found in ${manifestPath}.`);
-    process.exit(0);
-  }
-
-  const { error } = await client.from("image_manifest_config").upsert(rows, {
+  const { error: configError } = await client.from("image_manifest_config").upsert(configRows, {
     onConflict: "config_key",
     ignoreDuplicates: false,
   });
+  if (configError) throw configError;
 
-  if (error) {
-    console.error(error);
-    process.exit(1);
+  const managedImageRows = entries
+    .filter((image) => image && typeof image === "object")
+    .map((image) => {
+      const sourceType = image.sourceType ?? "external";
+      const categoryName = String(image.category ?? "").toLowerCase();
+      const pathValue = String(image.path ?? "");
+      const idValue = String(image.id ?? "");
+      const isDiningCategory =
+        ["vrindavan", "cloud9", "clinq"].includes(categoryName) ||
+        /\/dining\//u.test(pathValue) ||
+        idValue.startsWith("dining:");
+      const categoryType = isDiningCategory ? "dining" : "room";
+      const normalizedCategory = String(image.category ?? "unknown");
+      return {
+        category_type: categoryType,
+        category_id: normalizedCategory,
+        source_type: sourceType,
+        public_url: image.url ?? "",
+        storage_path: image.path ?? null,
+        display_location: image.displayLocation ?? image.display_placement ?? "gallery",
+        display_order: Number(image.displayOrder ?? 0),
+        is_active: image.deleted ? false : Boolean(image.active ?? true),
+        legacy_id: image.id ?? null,
+      };
+    })
+    .filter((row) => row.legacy_id != null);
+
+  if (managedImageRows.length) {
+    const { error: managedError } = await client.from("managed_images").upsert(managedImageRows, {
+      onConflict: "legacy_id",
+      ignoreDuplicates: false,
+    });
+    if (managedError) throw managedError;
   }
 
-  console.log(`Imported ${rows.length} image-manifest entries into Supabase.`);
+  console.log(
+    `Imported ${configRows.length} image manifest entries and ${managedImageRows.length} managed-image records into Supabase.`,
+  );
+}
+
+async function main() {
+  const client = getSupabaseClient();
+  if (!client) {
+    console.warn("No Supabase credentials found; skipping legacy data import.");
+    process.exit(0);
+  }
+
+  await importLegacyAuthData(client);
+  await importLegacyImageManifest(client);
 }
 
 main().catch((error) => {
-  console.error("Failed to import image manifest.", error);
+  console.error("Failed to import legacy app data into the database.", error);
   process.exit(1);
 });
