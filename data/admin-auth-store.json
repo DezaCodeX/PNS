@@ -8,24 +8,28 @@
       "status": "active",
       "role_name": "Super Admin",
       "created_at": "2026-10-28T03:31:17.953Z",
-      "updated_at": "2026-10-28T20:37:13.080Z",
-      "last_login_at": "2026-10-28T20:37:13.080Z"
+      "updated_at": "2026-10-30T09:41:19.886Z",
+      "last_login_at": "2026-10-30T09:41:19.886Z"
+    },
+    {
+      "id": "606f250d-74da-433c-b4ab-938d4f1cde4a",
+      "email": "admin@example.com",
+      "display_name": "Super Admin",
+      "password_hash": "$2b$12$wJQDhy1u5KSMQU0ZG0Tp8ODjA2kmhTbTfwhT5aPJPWQQpIOw.zjHm",
+      "status": "active",
+      "role_name": "Super Admin",
+      "created_at": "2026-10-30T09:43:11.564Z",
+      "updated_at": "2026-10-30T09:43:11.564Z",
+      "last_login_at": null
     }
   ],
   "sessions": [
     {
-      "id": "2428b943-2d60-42fd-8e27-40a6c1241b17",
+      "id": "0f25104f-9723-4380-8a57-9032d92037f1",
       "user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
-      "token_hash": "b194f1853984973bd3cf307fa772e8d577e2c0468639fbe827feecddafccaee9",
-      "expires_at": "2026-10-28T20:51:31.083Z",
-      "created_at": "2026-10-28T12:51:31.084Z"
-    },
-    {
-      "id": "003f7384-f0b3-48c5-a14b-dd3d073c077a",
-      "user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
-      "token_hash": "4e57ab4f84170d864c5e1f1e777f2643c00899e6958dce9a94bf39e1adaa6e46",
-      "expires_at": "2026-10-29T04:37:13.078Z",
-      "created_at": "2026-10-28T20:37:13.078Z"
+      "token_hash": "c0a9769a3aea01e6f007bd6676484cb1fd3fa9eb4c594df7272322c26913332a",
+      "expires_at": "2026-10-30T17:41:19.881Z",
+      "created_at": "2026-10-30T09:41:19.881Z"
     }
   ],
   "audit": [
@@ -276,6 +280,1439 @@
       "request_id": "4f8a7284-7fba-49be-8e49-2e115f04e9ba",
       "metadata": {},
       "created_at": "2026-10-28T20:42:11.797Z"
+    },
+    {
+      "id": "ce7831f2-8f0a-4988-ad19-a34ab4286015",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "arohana",
+      "outcome": "success",
+      "request_id": "55fff23e-a8a8-408a-bc42-3b3597d67723",
+      "metadata": {},
+      "created_at": "2026-10-30T08:59:42.737Z"
+    },
+    {
+      "id": "9ae07927-6074-46c6-b8d4-7c51be27b10c",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "d7e39616-fa95-470c-9d34-b1efb3fdec10",
+      "metadata": {},
+      "created_at": "2026-10-30T09:00:01.277Z"
+    },
+    {
+      "id": "22402b46-ea58-4be5-93ac-3138530712e8",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "garuda",
+      "outcome": "success",
+      "request_id": "d1c44045-db0f-420e-865b-0f81a8f791b4",
+      "metadata": {},
+      "created_at": "2026-10-30T09:00:01.428Z"
+    },
+    {
+      "id": "849be27f-5122-4fc6-94d0-1e36f62ebd04",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "arohana",
+      "outcome": "success",
+      "request_id": "e0c27d85-7c8a-4aa6-8c32-e6b72dbb0158",
+      "metadata": {},
+      "created_at": "2026-10-30T09:00:01.565Z"
+    },
+    {
+      "id": "c2422d10-2bd5-42a5-82e1-76d47014ac86",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "madhurya",
+      "outcome": "success",
+      "request_id": "d2e4b48b-8f09-440a-85c7-91a7566191ab",
+      "metadata": {},
+      "created_at": "2026-10-30T09:00:01.668Z"
+    },
+    {
+      "id": "c39ac002-e2a2-4160-9a6d-45ed61b2ddb6",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "maayukha",
+      "outcome": "success",
+      "request_id": "0326b46c-d103-4173-bc42-5c57335fbeea",
+      "metadata": {},
+      "created_at": "2026-10-30T09:00:01.797Z"
+    },
+    {
+      "id": "9f7a133d-1c5c-48be-9620-944c4d984bae",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.read",
+      "target_type": "dining",
+      "target_id": "vrindavan",
+      "outcome": "success",
+      "request_id": "be3f5212-3ec7-48c7-a61c-0cf03220ca72",
+      "metadata": {},
+      "created_at": "2026-10-30T09:00:02.825Z"
+    },
+    {
+      "id": "4e1d0aaa-6139-481c-8178-7113025359d6",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.read",
+      "target_type": "dining",
+      "target_id": "cloud9",
+      "outcome": "success",
+      "request_id": "70da3d13-a7c2-4f53-a2dc-459727a769eb",
+      "metadata": {},
+      "created_at": "2026-10-30T09:00:03.014Z"
+    },
+    {
+      "id": "d6735fcc-8623-488a-8224-a4425f681f24",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.read",
+      "target_type": "dining",
+      "target_id": "clinq",
+      "outcome": "success",
+      "request_id": "5f0b5e54-ad0f-4367-a181-55ab7e9b3dc2",
+      "metadata": {},
+      "created_at": "2026-10-30T09:00:03.149Z"
+    },
+    {
+      "id": "16be4f3f-741b-4ea3-9cdc-574233a7460b",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "arohana",
+      "outcome": "success",
+      "request_id": "c52a2011-3341-465b-860e-d7a4b7880b0f",
+      "metadata": {},
+      "created_at": "2026-10-30T09:00:03.255Z"
+    },
+    {
+      "id": "ab3adc57-a281-47a1-b920-0cdc8a4586a4",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.add_url",
+      "target_type": "room",
+      "target_id": "arohana",
+      "outcome": "success",
+      "request_id": "4f82e09e-e818-4f49-96b9-5ddcc1bc3b7e",
+      "metadata": {
+        "sourceType": "external"
+      },
+      "created_at": "2026-10-30T09:00:03.722Z"
+    },
+    {
+      "id": "2db91ae6-ebbb-49c1-be02-d1d029ace609",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.add_url",
+      "target_type": "dining",
+      "target_id": "cloud9",
+      "outcome": "success",
+      "request_id": "b146222a-91c9-42e8-a7c5-02841ba68e30",
+      "metadata": {
+        "sourceType": "external"
+      },
+      "created_at": "2026-10-30T09:00:03.802Z"
+    },
+    {
+      "id": "91dcf74e-7b92-437c-8806-e689fb43a3a2",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.add_url",
+      "target_type": "room",
+      "target_id": "madhurya",
+      "outcome": "success",
+      "request_id": "6b1a6294-9cb7-4426-8081-e0bf90f6560f",
+      "metadata": {
+        "sourceType": "external"
+      },
+      "created_at": "2026-10-30T09:00:04.140Z"
+    },
+    {
+      "id": "c21f18f2-6070-49b4-8552-b38fc5bfc39b",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.add_url",
+      "target_type": "dining",
+      "target_id": "clinq",
+      "outcome": "success",
+      "request_id": "948bf68d-17da-4c21-b434-51f31c9aae71",
+      "metadata": {
+        "sourceType": "external"
+      },
+      "created_at": "2026-10-30T09:00:04.227Z"
+    },
+    {
+      "id": "2cea2fa0-484f-4862-a5f7-59c6d4107d32",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.delete",
+      "target_type": "room",
+      "target_id": "room:external:5f7821e1-eae2-4f9d-853c-f733a10da206",
+      "outcome": "success",
+      "request_id": "21a72407-5342-45c9-bbf2-534012d36e37",
+      "metadata": {},
+      "created_at": "2026-10-30T09:00:18.238Z"
+    },
+    {
+      "id": "4b330849-cf86-46a7-aa9d-f9c25ee962ef",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "madhurya",
+      "outcome": "success",
+      "request_id": "43cf98ed-1919-452a-bb72-24a3ccd5b876",
+      "metadata": {},
+      "created_at": "2026-10-30T09:00:18.299Z"
+    },
+    {
+      "id": "4ffe5653-4f37-4c2e-8f19-9ae11bbc8ba9",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.delete",
+      "target_type": "dining",
+      "target_id": "dining:external:63a7952f-4312-4732-8956-10408fd6c2fc",
+      "outcome": "success",
+      "request_id": "7d50f887-31ab-4574-a102-9cb97e62bc7c",
+      "metadata": {},
+      "created_at": "2026-10-30T09:00:20.635Z"
+    },
+    {
+      "id": "68045f4a-f718-4720-a113-fd564fc7eea9",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.add_url",
+      "target_type": "room",
+      "target_id": "maayukha",
+      "outcome": "success",
+      "request_id": "5c030dd7-9c6a-4a57-af5a-002f44165b9f",
+      "metadata": {
+        "sourceType": "external"
+      },
+      "created_at": "2026-10-30T09:00:20.722Z"
+    },
+    {
+      "id": "c472c1fb-63d1-41c7-be57-e17f1ae1e988",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "maayukha",
+      "outcome": "success",
+      "request_id": "a93983a1-d4d2-486d-b622-6cb8787eeb44",
+      "metadata": {},
+      "created_at": "2026-10-30T09:00:20.765Z"
+    },
+    {
+      "id": "de83b624-20c4-4ba0-8c27-20bf60024978",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "maayukha",
+      "outcome": "success",
+      "request_id": "c7118d01-b562-4ef8-ae6b-379d795c9648",
+      "metadata": {},
+      "created_at": "2026-10-30T09:00:20.814Z"
+    },
+    {
+      "id": "41d87242-430a-4fe9-b7da-a605da829c58",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.delete",
+      "target_type": "room",
+      "target_id": "room:external:76bf7c61-8ba3-4391-9d1f-dccd35ac6aa1",
+      "outcome": "success",
+      "request_id": "c57bb12e-ab88-4c39-aba9-2f1d7321cf34",
+      "metadata": {},
+      "created_at": "2026-10-30T09:00:26.487Z"
+    },
+    {
+      "id": "aad76754-adea-40b1-85f2-17976cf74e5d",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.delete",
+      "target_type": "dining",
+      "target_id": "dining:external:992a306c-b483-4277-af8d-613256bff3d1",
+      "outcome": "success",
+      "request_id": "b51189d6-d11b-47c6-9be1-45fd5636387e",
+      "metadata": {},
+      "created_at": "2026-10-30T09:00:31.248Z"
+    },
+    {
+      "id": "6142b187-51b3-4731-83e5-cd88b4556e68",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.delete",
+      "target_type": "room",
+      "target_id": "room:external:f2fca628-abb3-4bde-bd5f-1eb78cc19abf",
+      "outcome": "success",
+      "request_id": "5651f1c8-f815-4ef0-81d5-f11cdbc5b23e",
+      "metadata": {},
+      "created_at": "2026-10-30T09:00:32.707Z"
+    },
+    {
+      "id": "10727a94-6d98-4547-8820-56196766ff3e",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "366b1e88-34f4-4ed9-b62c-adfb56c8f935",
+      "metadata": {},
+      "created_at": "2026-10-30T09:02:27.119Z"
+    },
+    {
+      "id": "88f29b24-cdcf-42ca-8d59-9b517e82ae89",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "garuda",
+      "outcome": "success",
+      "request_id": "50ee246f-270d-4629-aeb3-8a2d77070abe",
+      "metadata": {},
+      "created_at": "2026-10-30T09:02:27.466Z"
+    },
+    {
+      "id": "2f354ccc-67df-4995-bc0b-2dd858e626d4",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "arohana",
+      "outcome": "success",
+      "request_id": "7b538867-1a07-465b-aa55-cd56bc33311c",
+      "metadata": {},
+      "created_at": "2026-10-30T09:02:27.611Z"
+    },
+    {
+      "id": "79d0dfb2-9b23-46ca-88bc-a0d422044e4c",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "madhurya",
+      "outcome": "success",
+      "request_id": "1785f904-0e25-4507-845f-4834512f56b0",
+      "metadata": {},
+      "created_at": "2026-10-30T09:02:27.776Z"
+    },
+    {
+      "id": "56dcad3d-24b2-4199-aa87-9b93a7b48a59",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "maayukha",
+      "outcome": "success",
+      "request_id": "8e0d7635-4690-42d2-b18d-70851031bdb8",
+      "metadata": {},
+      "created_at": "2026-10-30T09:02:27.924Z"
+    },
+    {
+      "id": "b1d02c88-0007-4add-969c-6fd4addd310e",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.read",
+      "target_type": "dining",
+      "target_id": "vrindavan",
+      "outcome": "success",
+      "request_id": "a1f1406f-486f-4535-adb6-acfa1e6210a1",
+      "metadata": {},
+      "created_at": "2026-10-30T09:02:28.513Z"
+    },
+    {
+      "id": "be65325e-c5e1-4b58-9476-8c27e9af0a30",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.read",
+      "target_type": "dining",
+      "target_id": "cloud9",
+      "outcome": "success",
+      "request_id": "2e81df1f-46a4-46c6-ab4e-727946a20521",
+      "metadata": {},
+      "created_at": "2026-10-30T09:02:28.674Z"
+    },
+    {
+      "id": "9d3be232-ae38-429d-8466-3d0e61851a1c",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.read",
+      "target_type": "dining",
+      "target_id": "clinq",
+      "outcome": "success",
+      "request_id": "90f52ce3-6c1b-4a18-bf7f-de08a3665cbb",
+      "metadata": {},
+      "created_at": "2026-10-30T09:02:28.878Z"
+    },
+    {
+      "id": "dcc24dba-5df1-4e16-9631-a35aa4dfd5d7",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "arohana",
+      "outcome": "success",
+      "request_id": "f3b20f06-c830-472d-ba6d-0ce4141ddced",
+      "metadata": {},
+      "created_at": "2026-10-30T09:02:29.047Z"
+    },
+    {
+      "id": "372a98eb-452e-48c5-b45f-5f7486fe238c",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.upload",
+      "target_type": "room",
+      "target_id": "arohana",
+      "outcome": "success",
+      "request_id": "6ab426a4-60eb-4faf-9fb0-6955b1ad3800",
+      "metadata": {
+        "sourceType": "upload"
+      },
+      "created_at": "2026-10-30T09:02:29.602Z"
+    },
+    {
+      "id": "1058164b-4ef2-41e2-a503-977d5c27351f",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.add_url",
+      "target_type": "room",
+      "target_id": "arohana",
+      "outcome": "success",
+      "request_id": "f168b955-a435-4ca1-bd8c-c74cca4157be",
+      "metadata": {
+        "sourceType": "external"
+      },
+      "created_at": "2026-10-30T09:02:30.996Z"
+    },
+    {
+      "id": "2fd1980a-37c9-424e-a073-c3933ef272b2",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.add_url",
+      "target_type": "dining",
+      "target_id": "cloud9",
+      "outcome": "success",
+      "request_id": "c68f19a2-07ce-4a7e-9af0-e86859b71b5d",
+      "metadata": {
+        "sourceType": "external"
+      },
+      "created_at": "2026-10-30T09:02:31.090Z"
+    },
+    {
+      "id": "5e21bccd-cdd2-4871-90d3-7fffb150b6f3",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.add_url",
+      "target_type": "room",
+      "target_id": "madhurya",
+      "outcome": "success",
+      "request_id": "06417568-a331-413b-905d-4d7923e0955b",
+      "metadata": {
+        "sourceType": "external"
+      },
+      "created_at": "2026-10-30T09:02:31.539Z"
+    },
+    {
+      "id": "bfdfa0d8-6b77-4b6b-ad86-864c040ae81c",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.add_url",
+      "target_type": "dining",
+      "target_id": "clinq",
+      "outcome": "success",
+      "request_id": "71e787a1-c646-46fd-9d3d-eb89697be6bf",
+      "metadata": {
+        "sourceType": "external"
+      },
+      "created_at": "2026-10-30T09:02:31.648Z"
+    },
+    {
+      "id": "b338d029-b71d-4665-ab2e-a46b343d2864",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.delete",
+      "target_type": "room",
+      "target_id": "room:external:88d74223-3a9c-4597-a583-d05f92a41af5",
+      "outcome": "success",
+      "request_id": "0e563a35-8cc4-4eeb-aa5c-b8de208160f5",
+      "metadata": {},
+      "created_at": "2026-10-30T09:02:46.390Z"
+    },
+    {
+      "id": "315b7e42-d32d-4555-b972-5964f5671781",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "madhurya",
+      "outcome": "success",
+      "request_id": "1c30c9cd-6ca8-4af3-91cb-3d12f6a8c5f7",
+      "metadata": {},
+      "created_at": "2026-10-30T09:02:46.413Z"
+    },
+    {
+      "id": "924d4553-e71e-4874-95c9-64fa460904c0",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.delete",
+      "target_type": "dining",
+      "target_id": "dining:external:f25d2818-a3e4-47f9-b977-b7d81cbb53c5",
+      "outcome": "success",
+      "request_id": "a3905e6b-76d0-4381-b399-9392ae85ee3d",
+      "metadata": {},
+      "created_at": "2026-10-30T09:02:48.069Z"
+    },
+    {
+      "id": "190368d6-b413-4261-93a4-db39b88480af",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.add_url",
+      "target_type": "room",
+      "target_id": "maayukha",
+      "outcome": "success",
+      "request_id": "bbeb2856-3107-42ec-a944-ca1b91a040b7",
+      "metadata": {
+        "sourceType": "external"
+      },
+      "created_at": "2026-10-30T09:02:48.154Z"
+    },
+    {
+      "id": "e4fe4919-ef4e-42f0-b3d1-58a24511e4ca",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "maayukha",
+      "outcome": "success",
+      "request_id": "7d145230-251a-4278-a07e-ecfee518259f",
+      "metadata": {},
+      "created_at": "2026-10-30T09:02:48.242Z"
+    },
+    {
+      "id": "82068de2-874f-423d-a23a-16c13de1ab2e",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "maayukha",
+      "outcome": "success",
+      "request_id": "94abe9b1-7980-4ccf-b7af-d810e1e793da",
+      "metadata": {},
+      "created_at": "2026-10-30T09:02:48.291Z"
+    },
+    {
+      "id": "5e2641a5-2a3d-4ca0-91e3-4393434ea55d",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.delete",
+      "target_type": "room",
+      "target_id": "room:external:28f60472-582f-48f9-ae1a-8157bcf39356",
+      "outcome": "success",
+      "request_id": "cf87afbd-477e-41b6-83ca-03ff71448942",
+      "metadata": {},
+      "created_at": "2026-10-30T09:02:53.280Z"
+    },
+    {
+      "id": "f38f06af-6a92-479d-94f5-1e86bc181510",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.delete",
+      "target_type": "dining",
+      "target_id": "dining:external:ff0dbb78-6ba2-48c8-92b4-47bd7e531c5d",
+      "outcome": "success",
+      "request_id": "d73b764b-73c5-4bc6-ae59-2aee9595dddd",
+      "metadata": {},
+      "created_at": "2026-10-30T09:02:54.723Z"
+    },
+    {
+      "id": "2bb8f79b-5c51-4f47-b6d6-101a8b99e9bf",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.delete",
+      "target_type": "room",
+      "target_id": "room:external:1e32730f-c566-4b12-97c5-30407c7a8385",
+      "outcome": "success",
+      "request_id": "2eb86d8f-3703-4162-a5fe-dc6064c00272",
+      "metadata": {},
+      "created_at": "2026-10-30T09:02:54.769Z"
+    },
+    {
+      "id": "8133ce12-d9d7-450b-9e33-9b866bb904a6",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "auth.login",
+      "target_type": "user",
+      "target_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "outcome": "success",
+      "request_id": null,
+      "metadata": {},
+      "created_at": "2026-10-30T09:41:19.892Z"
+    },
+    {
+      "id": "dce11dd8-38e0-442f-92b6-b2281f4808bc",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "cd26d08d-5672-40ce-b34c-4e50bd2a914d",
+      "metadata": {},
+      "created_at": "2026-10-30T09:41:29.348Z"
+    },
+    {
+      "id": "fcb6ff0a-702b-4a8f-afc6-e948a0050295",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "5876df84-47f9-4243-8502-36efe2956808",
+      "metadata": {},
+      "created_at": "2026-10-30T09:41:29.375Z"
+    },
+    {
+      "id": "547dd1e2-2a61-4ce1-8693-22093a8cb8d1",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.upload",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "605c30a3-9772-4093-8a08-6b0cfdb81148",
+      "metadata": {
+        "sourceType": "upload"
+      },
+      "created_at": "2026-10-30T09:41:41.242Z"
+    },
+    {
+      "id": "1c35297c-e13c-4732-87e2-6ce02c1e9073",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "6df3ab84-8528-496c-8f8b-de7e400d3776",
+      "metadata": {},
+      "created_at": "2026-10-30T09:41:41.275Z"
+    },
+    {
+      "id": "8fb3c9ab-3616-47bc-8900-63d5107c4b09",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.delete",
+      "target_type": "room",
+      "target_id": "room:upload:ff2628b9-99e2-4674-995c-b6767bb5afe2",
+      "outcome": "success",
+      "request_id": "db741c82-0da5-4c28-9ce2-dcc871685543",
+      "metadata": {},
+      "created_at": "2026-10-30T09:41:53.330Z"
+    },
+    {
+      "id": "c54650aa-c62f-41df-807b-a8bbdebe1593",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "5be453a4-bfb5-4b45-92e3-22ee66b853a6",
+      "metadata": {},
+      "created_at": "2026-10-30T09:41:53.393Z"
+    },
+    {
+      "id": "af8bbcd5-5e86-4216-a1d8-52368ff4a409",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.upload",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "2519b56f-3ec5-4758-9ecf-1bdace0cfc97",
+      "metadata": {
+        "sourceType": "upload"
+      },
+      "created_at": "2026-10-30T09:42:15.762Z"
+    },
+    {
+      "id": "d017a3c7-3572-42d9-b79b-893e7e011ad3",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "a3b64c72-4a94-4dc9-8350-cddeb34880f1",
+      "metadata": {},
+      "created_at": "2026-10-30T09:42:15.809Z"
+    },
+    {
+      "id": "d82917b5-8a41-4987-a320-913b09c708da",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "2832c854-1515-43fb-b849-6fb50b10f025",
+      "metadata": {},
+      "created_at": "2026-10-30T09:42:18.409Z"
+    },
+    {
+      "id": "2773c532-d911-43c9-b706-d33f5da6c555",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "garuda",
+      "outcome": "success",
+      "request_id": "2109a190-27d4-4cc6-a4d6-e1e87b76aaa9",
+      "metadata": {},
+      "created_at": "2026-10-30T09:42:18.431Z"
+    },
+    {
+      "id": "16bbc8dc-68a1-425d-b139-f9150b8b868c",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "arohana",
+      "outcome": "success",
+      "request_id": "33120d6d-fe60-4262-8edd-1a02c0fe5ecd",
+      "metadata": {},
+      "created_at": "2026-10-30T09:42:18.453Z"
+    },
+    {
+      "id": "bd00449b-5259-45f3-8803-7e16beae2b45",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "madhurya",
+      "outcome": "success",
+      "request_id": "31a6f5b1-61e5-4474-a045-33138b2b93a9",
+      "metadata": {},
+      "created_at": "2026-10-30T09:42:18.473Z"
+    },
+    {
+      "id": "44910238-d592-41c9-82f5-0a0c04bb2335",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "maayukha",
+      "outcome": "success",
+      "request_id": "db2fa862-f1af-452a-87d0-a697d2b079b1",
+      "metadata": {},
+      "created_at": "2026-10-30T09:42:18.496Z"
+    },
+    {
+      "id": "6c0ac402-2f58-4f75-981f-85c3aeeb06dd",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.read",
+      "target_type": "dining",
+      "target_id": "vrindavan",
+      "outcome": "success",
+      "request_id": "f9c6cca2-4f63-4e57-815e-7d3dcc3b92f9",
+      "metadata": {},
+      "created_at": "2026-10-30T09:42:18.587Z"
+    },
+    {
+      "id": "e0486059-e9ed-44d3-bcfb-172fc8ac4214",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.read",
+      "target_type": "dining",
+      "target_id": "cloud9",
+      "outcome": "success",
+      "request_id": "090b3b27-2847-4daf-9496-1621738dbe6e",
+      "metadata": {},
+      "created_at": "2026-10-30T09:42:18.610Z"
+    },
+    {
+      "id": "eba61aac-e932-48f4-8787-8f5fb4d3ebcc",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.read",
+      "target_type": "dining",
+      "target_id": "clinq",
+      "outcome": "success",
+      "request_id": "1231c251-86ae-41fd-925e-56312b694cfe",
+      "metadata": {},
+      "created_at": "2026-10-30T09:42:18.631Z"
+    },
+    {
+      "id": "273434b7-eb9d-4a1c-b71e-f2309d4406a0",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "arohana",
+      "outcome": "success",
+      "request_id": "7559d6ef-19b8-43da-a50e-b6283a59ad16",
+      "metadata": {},
+      "created_at": "2026-10-30T09:42:18.655Z"
+    },
+    {
+      "id": "404f85af-8fa7-4663-ae38-9646ae00995f",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.upload",
+      "target_type": "room",
+      "target_id": "arohana",
+      "outcome": "success",
+      "request_id": "ae0e5124-8b12-4c3f-81c0-84c87de0e707",
+      "metadata": {
+        "sourceType": "upload"
+      },
+      "created_at": "2026-10-30T09:42:18.761Z"
+    },
+    {
+      "id": "edf7fe77-104f-484b-ba7e-5f144072c19e",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.add_url",
+      "target_type": "room",
+      "target_id": "arohana",
+      "outcome": "success",
+      "request_id": "db02f6d4-1e0d-4c89-b80f-8b9bc9b59269",
+      "metadata": {
+        "sourceType": "external"
+      },
+      "created_at": "2026-10-30T09:42:18.959Z"
+    },
+    {
+      "id": "bf572527-0c61-4e89-a178-b3ec28a8c9db",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.add_url",
+      "target_type": "dining",
+      "target_id": "cloud9",
+      "outcome": "success",
+      "request_id": "d72cc317-b64b-49e5-8390-192a51266907",
+      "metadata": {
+        "sourceType": "external"
+      },
+      "created_at": "2026-10-30T09:42:18.981Z"
+    },
+    {
+      "id": "4ba3b286-6f40-462f-b4fe-a5bff51178f2",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.add_url",
+      "target_type": "room",
+      "target_id": "madhurya",
+      "outcome": "success",
+      "request_id": "16e59675-c55f-46b9-9cec-c03570dc6491",
+      "metadata": {
+        "sourceType": "external"
+      },
+      "created_at": "2026-10-30T09:42:19.071Z"
+    },
+    {
+      "id": "764daf89-1641-4cf3-94dd-b31f45392c2d",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.add_url",
+      "target_type": "dining",
+      "target_id": "clinq",
+      "outcome": "success",
+      "request_id": "de1384b2-50ee-4042-bc28-7dc396f93b0a",
+      "metadata": {
+        "sourceType": "external"
+      },
+      "created_at": "2026-10-30T09:42:19.089Z"
+    },
+    {
+      "id": "09f65004-fee2-4745-b836-1c32def5a3c7",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.delete",
+      "target_type": "room",
+      "target_id": "room:external:3fd061d3-3945-420a-9b09-b045daebef1f",
+      "outcome": "success",
+      "request_id": "98f5c63c-1f61-453f-83d2-bc85729e183a",
+      "metadata": {},
+      "created_at": "2026-10-30T09:42:22.828Z"
+    },
+    {
+      "id": "893c1467-99ba-4c64-bec9-b63bf5dba496",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "madhurya",
+      "outcome": "success",
+      "request_id": "0a969754-4477-415a-ab7f-8df6a26d9c4d",
+      "metadata": {},
+      "created_at": "2026-10-30T09:42:22.842Z"
+    },
+    {
+      "id": "d38eaf42-c37d-4179-8cb3-31940310b4f2",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.delete",
+      "target_type": "dining",
+      "target_id": "dining:external:22e1abcc-7edc-48ed-a2e2-813988e29627",
+      "outcome": "success",
+      "request_id": "cc9f35eb-c41f-469c-8623-ac25dc48782a",
+      "metadata": {},
+      "created_at": "2026-10-30T09:42:23.707Z"
+    },
+    {
+      "id": "f340d501-e4d7-4ec1-980c-d9ac86694572",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.add_url",
+      "target_type": "room",
+      "target_id": "maayukha",
+      "outcome": "success",
+      "request_id": "b0f12ccf-3f51-4745-aa1c-52bb4859a39c",
+      "metadata": {
+        "sourceType": "external"
+      },
+      "created_at": "2026-10-30T09:42:23.745Z"
+    },
+    {
+      "id": "e1180bb1-a3a2-4c18-8e2f-c7320109aac8",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "maayukha",
+      "outcome": "success",
+      "request_id": "fc51e764-0495-461a-9bca-75d64191d5ab",
+      "metadata": {},
+      "created_at": "2026-10-30T09:42:23.782Z"
+    },
+    {
+      "id": "cde70c8e-f644-4ed3-86fd-8d76c53f3e9e",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "maayukha",
+      "outcome": "success",
+      "request_id": "51a1b564-9e53-4766-a008-9dd5808c3cbc",
+      "metadata": {},
+      "created_at": "2026-10-30T09:42:23.796Z"
+    },
+    {
+      "id": "4a609425-d696-4a16-b574-2385f23633c7",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.delete",
+      "target_type": "room",
+      "target_id": "room:external:b8c2fc7d-491a-44ab-adc3-62f39eecd842",
+      "outcome": "success",
+      "request_id": "938357c5-a0c1-4c30-8688-6d8d2d56aea0",
+      "metadata": {},
+      "created_at": "2026-10-30T09:42:25.642Z"
+    },
+    {
+      "id": "1a285f0c-e581-42b8-8688-6c9a21a9ca91",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.delete",
+      "target_type": "dining",
+      "target_id": "dining:external:812594ee-704c-400c-a3d0-912610ee4104",
+      "outcome": "success",
+      "request_id": "864e3899-8f9b-467c-a2b7-c99205189066",
+      "metadata": {},
+      "created_at": "2026-10-30T09:42:28.307Z"
+    },
+    {
+      "id": "edf4ff9a-ac12-42c2-880c-4d2a1491e09f",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.delete",
+      "target_type": "room",
+      "target_id": "room:external:f4d27f54-d511-4cc1-81e1-17f6a3f76f93",
+      "outcome": "success",
+      "request_id": "e49ae403-6e5f-4f00-9bb5-ab2cafbaa48a",
+      "metadata": {},
+      "created_at": "2026-10-30T09:42:29.213Z"
+    },
+    {
+      "id": "b2057aa2-5249-4729-91a2-2c7d52bc8ebc",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "0ee2f55f-2cde-420e-abf3-17c9a7aaecf2",
+      "metadata": {},
+      "created_at": "2026-10-30T09:43:28.317Z"
+    },
+    {
+      "id": "4b15f9e1-75f1-454d-ac60-9097995f943e",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "garuda",
+      "outcome": "success",
+      "request_id": "a6c9b334-8780-438d-a57f-7a521c26d9ed",
+      "metadata": {},
+      "created_at": "2026-10-30T09:43:28.350Z"
+    },
+    {
+      "id": "d0685036-0728-4d39-9841-07ae4cdf6d91",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "arohana",
+      "outcome": "success",
+      "request_id": "684da38d-eb6d-44d8-bdb0-b71c959fd6e1",
+      "metadata": {},
+      "created_at": "2026-10-30T09:43:28.378Z"
+    },
+    {
+      "id": "88ff728c-d8cf-4967-a5ab-ca517306e45b",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "madhurya",
+      "outcome": "success",
+      "request_id": "005bb80b-c7f2-4092-8934-c84f5d4ccf6b",
+      "metadata": {},
+      "created_at": "2026-10-30T09:43:28.405Z"
+    },
+    {
+      "id": "6ae78da9-9a6b-48c8-92e0-52c98ecd01b7",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "maayukha",
+      "outcome": "success",
+      "request_id": "6ebab6ea-02c1-4006-9bde-35fed2ad7ab5",
+      "metadata": {},
+      "created_at": "2026-10-30T09:43:28.429Z"
+    },
+    {
+      "id": "41e19a80-25e3-4986-85be-285ea4f6bdc3",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.read",
+      "target_type": "dining",
+      "target_id": "vrindavan",
+      "outcome": "success",
+      "request_id": "7d8158d4-ce0d-4710-a5ba-aa948f074cb5",
+      "metadata": {},
+      "created_at": "2026-10-30T09:43:28.622Z"
+    },
+    {
+      "id": "4bfdfd9a-e7bc-4fd7-8fda-7d4bd022a75f",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.read",
+      "target_type": "dining",
+      "target_id": "cloud9",
+      "outcome": "success",
+      "request_id": "11c2e4ab-f83f-4b16-a149-70eee567d978",
+      "metadata": {},
+      "created_at": "2026-10-30T09:43:28.763Z"
+    },
+    {
+      "id": "ddec9867-6c57-46f7-8e02-997ddf12499e",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.read",
+      "target_type": "dining",
+      "target_id": "clinq",
+      "outcome": "success",
+      "request_id": "96389c16-2cfd-4bd4-82e6-e93f87d396a0",
+      "metadata": {},
+      "created_at": "2026-10-30T09:43:28.821Z"
+    },
+    {
+      "id": "df4d4bc1-ae9d-44ef-9a5e-ee7e98bb8d47",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "arohana",
+      "outcome": "success",
+      "request_id": "e4cff73e-17b9-4d56-a1bb-422d4c5639b3",
+      "metadata": {},
+      "created_at": "2026-10-30T09:43:28.849Z"
+    },
+    {
+      "id": "8e97c6fb-96d3-4ccc-b140-d5e438c97e7c",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.upload",
+      "target_type": "room",
+      "target_id": "arohana",
+      "outcome": "success",
+      "request_id": "5c1142d1-c48d-4a48-adff-1aa6b2235762",
+      "metadata": {
+        "sourceType": "upload"
+      },
+      "created_at": "2026-10-30T09:43:28.949Z"
+    },
+    {
+      "id": "5c7e21ee-9db6-4721-a719-03240b064ed5",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.upload",
+      "target_type": "room",
+      "target_id": "garuda",
+      "outcome": "success",
+      "request_id": "524a3669-d324-4486-8014-b62eb4e7ce4e",
+      "metadata": {
+        "sourceType": "upload"
+      },
+      "created_at": "2026-10-30T09:43:28.984Z"
+    },
+    {
+      "id": "056c762f-4e55-476b-bca3-7c13a8182cc9",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.upload",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "a5c09537-f73b-4957-8c2d-3d01692275b7",
+      "metadata": {
+        "sourceType": "upload"
+      },
+      "created_at": "2026-10-30T09:43:29.014Z"
+    },
+    {
+      "id": "8696d3af-aeec-4fed-ae22-0dc746d65804",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.upload",
+      "target_type": "dining",
+      "target_id": "vrindavan",
+      "outcome": "success",
+      "request_id": "7cc7db69-9e78-48d9-990b-7de30a992e0c",
+      "metadata": {
+        "sourceType": "upload"
+      },
+      "created_at": "2026-10-30T09:43:29.046Z"
+    },
+    {
+      "id": "76a3a701-e3a0-4e8f-880a-b941d6654b35",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.add_url",
+      "target_type": "room",
+      "target_id": "arohana",
+      "outcome": "success",
+      "request_id": "ecf99958-1a3b-4ad5-b3a6-75df456c18a2",
+      "metadata": {
+        "sourceType": "external"
+      },
+      "created_at": "2026-10-30T09:43:29.245Z"
+    },
+    {
+      "id": "770aa207-481a-42e7-a130-f2979f6bb2cc",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.add_url",
+      "target_type": "dining",
+      "target_id": "cloud9",
+      "outcome": "success",
+      "request_id": "0dc9baad-c0b8-45c1-9c6e-b6c33f392cb2",
+      "metadata": {
+        "sourceType": "external"
+      },
+      "created_at": "2026-10-30T09:43:29.280Z"
+    },
+    {
+      "id": "3644a7ad-ac83-427b-bf01-a38dde10b2a0",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.add_url",
+      "target_type": "room",
+      "target_id": "madhurya",
+      "outcome": "success",
+      "request_id": "6a36754d-3593-451f-8a3f-9eb576d2bc71",
+      "metadata": {
+        "sourceType": "external"
+      },
+      "created_at": "2026-10-30T09:43:29.384Z"
+    },
+    {
+      "id": "0f72ad33-13b6-4fef-96f0-3531fb8545f7",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.add_url",
+      "target_type": "dining",
+      "target_id": "clinq",
+      "outcome": "success",
+      "request_id": "66344999-1319-470d-b0da-7b8d677f78f9",
+      "metadata": {
+        "sourceType": "external"
+      },
+      "created_at": "2026-10-30T09:43:29.414Z"
+    },
+    {
+      "id": "16052141-ce56-42d7-802b-df55d1c33715",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.delete",
+      "target_type": "room",
+      "target_id": "room:external:2ff78c51-91b7-4802-9cc6-70089b8068f4",
+      "outcome": "success",
+      "request_id": "3c548083-ae3e-4c61-9e26-94411df63192",
+      "metadata": {},
+      "created_at": "2026-10-30T09:43:34.130Z"
+    },
+    {
+      "id": "cd9e217e-65e9-4451-94dc-8689d66df880",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "madhurya",
+      "outcome": "success",
+      "request_id": "2933c666-534f-4d3c-8958-6b4e813cccdf",
+      "metadata": {},
+      "created_at": "2026-10-30T09:43:34.144Z"
+    },
+    {
+      "id": "5a9f69bf-e039-403a-8ee8-7502fe4bc4ac",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.delete",
+      "target_type": "dining",
+      "target_id": "dining:external:cfc6d93b-0737-4008-9433-54f0ac32161c",
+      "outcome": "success",
+      "request_id": "a30cde89-9221-4b53-a31c-3216cae637fc",
+      "metadata": {},
+      "created_at": "2026-10-30T09:43:35.002Z"
+    },
+    {
+      "id": "0b06ee1d-fde4-40fd-8ec1-f6a234661ec9",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.add_url",
+      "target_type": "room",
+      "target_id": "maayukha",
+      "outcome": "success",
+      "request_id": "63933aca-77ba-476f-95e6-a4dc644d0fe7",
+      "metadata": {
+        "sourceType": "external"
+      },
+      "created_at": "2026-10-30T09:43:35.035Z"
+    },
+    {
+      "id": "00339342-c247-4920-82c3-92f2bc3a0150",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "maayukha",
+      "outcome": "success",
+      "request_id": "ec3fe62c-0597-4bba-a9f7-bb60b9afc347",
+      "metadata": {},
+      "created_at": "2026-10-30T09:43:35.051Z"
+    },
+    {
+      "id": "c91e4fc4-8bfd-4c5d-b6a4-96c8566094c9",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "maayukha",
+      "outcome": "success",
+      "request_id": "d4b13e58-6a87-43e4-bfe0-686720468061",
+      "metadata": {},
+      "created_at": "2026-10-30T09:43:35.064Z"
+    },
+    {
+      "id": "6e51ca3f-d82f-4048-8ff2-b53941b8a6f8",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.delete",
+      "target_type": "room",
+      "target_id": "room:external:f67636dd-6a0d-48db-8979-9b7e6f4489f2",
+      "outcome": "success",
+      "request_id": "f4c2e532-dfe7-49b3-95e1-7207a4916502",
+      "metadata": {},
+      "created_at": "2026-10-30T09:43:38.475Z"
+    },
+    {
+      "id": "4e72aded-1bbb-4426-a5ca-885f758be170",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.delete",
+      "target_type": "dining",
+      "target_id": "dining:external:655be4a6-d4d6-4d58-8bdb-f72ad1b12e1c",
+      "outcome": "success",
+      "request_id": "de4be1e2-0b35-4591-b6dc-f8bbd2dc405a",
+      "metadata": {},
+      "created_at": "2026-10-30T09:43:41.131Z"
+    },
+    {
+      "id": "8991438c-c6c0-41a2-bf4c-df14232c2c20",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.delete",
+      "target_type": "room",
+      "target_id": "room:external:865f2542-adbf-492c-aa3f-79f26bc1832e",
+      "outcome": "success",
+      "request_id": "6c735a31-9f52-48be-be28-a298bacd990c",
+      "metadata": {},
+      "created_at": "2026-10-30T09:43:42.018Z"
+    },
+    {
+      "id": "5655af13-75d0-4c8e-a098-7ebf5d9834c1",
+      "actor_user_id": "local-image-test",
+      "action": "dining_images.delete",
+      "target_type": "dining",
+      "target_id": "dining:upload:1b3e33f5-2c1f-4aa9-bdee-a0fc21d24fcb",
+      "outcome": "success",
+      "request_id": "eaf07372-4da0-4311-8e5f-b2b3fd34981c",
+      "metadata": {},
+      "created_at": "2026-10-30T09:43:42.910Z"
+    },
+    {
+      "id": "752b7125-1e49-406e-9db2-0244c1c233db",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.delete",
+      "target_type": "room",
+      "target_id": "room:upload:b76b1295-0570-438e-99b7-de6daa62fb41",
+      "outcome": "success",
+      "request_id": "57e3443a-4b77-42f4-b1b7-011f8fbff289",
+      "metadata": {},
+      "created_at": "2026-10-30T09:43:43.800Z"
+    },
+    {
+      "id": "f46f5f58-7956-4321-b2d8-02cc5cb0d248",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.delete",
+      "target_type": "room",
+      "target_id": "room:upload:0969399b-66b9-4ae0-95be-297467414faa",
+      "outcome": "success",
+      "request_id": "b4ef6adb-9863-4a80-a693-82ffac992311",
+      "metadata": {},
+      "created_at": "2026-10-30T09:43:43.822Z"
+    },
+    {
+      "id": "119d8371-e4da-4d95-99a2-2e2140fd5707",
+      "actor_user_id": "local-image-test",
+      "action": "room_images.delete",
+      "target_type": "room",
+      "target_id": "room:upload:6c47202c-e2c9-4099-9659-6b392e738b46",
+      "outcome": "success",
+      "request_id": "b7a6cbf3-8837-4b21-8a11-6881a2296ed8",
+      "metadata": {},
+      "created_at": "2026-10-30T09:43:43.842Z"
+    },
+    {
+      "id": "99b332b2-b6c3-429d-bfcd-6749720948c2",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "3982d578-c62e-4069-9130-2c07f373aa81",
+      "metadata": {},
+      "created_at": "2026-10-30T09:44:32.517Z"
+    },
+    {
+      "id": "ee495273-7aa6-415e-bcf8-ec29118a728a",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "7c87ac8a-3d9b-4270-9bef-5329d02c63f7",
+      "metadata": {},
+      "created_at": "2026-10-30T09:44:38.267Z"
+    },
+    {
+      "id": "4df3223b-3e33-4e66-9b87-ba49a418a911",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "11eb2100-53e7-4f6a-a2ed-95bf4990b1ad",
+      "metadata": {},
+      "created_at": "2026-10-30T09:44:38.362Z"
+    },
+    {
+      "id": "1323be90-06e2-4a8a-8939-4012cbb1b370",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.delete",
+      "target_type": "room",
+      "target_id": "room:upload:6e3f6f57-bc85-464a-9bcb-800eacc21789",
+      "outcome": "success",
+      "request_id": "f5567567-7662-4c03-8afb-6d6a69230589",
+      "metadata": {},
+      "created_at": "2026-10-30T09:44:45.962Z"
+    },
+    {
+      "id": "573b6850-12cb-439a-b579-cc6427c057e5",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "f60002b4-a96e-4c3f-9c6d-a1816d38a684",
+      "metadata": {},
+      "created_at": "2026-10-30T09:44:45.995Z"
+    },
+    {
+      "id": "b9a7d5ed-3e29-4560-84a7-f4bd2d896329",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.upload",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "7f3de376-1953-429f-a959-6ad9095de119",
+      "metadata": {
+        "sourceType": "upload"
+      },
+      "created_at": "2026-10-30T09:45:17.674Z"
+    },
+    {
+      "id": "3691d61e-e633-486f-b64f-b8338aa8784e",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "97dc28cf-9573-4e1a-b2d0-1352606f4ee6",
+      "metadata": {},
+      "created_at": "2026-10-30T09:45:17.696Z"
+    },
+    {
+      "id": "3f9076d1-441f-4aea-963c-63297f212675",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.delete",
+      "target_type": "room",
+      "target_id": "room:upload:b9338243-4bde-451d-97cb-9f4836a3e21e",
+      "outcome": "success",
+      "request_id": "b79f1737-4fc7-46be-a783-2e06c4078c5f",
+      "metadata": {},
+      "created_at": "2026-10-30T09:48:05.093Z"
+    },
+    {
+      "id": "62451510-46ef-4ec6-83b0-df7fcb021df3",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "f955b960-852b-4d8e-b89a-7e68b55a1d34",
+      "metadata": {},
+      "created_at": "2026-10-30T09:48:05.122Z"
+    },
+    {
+      "id": "de289639-d380-49b1-80ad-2dc0f0d9facb",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.delete",
+      "target_type": "room",
+      "target_id": "vajra:vajra/screenshot 2026-10-15 185305.png",
+      "outcome": "success",
+      "request_id": "1487976e-ae75-4a11-bf19-4d5f26796a79",
+      "metadata": {},
+      "created_at": "2026-10-30T09:48:38.251Z"
+    },
+    {
+      "id": "bba6ee98-dc1c-4332-838f-dbacc0a1db2c",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "2e4a7a7c-449b-4e40-94ac-e4cea56651f2",
+      "metadata": {},
+      "created_at": "2026-10-30T09:48:38.279Z"
+    },
+    {
+      "id": "8e1937f9-a81c-452c-8db6-7b81a6bba432",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "f699c0ae-830f-46de-aefa-e14736a019a1",
+      "metadata": {},
+      "created_at": "2026-10-30T09:48:50.773Z"
+    },
+    {
+      "id": "6f09d736-15e0-4f42-94c5-72c06cb0917d",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "5536e5be-b2bd-4a4d-b51c-d763fe66e2c1",
+      "metadata": {},
+      "created_at": "2026-10-30T09:48:51.683Z"
+    },
+    {
+      "id": "b333b6a6-3e6b-43f9-bc71-1ac90846a61f",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "04209b11-d4e7-4ea7-8f27-c637aa5b139f",
+      "metadata": {},
+      "created_at": "2026-10-30T09:49:35.530Z"
+    },
+    {
+      "id": "07117719-b93e-440e-94fa-f63852a63845",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "dd30cbb6-7936-4b01-a738-c1887aa29add",
+      "metadata": {},
+      "created_at": "2026-10-30T09:49:35.558Z"
+    },
+    {
+      "id": "f4cd3090-a2d2-4862-903b-c9b7da1a873e",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.delete",
+      "target_type": "room",
+      "target_id": "vajra:vajra/screenshot 2026-10-15 185401.png",
+      "outcome": "success",
+      "request_id": "6b330fa2-8446-4298-86d0-f6b2b0c591cb",
+      "metadata": {},
+      "created_at": "2026-10-30T09:49:50.447Z"
+    },
+    {
+      "id": "9407cfd1-704f-4746-b9ee-c0d3ce27ec49",
+      "actor_user_id": "53df76ab-4afa-4463-bb26-fcf4ab2c7fe5",
+      "action": "room_images.read",
+      "target_type": "room",
+      "target_id": "vajra",
+      "outcome": "success",
+      "request_id": "7bea3860-cd16-44b3-85f6-e783a098f2a0",
+      "metadata": {},
+      "created_at": "2026-10-30T09:49:50.470Z"
     }
   ]
 }

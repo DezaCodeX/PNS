@@ -1,5 +1,19 @@
+import { access } from "node:fs/promises";
+import path from "node:path";
 import { getAdminDb, hasSupabaseConfig } from "@/lib/admin-auth";
 import type { ImageCollection, ImageSourceType, ManagedImage } from "@/lib/image-management";
+
+async function storageFileExists(relativePath: string | null) {
+  if (!relativePath) return false;
+  const normalized = relativePath.replace(/^\/+/u, "").replace(/^uploads\//u, "");
+  const resolved = path.resolve(process.cwd(), "public", normalized);
+  try {
+    await access(resolved);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 export function usesDatabaseImageStore() {
   const backend = process.env["PNS_IMAGE_BACKEND"];
@@ -25,17 +39,30 @@ export async function listDatabaseImages(
   if (displayLocation) query = query.eq("display_location", displayLocation);
   const { data, error } = await query;
   if (error) throw error;
-  return (data ?? []).map((row) => ({
-    id: String(row.id),
-    category: String(row.category_id),
-    url: String(row.public_url),
-    path: row.storage_path ? String(row.storage_path) : null,
-    sourceType: row.source_type as ImageSourceType,
-    filename: row.storage_path ? (String(row.storage_path).split("/").pop() ?? null) : null,
-    active: Boolean(row.is_active),
-    displayOrder: Number(row.display_order ?? 0),
-    displayLocation: String(row.display_location ?? "gallery"),
-  })) as Array<ManagedImage & { active: boolean; displayOrder: number }>;
+
+  const records = await Promise.all(
+    (data ?? []).map(async (row) => {
+      const storagePath = row.storage_path ? String(row.storage_path) : null;
+      const isMissingUpload =
+        row.source_type === "upload" && storagePath && !(await storageFileExists(storagePath));
+      return {
+        id: String(row.id),
+        category: String(row.category_id),
+        url: isMissingUpload ? "" : String(row.public_url),
+        path: isMissingUpload ? null : storagePath,
+        sourceType: row.source_type as ImageSourceType,
+        filename: storagePath ? (String(storagePath).split("/").pop() ?? null) : null,
+        active: Boolean(row.is_active),
+        displayOrder: Number(row.display_order ?? 0),
+        displayLocation: String(row.display_location ?? "gallery"),
+      } as ManagedImage & { active: boolean; displayOrder: number };
+    }),
+  );
+
+  return records.filter((record) => {
+    if (record.sourceType !== "upload") return true;
+    return record.url !== "";
+  });
 }
 
 export async function saveDatabaseImage(input: {
